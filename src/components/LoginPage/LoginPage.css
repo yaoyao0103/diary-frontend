@@ -1,0 +1,32 @@
+@import url("https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap");
+.login_page {
+  text-align: center;
+}
+
+p {
+  color: "white";
+  font-family: "Gochi Hand";
+  font-size: 50px;
+}
+
+input {
+  text-align: left;
+  width: 25%;
+}
+
+.block {
+  width: 70%;
+  display: block;
+  margin-bottom: 5%;
+}
+
+.label_block {
+  display: inline-block;
+  width: 50%;
+  text-align: right;
+}
+
+/* input,
+textarea {
+    vertical-align: top;
+} */

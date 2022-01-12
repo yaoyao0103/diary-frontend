@@ -1,0 +1,150 @@
+@import url("https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@1,500;1,700&display=swap");
+:root {
+  --background-color: #0c1929;
+  --primary-color: #1b92d1;
+}
+div.diaryContent p::before {
+  content: "   ";
+  white-space: pre;
+}
+div.diaryContent p::after {
+  content: "\A";
+  display: block;
+  white-space: pre;
+}
+div.diaryContent h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 1rem 0;
+}
+div.diaryContent blockquote,
+p {
+  display: inline-table;
+  text-align: left;
+  /* margin: 10px,0; */
+}
+div.diaryContent p {
+  word-break: break-all;
+}
+p.noDiary {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+body {
+  background: var(--background-color);
+}
+a {
+  color: #66bb6a;
+}
+p,
+h1,
+h2,
+h3,
+h4,
+h5 {
+  /* font-family: "Gochi Hand", Courier, monospace; */
+  font-family: "Raleway", "Roboto";
+}
+p {
+  font-size: 1.3rem;
+}
+p.logo {
+  font-family: "Gochi Hand", Courier;
+}
+p.smallButton {
+  font-family: "Raleway", "Roboto";
+  font-size: 1rem;
+  font-weight: 700;
+}
+img {
+  width: 100%;
+}
+h1 {
+  font-size: xx-large;
+}
+.content {
+  width: 100%;
+}
+.MuiButton-root {
+  color: white;
+  font-family: "Gochi Hand", Courier, monospace;
+  font-size: 1rem;
+}
+.logo {
+  font-size: 3rem;
+}
+#calender {
+  height: 10px;
+}
+.BrowseContent {
+  border: solid 1px;
+  border-radius: 25px;
+  padding: 20px 0px 0px 0px;
+  border-color: var(--primary-color);
+}
+/* .MuiButton-root.ch {
+  color: white;
+  font-family: "Gochi Hand", Courier, monospace;
+  font-size: 0.5rem;
+} */
+@media screen and (max-width: 700px) {
+  .MuiButton-root.ch {
+    color: white;
+    font-family: "Gochi Hand", Courier, monospace;
+    font-size: 1rem;
+    /* width: 10px; */
+    height: 20px;
+  }
+  .logo {
+    font-size: 1rem;
+  }
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-size: 1rem;
+    /* font-family: "Gochi Hand", Courier, monospace; */
+    font-family: "Raleway", "Roboto";
+  }
+  p.logo {
+    font-family: "Gochi Hand", Courier;
+  }
+  p.smallButton {
+    font-family: "Raleway", "Roboto";
+    font-size: 0.5rem;
+    font-weight: 700;
+  }
+  img {
+    width: 100%;
+  }
+  h1 {
+    font-size: x-large;
+  }
+  .content {
+    width: 100%;
+  }
+  .MuiButton-root {
+    color: white;
+    font-family: "Gochi Hand", Courier, monospace;
+    font-size: 1rem;
+  }
+  .logo {
+    font-size: 1rem;
+  }
+  #calender {
+    height: 10px;
+  }
+  .BrowseContent {
+    border: solid 1px;
+    border-radius: 25px;
+    padding: 20px 0px 0px 0px;
+    border-color: var(--primary-color);
+  }
+}

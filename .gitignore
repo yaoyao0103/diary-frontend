@@ -1,0 +1,7 @@
+.DS_Store
+.vscode
+node_modules
+/frontend/src/logo.png
+/src/.DS_Store
+/public/.DS_Store
+node_modules
