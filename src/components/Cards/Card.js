@@ -43,7 +43,8 @@ export default function BasicCard(props) {
       })
       .then((res) => {
         console.log(res);
-        let path = "localhost:3000";
+        // let path = "localhost:3000";
+        let path = "https://diary-frontend-app.herokuapp.com";
         path += "/ShareDiaryPage/" + res.data.encryptedPath;
         console.log(path);
         navigator.clipboard.writeText(path).then(
