@@ -17,7 +17,12 @@ import { useEffect } from "react";
 import CookieParser from "../CookieParser/CookieParser";
 import { Button } from "@mui/material";
 import { Outlet } from "react-router-dom";
-import HeaderTmp from "./HeaderTmp";
+import MenuIcon from '@mui/icons-material/Menu';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+
+
 
 // to make some scorll effect
 function ElevationScroll(props) {
@@ -33,10 +38,46 @@ function ElevationScroll(props) {
   });
 }
 
-const Header = (props) => {
+const HeaderTTT = (props) => {
   let cookieParser = new CookieParser(document.cookie);
   const [email, setEmail] = useState(cookieParser.getCookieByName("email"));
   const [isLogin, setLogin] = useState(false);
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = (event) => {
+    console.log(event.target.outerText);
+    let pick = event.target.outerText;
+    // switch (pick) {
+    //   case "ResetPassword":
+    //     setRedirect("/resetpassword");
+    //     break;
+    //   case "Account":
+
+    //     break;
+    //   case "Settings":
+    //     setRedirect("/calenderSearch")
+    //     break;
+    //   case "ResetPassword":
+
+    //     break;
+    //   default:
+    //     break;
+    // }
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
   // to recive the param from child
   const changeDarkMode = (enteredDarkMode) => {
     const darkMode = enteredDarkMode;
@@ -72,23 +113,31 @@ const Header = (props) => {
         <AppBar sx={{
           bgcolor: (theme) => theme.palette.primary.main,
         }} color="primary" position="sticky">
-          <Toolbar>
-            <Grid
-              container
-              direction="row"
-              justifyContent="space-around"
-              alignItems="center"
-            >
-              <Grid sx={{textAlign:"left"}} item xs={2} sm={2} md={2}>
+          <Container maxWidth="xl">
+            <Toolbar disableGutters>
+              
                 <MDlogo></MDlogo>
-              </Grid>
-              <Grid sx={{textAlign:"right"}} item xs={2} sm={2} md={3}>
+
+              {/* <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleOpenNavMenu}
+                  color="inherit"
+                >
+                  <MenuIcon />
+                </IconButton>
+              </Box> */}
+
+              <Grid sx={{ textAlign: "right" }} item xs={2} sm={2} md={3}>
                 <SearchForm onShowSearchResult={showSearchResult} ></SearchForm>
                 {/* <SearchForm ></SearchForm> */}
               </Grid>
-              <Grid sx={{textAlign:"right"}} item xs={2} sm={2} md={4}><SmallHeader /></Grid>
+              <Grid sx={{ textAlign: "right" }} item xs={2} sm={2} md={4}><SmallHeader /></Grid>
 
-              {/* <Grid sx={{ textAlign:"right"}} item xs={6} sm={6} md={3}>
+              <Grid sx={{ textAlign: "right" }} item xs={6} sm={6} md={3}>
                 {email === "allen3325940072@gmail.com"
                   ? <IconButton
                     onClick={() => {
@@ -106,21 +155,20 @@ const Header = (props) => {
                   sx={{ m: 4 }}
                 ></ModeSwitch>
 
-                /* <Button
+                {/* <Button
                       variant="contained"
                       href="/calenderSearch"
-                      size="small">Calender</Button> 
+                      size="small">Calender</Button> */}
 
-              </Grid> */}
-              <HeaderTmp />
-            </Grid>
-          </Toolbar>
+              </Grid>
+            </Toolbar>
+          </Container>
         </AppBar>
       </ElevationScroll>
       <Outlet />
     </React.Fragment>
-    
+
   );
 };
 
-export default Header;
+export default HeaderTTT;

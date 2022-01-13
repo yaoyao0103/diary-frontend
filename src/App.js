@@ -22,6 +22,8 @@ import "./App.css"
 import EditIcon from '@mui/icons-material/Edit';
 import Fab from '@mui/material/Fab';
 import SearchDiaryPage from "./components/SearchDiaryPage/SearchDiaryPage";
+import HeaderTmp from "./components/Header/HeaderTmp";
+import HeaderTTT from "./components/Header/HeaderTTT";
 
 
 function App() {
@@ -116,6 +118,10 @@ function App() {
           propsDarkMode={darkMode}
           onShowSearchResult={showSearchResult}
         />
+        {/* <HeaderTTT
+          onChangeDarkMode={changeDarkMode}
+          propsDarkMode={darkMode}
+          onShowSearchResult={showSearchResult} /> */}
         <Routes>
           {/* <Route path="/" element={<Header
             //isLogin={isLogin}

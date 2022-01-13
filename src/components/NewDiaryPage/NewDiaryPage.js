@@ -9,6 +9,7 @@ import { ButtonGroup } from "@mui/material";
 import Container from "@mui/material/Container";
 import axios from "../axios/axios";
 import { Navigate } from "react-router-dom";
+import Swal from 'sweetalert2'
 import CookieParser from "../CookieParser/CookieParser";
 const NewDiaryPage = () => {
   //TODO: 修好若沒有換行日記，可能要幫他們自動補換行。
@@ -121,6 +122,7 @@ const NewDiaryPage = () => {
         }
       )
       .then((response) => {
+        Swal.fire('新增日記成功', 'OK', 'success');
         document.cookie = "token=" + response.data.token;
         console.log("sucess");
         console.log(response);
@@ -129,7 +131,8 @@ const NewDiaryPage = () => {
       .catch((error) => console.log(error));
   };
   return shouldRedirect ? (
-    <Navigate to={`/editDiary/${folder}/${title}`} />
+    // <Navigate to={`/editDiary/${folder}/${title}`} />
+    <Navigate to={`/`} />
   ) : (
     <Container maxWidth={"lg"}>
       {redirect ? <Navigate to={"/login"} /> : ""}

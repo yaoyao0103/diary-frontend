@@ -10,7 +10,6 @@ function MDlogo() {
       'Gochi Hand'
     ],
     fontSize: 50
-    
   }));
 
   return (
