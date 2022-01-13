@@ -77,7 +77,7 @@ const UploadButton = (props) => {
                         position: 'absolute',
                         top: -6,
                         left: -6,
-                        zIndex: 1,
+                        zIndex: 1, 
                         }}
                     />
             )}
