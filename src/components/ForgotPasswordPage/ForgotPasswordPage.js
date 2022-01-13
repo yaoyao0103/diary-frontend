@@ -117,7 +117,7 @@ export default function ForgotPasswordPage() {
             <Grid container justifyContent="flex-end"></Grid>
             <Grid item xs>
               <Link sx={{ fontSize: "1rem", color: "#818ea3" }} href="/login" variant="body2">
-                Login in! gogogog!
+                Login in! gogogogo!
               </Link>
             </Grid>
           </Box>

@@ -318,7 +318,12 @@ export default function EnhancedTable() {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   return (
-    <Grid container justifyContent="center">
+    <Grid   container
+    spacing={0}
+    direction="column"
+    alignItems="center"
+    justifyContent="center"
+    style={{ minHeight: '85vh' }} >
       <Box alignItems="center">
         <Paper sx={{ width: "100%", mb: 2, maxWidth: "lg" }}>
           {/* <EnhancedTableToolbar numSelected={selected.length} /> */}

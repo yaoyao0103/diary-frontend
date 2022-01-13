@@ -21,7 +21,7 @@ import React from "react";
 
 const FolderPage = (props) => {
   const [isLogin, setIsLogin] = useState(false);
-  const email = "allen3325940072@gmail.com";
+  // const email = "allen3325940072@gmail.com";
   const [folder, setFolder] = useState([]);
   const [hasUpper, setHasUpper] = useState(0);
   const [folderAdding, setFolderAdding] = useState(false);
