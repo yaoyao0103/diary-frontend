@@ -36,7 +36,7 @@ const SearchDiaryPage = () => {
   const search = () => {
     axios
       .get(
-        `/search/${email}?condition=title&search_query=${searchKeyWord.keyWord}`,
+        `/search/${email}?search_query=${searchKeyWord.keyWord}`,
         {
           headers: {
             Authorization: cookieParser.getCookieByName("token"),
@@ -45,15 +45,17 @@ const SearchDiaryPage = () => {
       )
       .then((res) => {
         document.cookie = "token=" + res.data.token;
-        console.log(res.data);
+        // console.log(res.data.diaryArray[0]);
         if (res.data.diaryArray.length > 0) {
           res.data.diaryArray.forEach((element) => {
-            console.log(element);
+            // console.log("element");
+            // console.log(element);
             if (element.length !== 0) {
               element.forEach((diary) => {
-                console.log(diary);
-                console.log(diary._id);
-                console.log(diary.parentFolder);
+                // console.log(diary[0]);
+                // console.log(diary[0]._id);
+                // console.log(diary[0].parentFolder);
+                // console.log(diary[0].title);
 
                 tmp.push(
                   // <SearchCard
@@ -62,9 +64,9 @@ const SearchDiaryPage = () => {
                   //   items={diary}
                   // />
                   <Card
-                    key={diary._id}
-                    items={diary}
-                    selectedFolder={diary.parentFolder}
+                    key={diary[0]._id}
+                    items={diary[0]}
+                    selectedFolder={diary[0].parentFolder}
                     onPassArticleLink={passArticleLink}
                     onPassReRender={passReRender}
                   />
