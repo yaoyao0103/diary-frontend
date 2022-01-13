@@ -17,7 +17,6 @@ function ModeSwitch(props) {
             console.log("In ModeSwitch is " + darkMode);
             props.onChangeDarkMode(darkMode);
           }}
-          sx={{ m: 3 }}
         />
       }
       // label="黑暗模式"
