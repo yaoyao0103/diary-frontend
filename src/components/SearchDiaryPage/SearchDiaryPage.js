@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import axios from "../axios/axios";
 import Card from "../Cards/Card";
 import CookieParser from "../CookieParser/CookieParser";
-import SearchCard from "./SearchCard";
 import { Navigate } from "react-router-dom";
 
 const SearchDiaryPage = () => {
@@ -14,6 +13,7 @@ const SearchDiaryPage = () => {
   let tmp = [];
   const [redirectArticle, setRedirectArticle] = useState(false);
   const [enterLink, setEnterLink] = useState(false);
+  const [reRender, setReRender] = useState(false);
   const cookieParser = new CookieParser(document.cookie);
   // console.log("render");
   // console.log(diarys);
@@ -23,12 +23,15 @@ const SearchDiaryPage = () => {
     // console.log(diarys)
     // setRender(false);
     search();
-  }, [searchKeyWord]);
+  }, [searchKeyWord,reRender]);
 
   const passArticleLink = (enteredLink) => {
     setEnterLink(enteredLink);
     setRedirectArticle(true);
   };
+  const passReRender = (enteredBool) => {
+    setReRender(enteredBool);
+  }
 
   const search = () => {
     axios
@@ -63,6 +66,7 @@ const SearchDiaryPage = () => {
                     items={diary}
                     selectedFolder={diary.parentFolder}
                     onPassArticleLink={passArticleLink}
+                    onPassReRender={passReRender}
                   />
                 );
               });

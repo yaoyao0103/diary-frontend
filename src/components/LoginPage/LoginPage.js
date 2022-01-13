@@ -11,7 +11,6 @@ import { Alert } from '@mui/material';
 import { Snackbar } from '@mui/material';
 import CookieParser from "../CookieParser/CookieParser";
 import { Navigate } from "react-router-dom";
-import Header from "../Header/Header";
 import LogInOrOutButton from "../Header/LogInOrOutButton";
 
 function LoginPage() {
