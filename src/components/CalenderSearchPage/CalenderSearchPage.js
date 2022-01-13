@@ -22,11 +22,12 @@ const CalenderSearchPage = () => {
   const [redirect, setRedirect] = React.useState(false);
   const [redirectArticle, setRedirectArticle] = React.useState(false);
   const [enterLink, setEnterLink] = React.useState(false);
-
+  const [reRender, setReRender] = React.useState(false);
 
   let tmp = [];
   const cookieParser = new CookieParser(document.cookie);
   useEffect(() => {
+    setReRender(false);
     if (
       cookieParser.getCookieByName("token") == "undefined" ||
       cookieParser.getCookieByName("token") == null ||
@@ -45,13 +46,15 @@ const CalenderSearchPage = () => {
       fetchDiary();
       // }
     }
-  }, [value]);
+  }, [value,reRender]);
 
   const passArticleLink = (enteredLink) => {
     setEnterLink(enteredLink);
     setRedirectArticle(true);
   };
-
+  const passReRender = (enteredBool) => {
+    setReRender(enteredBool);
+  }
   // useEffect(() => {
   //     if (isLogin) {
   //         setFetchDiaryAlready(false);
@@ -103,6 +106,7 @@ const CalenderSearchPage = () => {
                     selectedFolder={diary.parentFolder}
                     items={diary}
                     onPassArticleLink={passArticleLink}
+                    onPassReRender={passReRender}
                   />
                 );
             });

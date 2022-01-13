@@ -1,7 +1,7 @@
-import { Button, Grid, Link } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import Cards from "../Cards/Cards";
-import { Container, TextField } from "@mui/material";
+import { Container } from "@mui/material";
 import FolderPage from "../FolderPage/FolderPage";
 import "./HomePage.css";
 import axios from "../axios/axios";
@@ -17,20 +17,22 @@ function HomePage(props) {
   const [redirect, setRedirect] = React.useState(false);
   const [redirectArticle, setRedirectArticle] = React.useState(false);
   const [enterLink, setEnterLink] = React.useState(false);
+  const [reRender, setReRender] = useState(false);
   let cookieParser = new CookieParser(document.cookie);
   useEffect(() => {
+    setReRender(false);
     if (
       cookieParser.getCookieByName("token") == "undefined" ||
       cookieParser.getCookieByName("token") == null
     ) {
-      console.log("fail");
+      // console.log("fail");
       setRedirect(true);
     } else {
       if (
         cookieParser.getCookieByName("email") == "undefined" ||
         cookieParser.getCookieByName("email") == null
       ) {
-        console.log("fail");
+        // console.log("fail");
         setRedirect(true);
       } else {
         console.log("in get folder in HomePage.");
@@ -43,7 +45,7 @@ function HomePage(props) {
           })
 
           .then((res) => {
-            console.log("fetch ready.");
+            // console.log("fetch ready.");
             // console.log(res.data);
             document.cookie = "token=" + res.data.token;
             // console.log(res);
@@ -54,9 +56,10 @@ function HomePage(props) {
           });
       }
     }
-  }, []); ///get folder list in the beginning
+  }, [reRender]); ///get folder list in the beginning
 
   useEffect(() => {
+    setReRender(false);
     if (folder.length > 0 && selectedFolder === "") {
       setSelectedFolder(-1);
     }
@@ -70,6 +73,9 @@ function HomePage(props) {
     setEnterLink(enteredLink);
     setRedirectArticle(true);
   };
+  const passReRender = (enteredBool) => {
+    setReRender(enteredBool);
+  }
 
   return (
     <div>
@@ -90,12 +96,13 @@ function HomePage(props) {
             />
           </Grid>
           <Grid item xs={10} sm={9} md={8}>
-            { selectedFolder < folder.length ? (
+            {selectedFolder < folder.length ? (
               folder.length > 0 && selectedFolder !== -1 ? (
                 <Cards
                   items={folder[selectedFolder].diary}
                   selectedFolder={folder[selectedFolder].folderName}
                   onPassArticleLink={passArticleLink}
+                  onPassReRender={passReRender}
                 />
               ) : (
                 <p className="noDiary">No Selected folder</p>

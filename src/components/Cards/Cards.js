@@ -5,10 +5,13 @@ const Cards = (props) => {
     const passArticleLink = (enteredLink) => {
         props.onPassArticleLink(enteredLink);
     }
+    const passReRender = (enteredBool) => {
+        props.onPassReRender(enteredBool);
+    }
     // console.log(props.items);
     return (
         props.items.length>0?
-            props.items.map((item, index) => { return <Card key={index} items={item} selectedFolder={props.selectedFolder} onPassArticleLink={passArticleLink} /> })
+            props.items.map((item, index) => { return <Card key={index} items={item} selectedFolder={props.selectedFolder} onPassReRender={passReRender} onPassArticleLink={passArticleLink} /> })
             : <p className="noDiary">No diary</p>
     )
 }
