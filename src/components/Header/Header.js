@@ -15,9 +15,8 @@ import SmallHeader from "./SmallHeader";
 import LogInOrOutButton from "./LogInOrOutButton";
 import { useEffect } from "react";
 import CookieParser from "../CookieParser/CookieParser";
-import { Button } from "@mui/material";
 import { Outlet } from "react-router-dom";
-import HeaderTmp from "./HeaderTmp";
+import AccountCircle from "./AccountCircle";
 
 // to make some scorll effect
 function ElevationScroll(props) {
@@ -88,7 +87,7 @@ const Header = (props) => {
               </Grid>
               <Grid sx={{textAlign:"right"}} item xs={2} sm={2} md={4}><SmallHeader /></Grid>
 
-              <Grid sx={{ textAlign:"right"}} item xs={6} sm={6} md={3}>
+              {/* <Grid sx={{ textAlign:"right"}} item xs={6} sm={6} md={3}>
                 {email === "allen3325940072@gmail.com"
                   ? <IconButton
                     onClick={() => {
@@ -106,13 +105,13 @@ const Header = (props) => {
                   sx={{ m: 4 }}
                 ></ModeSwitch>
 
-                {/* <Button
+                <Button
                       variant="contained"
                       href="/calenderSearch"
-                      size="small">Calender</Button>  */}
+                      size="small">Calender</Button> 
 
-              </Grid>
-              {/* <HeaderTmp /> */}
+              </Grid> */}
+              <AccountCircle onChangeDarkMode={changeDarkMode}/>
             </Grid>
           </Toolbar>
         </AppBar>

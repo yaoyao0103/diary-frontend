@@ -32,7 +32,7 @@ const LogInOrOutButton = () => {
     console.log(cookieParser.getCookieByName('email'));
     console.log(cookieParser.getCookieByName('token'));
     return (
-      <Button
+      <a
         className="ch"
         variant="contained"
         // onClick={() => {
@@ -41,19 +41,18 @@ const LogInOrOutButton = () => {
         href="/login"
         size="small"
         // sx={{ m: 2 }}
-
       >
         登入
-      </Button>
+      </a>
     )
   }
   else {
-    if (cookieParser.getCookieByName('email') == "undefined") {
+    if ((cookieParser.getCookieByName('email') == "undefined") | (cookieParser.getCookieByName('email') == null)) {
       console.log("fail");
       console.log(cookieParser.getCookieByName('email'));
       console.log(cookieParser.getCookieByName('token'));
       return (
-        <Button
+        <a
           variant="contained"
           // onClick={() => {
           //     console.log(props.isLogin);
@@ -62,20 +61,20 @@ const LogInOrOutButton = () => {
           size="small"
         >
           登入
-        </Button>
+        </a>
       )
     } else {
       console.log("success");
       console.log(cookieParser.getCookieByName('email'));
       console.log(cookieParser.getCookieByName('token'));
       return (
-        <Button
+        <a
           variant="contained"
           onClick={handleRemoveCookie}
           href="/"
         >
           登出
-        </Button>
+        </a>
       )
 
     }
