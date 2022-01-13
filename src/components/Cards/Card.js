@@ -23,8 +23,10 @@ export default function BasicCard(props) {
   const [url, setURL] = useState("");
   const [isFavored, setIsFavored] = useState("");
   const [redirectToEdit, setRedirectToEdit] = useState(false);
-  const [openSuccess, setOpenSuccess] = React.useState(false);
-  const [toastString, setToastString] = React.useState("");
+  const [openSuccess, setOpenSuccess] = useState(false);
+  const [toastString, setToastString] = useState("");
+  const [openFail, setOpenFail] = useState(false);
+  const [toastMsg, setToastMsg] = useState("");
   let tmp = "a/";
   let a = "";
   useEffect(() => {
@@ -38,6 +40,13 @@ export default function BasicCard(props) {
     setURL(tmp);
   });
 
+  const handleCloseFail = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenFail(false);
+  };
+
   const handleCloseSuccess = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -45,7 +54,8 @@ export default function BasicCard(props) {
     setOpenSuccess(false);
   };
 
-  const deleteFolder = () => {
+
+  const deleteDiary = () => {
     let folder = props.selectedFolder;
     let title = props.items.title;
     console.log("delete diary.");
@@ -62,7 +72,7 @@ export default function BasicCard(props) {
         // setReRender(true);
         props.onPassReRender(true);
         setOpenSuccess(true);
-        setToastString("success delete diary");
+        setToastMsg("success delete diary");
       })
       .catch((err) => {
         console.log(err);
@@ -103,9 +113,12 @@ export default function BasicCard(props) {
           () => {
             console.log("clipboard successfully set");
             a = "clipboard successfully set";
+            setOpenSuccess(true);
+            setToastMsg("Link copied to clipboard");
           },
           () => {
             console.log("clipboard write failed");
+            setToastMsg("Link copy failed");
           }
         );
       })
@@ -123,11 +136,11 @@ export default function BasicCard(props) {
 
   return (
     <Card variant="outlined">
-      <Snackbar open={openSuccess} autoHideDuration={2000} onClose={handleCloseSuccess}>
+      {/* <Snackbar open={openSuccess} autoHideDuration={2000} onClose={handleCloseSuccess}>
         <Alert onClose={handleCloseSuccess} severity="success" sx={{ width: '100%' }}>
           {toastString}
         </Alert>
-      </Snackbar>
+      </Snackbar> */}
       {redirectToEdit ? <Navigate to={`/editDiary/${props.selectedFolder}/${props.items.title}`} /> : ""}
       {/* {reRender ? <Navigate to={`/`} /> : ""} */}
       <CardContent>
@@ -187,13 +200,25 @@ export default function BasicCard(props) {
         <IconButton aria-label="edit" onClick={editDiary}>
           <CreateIcon />
         </IconButton>
-        <IconButton edge="end" aria-label="delete" onClick={deleteFolder}>
+        <IconButton edge="end" aria-label="delete" onClick={deleteDiary}>
           <DeleteIcon />
         </IconButton>
         {/* <Typography color="text.secondary">
                     {props.items.tag.length > 0 && props.items.tag[0].length > 0 ? props.items.tag.join("#") : ""}
                 </Typography> */}
       </CardActions>
+      <Snackbar open={openFail} autoHideDuration={2000} onClose={handleCloseFail}>
+            <Alert onClose={handleCloseFail} severity="error" sx={{ width: '100%' }}>
+                {toastMsg}
+            </Alert>
+        </Snackbar>
+        <Snackbar open={openSuccess} autoHideDuration={2000} onClose={handleCloseSuccess}>
+            <Alert onClose={handleCloseSuccess} severity="success" sx={{ width: '100%' }}>
+                {toastMsg}
+            </Alert>
+        </Snackbar>
     </Card>
+
+    
   );
 }
