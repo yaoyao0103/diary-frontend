@@ -140,8 +140,8 @@ function App() {
           <Route path="ShareDiaryPage/:path" element={<ShareDiaryPage />} /> {/* 注意此頁不用登入 */}
           <Route path="SearchDiaryPage/:keyWord" element={<SearchDiaryPage />} />
           <Route path="user" element={<EnhancedTable />} />
-          <Route path="user/:email" element={< AdminInUserPage/>} />
-          <Route path="user/:email/DiaryPage/:inFolder/:diaryName" element={< AdminDiaryPage/>} />
+          <Route path="user/:email" element={<AdminInUserPage/>} />
+          <Route path="user/:email/DiaryPage/:inFolder/:diaryName" element={<AdminDiaryPage/>} />
 
         </Routes>
         {redirect ? <Navigate to={`SearchDiaryPage/${keyWord}`} /> : ""}
