@@ -30,6 +30,8 @@ const EditDiaryPage = () => {
   const [data, setData] = useState(new FormData());
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const [redirect, setRedirect] = React.useState(false);
+  const [uploadFileLoading, setUploadFileLoading] = React.useState(false);
+  const [uploadFileSuccess, setUploadFileSuccess] = React.useState(false);
   let cookieParser = new CookieParser(document.cookie);
 
   useEffect(() => {
@@ -113,6 +115,7 @@ const EditDiaryPage = () => {
   };
   const uploadFile = (enteredFile) => {
     setData(data.append("myfile", enteredFile));
+    setUploadFileLoading(true);
     // data.append("myfile", enteredFile);
     axios
       .post("/fileupload", data, {
@@ -124,6 +127,8 @@ const EditDiaryPage = () => {
       .then((response) => {
         // console.log(response.data.url);
         picURL.push(response.data.url);
+        setUploadFileSuccess(true);
+        setUploadFileLoading(false);
       })
       .catch((error) => console.log(error));
   };
@@ -254,7 +259,7 @@ const EditDiaryPage = () => {
               className="ButtonGroup"
               variant="text"
             >
-              <UploadButton onUploadFile={uploadFile} />
+              <UploadButton onUploadFile={uploadFile} loading={uploadFileLoading} success={uploadFileSuccess} />
               <Button variant="contained" component="span" onClick={storeDiary}>
                 儲存日記
               </Button>

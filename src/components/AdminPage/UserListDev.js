@@ -24,7 +24,17 @@ import { visuallyHidden } from "@mui/utils";
 import axios from "../axios/axios";
 import ClearIcon from "@mui/icons-material/Clear";
 import { Grid } from "@mui/material";
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import CookieParser from "../CookieParser/CookieParser";
+import { Link } from "react-router-dom";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
+import { set } from "date-fns";
+import Snackbar from '@mui/material/Snackbar';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -125,6 +135,7 @@ function EnhancedTableHead(props) {
             </TableSortLabel>
           </TableCell>
         ))}
+        <TableCell padding="checkbox">查看</TableCell>
         <TableCell padding="checkbox">刪除</TableCell>
       </TableRow>
     </TableHead>
@@ -204,14 +215,26 @@ export default function EnhancedTable() {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const cookieParser = new CookieParser(document.cookie);
+  const [onDelUser, setOnDelUser] = React.useState("");
   const [rows, setUsers] = React.useState([
     {
       email: "",
       folderCnt: 0,
     },
   ]);
+  const [openWarn, setOpenWarn] = React.useState(false);
+  const [openSwitchUserAlert, setOpenSwitchUserAlert] = React.useState(false);
+  const [switchedUserEmail, setSwitchedUserEmail] = React.useState("");
+  const handleClickOpen = () => {
+    setOpenWarn(true);
+  };
+  const handleClose = () => {
+    setOpenWarn(false);
+  };
+
+
   React.useEffect(() => {
     console.log("token=  "+cookieParser.getCookieByName("token"));
     axios
@@ -243,24 +266,49 @@ export default function EnhancedTable() {
       });
     // console.log(users);
   }, []);
-
-  const handleDelUser = (e) => {
-    console.log(e);
+  function DelUser(){
+    // console.log("onDelUser=  " + onDelUser);
+    if (onDelUser == "") return;
     axios
-      .delete(`/user/${e}`, 
+      .delete(`/user/${onDelUser}`, 
       {
         headers: {
           Authorization: cookieParser.getCookieByName("token"),
         },
       })
       .then((res) => {
-        document.cookie = "token=" + res.data.token;
-        console.log("del " + e + " success");
+        // document.cookie = "token=" + res.data.token;
+        console.log("del " + onDelUser + " success");
       })
       .catch((e) => {
         console.log(e);
       });
-    setUsers(rows.filter((row) => row.email !== e));
+    setUsers(rows.filter((row) => row.email !== onDelUser));
+  }
+
+  const handleStartDelUser = (e) => {
+    setOpenWarn(true);
+    setOnDelUser(e);
+    // console.log(e);
+    // DelUser(e);
+  };
+  
+  const handleSeeUser = (e) => {
+    axios
+      .get(`/user/${e}`,
+        {
+          headers: {
+            Authorization: cookieParser.getCookieByName("token"),
+          },
+        })
+      .then((res) => {
+        document.cookie = "token=" + res.data.token;
+        console.log(res.data);
+        console.table(res.data.user);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   const handleRequestSort = (event, property) => {
@@ -310,6 +358,10 @@ export default function EnhancedTable() {
   const handleChangeDense = (event) => {
     setDense(event.target.checked);
   };
+  
+  const OpenSwitchUserAlert = () => {
+    setOpenSwitchUserAlert(true);
+  };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
@@ -318,6 +370,7 @@ export default function EnhancedTable() {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   return (
+    <>
     <Grid   container
     spacing={0}
     direction="column"
@@ -371,13 +424,19 @@ export default function EnhancedTable() {
                         </TableCell>
                         <TableCell align="right">{row.folderCnt}</TableCell>
                         <TableCell align="right" padding="checkbox">
-                          <IconButton onClick={() => handleDelUser(row.email)}>
+                          <IconButton onClick={() => { OpenSwitchUserAlert(); setSwitchedUserEmail(row.email); }}>
+                            <Link to={"/user/" + row.email}>
+                              <VisibilityIcon />
+                              </Link>
+                          </IconButton>
+                        </TableCell>
+
+                        <TableCell align="right" padding="checkbox">
+                          <IconButton onClick={() => handleStartDelUser(row.email)}>
                             <ClearIcon />
                           </IconButton>
                         </TableCell>
-                        {/* <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell> */}
+
                       </TableRow>
                     );
                   })}
@@ -409,5 +468,34 @@ export default function EnhancedTable() {
       /> */}
       </Box>
     </Grid>
+    <Dialog
+    open={openWarn}
+    onClose={handleClose}
+    aria-labelledby="alert-dialog-title"
+    aria-describedby="alert-dialog-description"
+  >
+    <DialogTitle id="alert-dialog-title">
+      {"是否刪除使用者?"}
+    </DialogTitle>
+    <DialogContent>
+      <DialogContentText id="alert-dialog-description">
+        真的要刪除使用者嗎?
+      </DialogContentText>
+    </DialogContent>
+    <DialogActions>
+          <Button variant="contained" onClick={() => { handleClose(); setOnDelUser(""); }}>否</Button>
+          <Button variant="contained" onClick={() => { handleClose(); DelUser(); }} autoFocus>
+        是的(此操作無法復原)
+      </Button>
+    </DialogActions>
+      </Dialog>
+      
+      <Snackbar
+        open={openSwitchUserAlert}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message={`切換到用戶${switchedUserEmail}的頁面`} 
+      />
+    </>
   );
 }

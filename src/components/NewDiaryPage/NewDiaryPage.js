@@ -32,6 +32,8 @@ const NewDiaryPage = () => {
   const [email, setEmail] = useState("");
   const cookieParser = new CookieParser(document.cookie);
 
+  const [uploadFileLoading, setUploadFileLoading] = React.useState(false);
+  const [uploadFileSuccess, setUploadFileSuccess] = React.useState(false);
   useEffect(() => {
     if (
       cookieParser.getCookieByName("token") == "undefined" ||
@@ -75,6 +77,7 @@ const NewDiaryPage = () => {
   };
   const uploadFile = (enteredFile) => {
     data.append("myfile", enteredFile);
+    setUploadFileLoading(true);
     axios
       .post("/fileupload", data, {
         headers: {
@@ -86,6 +89,8 @@ const NewDiaryPage = () => {
         document.cookie = "token=" + response.data.token;
         console.log(response);
         picURL.push(response.data.url);
+        setUploadFileSuccess(true);
+        setUploadFileLoading(false);
       })
       .catch((error) => console.log(error));
   };
@@ -206,7 +211,7 @@ const NewDiaryPage = () => {
               className="ButtonGroup"
               variant="text"
             >
-              <UploadButton onUploadFile={uploadFile} />
+              <UploadButton onUploadFile={uploadFile} loading={uploadFileLoading} success={uploadFileSuccess}  />
               <Button variant="contained" size="medium" onClick={storeDiary}>
                 儲存日記
               </Button>
