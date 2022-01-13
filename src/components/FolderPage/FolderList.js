@@ -84,7 +84,7 @@ export default function FolderList(props) {
   return editingFolder ? (
     <ListItem
       secondaryAction={
-        <IconButton edge="end" onClick={postEditFolder}>
+        <IconButton edge="end"  onClick={postEditFolder}>
           <AddCircleOutlineIcon />
         </IconButton>
       }

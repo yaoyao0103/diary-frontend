@@ -1,5 +1,5 @@
 import Card from "@mui/material/Card";
-import { CardContent, Container, CardMedia } from "@mui/material";
+import { CardContent, Container, CardMedia, Alert, Snackbar } from "@mui/material";
 import { Typography } from "@mui/material";
 import { CardActions } from "@mui/material";
 import { Button } from "@material-ui/core";
@@ -14,6 +14,9 @@ const SearchCard = (props) => {
     // remove this Card
     let cookieParser = new CookieParser(document.cookie);
     const [url, setURL] = useState("");
+    const [openFail, setOpenFail] = useState(false);
+    const [openSuccess, setOpenSuccess] = useState(false);
+    const [snackMsg, setSnackMsg] = useState("");
     // const email = "allen3325940072@gmail.com";
     const email = cookieParser.getCookieByName("email");
     
@@ -45,9 +48,13 @@ const SearchCard = (props) => {
                 console.log(path);
                 navigator.clipboard.writeText(path).then(() => {
                     console.log("clipboard successfully set")
+                    setOpenSuccess(true);
+                    setSnackMsg("Link copied to clipboard");
                     a = "clipboard successfully set";
                 }, () => {
                     console.log("clipboard write failed")
+                    setOpenFail(true);
+                    setSnackMsg("Link copy failed");
                 });
             })
             .catch(e => {
@@ -56,12 +63,25 @@ const SearchCard = (props) => {
         )
             
     }
+
+    const handleCloseFail = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+        setOpenFail(false);
+      };
+    
+      const handleCloseSuccess = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+        setOpenSuccess(false);
+      };
+
+
     // console.log(props.items[0])
     return (
-
-        // <div>
-        //     adas
-        // </div>
+        <>
         <Card variant="outlined" >
             <CardContent>
                 <Typography variant="h5" component="div" >
@@ -96,7 +116,20 @@ const SearchCard = (props) => {
                     {props.items.tag.length > 0 && props.items.tag[0].length > 0 ? "#"+props.items.tag.join(" #") : ""}
                 </Typography>
             </CardActions>
+
         </Card>
+
+        <Snackbar open={openFail} autoHideDuration={2000} onClose={handleCloseFail}>
+            <Alert onClose={handleCloseFail} severity="error" sx={{ width: '100%' }}>
+                {snackMsg}
+            </Alert>
+        </Snackbar>
+        <Snackbar open={openSuccess} autoHideDuration={2000} onClose={handleCloseSuccess}>
+            <Alert onClose={handleCloseSuccess} severity="success" sx={{ width: '100%' }}>
+                {snackMsg}
+            </Alert>
+        </Snackbar>
+        </>
     );
 }
 export default SearchCard;

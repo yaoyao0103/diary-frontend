@@ -23,8 +23,10 @@ export default function BasicCard(props) {
   const [url, setURL] = useState("");
   const [isFavored, setIsFavored] = useState("");
   const [redirectToEdit, setRedirectToEdit] = useState(false);
-  const [openSuccess, setOpenSuccess] = React.useState(false);
-  const [toastString, setToastString] = React.useState("");
+  const [openSuccess, setOpenSuccess] = useState(false);
+  const [toastString, setToastString] = useState("");
+  const [openFail, setOpenFail] = useState(false);
+  const [toastMsg, setToastMsg] = useState("");
   let tmp = "a/";
   let a = "";
   useEffect(() => {
@@ -38,12 +40,20 @@ export default function BasicCard(props) {
     setURL(tmp);
   });
 
+  const handleCloseFail = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenFail(false);
+  };
+
   const handleCloseSuccess = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
     setOpenSuccess(false);
   };
+
 
   const deleteFolder = () => {
     let folder = props.selectedFolder;
@@ -103,9 +113,12 @@ export default function BasicCard(props) {
           () => {
             console.log("clipboard successfully set");
             a = "clipboard successfully set";
+            setOpenSuccess(true);
+            setToastMsg("Link copied to clipboard");
           },
           () => {
             console.log("clipboard write failed");
+            setToastMsg("Link copy failed");
           }
         );
       })
@@ -194,6 +207,18 @@ export default function BasicCard(props) {
                     {props.items.tag.length > 0 && props.items.tag[0].length > 0 ? props.items.tag.join("#") : ""}
                 </Typography> */}
       </CardActions>
+      <Snackbar open={openFail} autoHideDuration={2000} onClose={handleCloseFail}>
+            <Alert onClose={handleCloseFail} severity="error" sx={{ width: '100%' }}>
+                {toastMsg}
+            </Alert>
+        </Snackbar>
+        <Snackbar open={openSuccess} autoHideDuration={2000} onClose={handleCloseSuccess}>
+            <Alert onClose={handleCloseSuccess} severity="success" sx={{ width: '100%' }}>
+                {toastMsg}
+            </Alert>
+        </Snackbar>
     </Card>
+
+    
   );
 }
