@@ -1,19 +1,18 @@
 import "./LoginPage.css";
 import React from "react";
 import { Button, Container, Paper } from "@mui/material";
-import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import TextField from '@mui/material/TextField';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import axios from "../axios/axios";
-import { Alert } from "@mui/material";
-import { Snackbar } from "@mui/material";
+import { Alert } from '@mui/material';
+import { Snackbar } from '@mui/material';
 import CookieParser from "../CookieParser/CookieParser";
 import { Navigate } from "react-router-dom";
 import LogInOrOutButton from "../Header/LogInOrOutButton";
-import ReCAPTCHA from "react-google-recaptcha";
-import _axios from "axios";
+
 function LoginPage() {
   const [openFail, setOpenFail] = React.useState(false);
   const [openSuccess, setOpenSuccess] = React.useState(false);
@@ -24,79 +23,65 @@ function LoginPage() {
   const [email, setEmail] = React.useState("");
   // let password = "";
   const [password, setPassword] = React.useState("");
-  const [isVerified, setIsVerified] = React.useState(false);
+
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
     console.log(email);
-  };
+  }
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
     console.log(password);
-  };
-  
-  function onChange() {
-    console.log("capcha successfully");
-    setIsVerified(true);
   }
 
   const login = () => {
-    let temp_email = email ? email : document.getElementById("email").value;
-    let temp_password = password
-      ? password
-      : document.getElementById("password").value;
 
-    axios
-      .post("/login", {
-        email: temp_email,
-        password: temp_password,
-      })
-      .then((res) => {
+    let temp_email = (email) ? email : document.getElementById("email").value;
+    let temp_password = (password) ? password : document.getElementById("password").value;
+
+    axios.post("/login", {
+      email: temp_email,
+      password: temp_password
+    })
+      .then(res => {
         document.cookie = "token=" + res.data.token;
         //console.log(document.cookie);
         let cookieParser_token = new CookieParser(document.cookie);
         document.cookie = "email=" + res.data.email;
         //console.log(document.cookie);
         let cookieParser_email = new CookieParser(document.cookie);
-        console.log(cookieParser_email.getCookieByName("email"));
+        console.log(cookieParser_email.getCookieByName('email'));
         // console.log(document.cookie);
         // console.log("success");
         // console.log(res);
-        <LogInOrOutButton />;
+        <LogInOrOutButton />
         console.log("parse");
         // console.log(cookieParser.getCookieByName('token'));
-        
+        setOpenSuccess(true);
       })
       .then(() => {
-        if(isVerified){
-          setRedirect(true);
-          setOpenSuccess(true);
-        }else{
-          alert('Please verify that you are a human');
-        }
+        setRedirect(true);
       })
       .catch((error) => {
-        console.log(error.response.status);
+        console.log(error.response.status)
         if (error.response.status === 403) {
           setRedirectActivate(true);
         }
         setOpenFail(true);
-      });
-  };
+      })
+  }
   const handleCloseFail = (event, reason) => {
-    if (reason === "clickaway") {
+    if (reason === 'clickaway') {
       return;
     }
     setOpenFail(false);
   };
 
   const handleCloseSuccess = (event, reason) => {
-    if (reason === "clickaway") {
+    if (reason === 'clickaway') {
       return;
     }
     setOpenSuccess(false);
   };
-
-  
   // const handleSubmit = (event) => {
   //   event.preventDefault();
   //   const data = new FormData(event.currentTarget);
@@ -118,9 +103,9 @@ function LoginPage() {
         <Box
           sx={{
             marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
           }}
         >
           <Typography component="h1" variant="h5">
@@ -149,10 +134,6 @@ function LoginPage() {
             autoComplete="current-password"
             onChange={handlePasswordChange}
           />
-          <ReCAPTCHA
-            sitekey="6LcuzQ0eAAAAAP9YxF_6OMJCd6zsr48z7GHCyrjR"
-            onChange={onChange}
-          />
           {/* <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
@@ -169,20 +150,12 @@ function LoginPage() {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link
-                sx={{ fontSize: "1rem", color: "#818ea3" }}
-                href="/forgotpassword"
-                variant="body2"
-              >
+              <Link sx={{ fontSize: "1rem", color: "#818ea3" }} href="/forgotpassword" variant="body2">
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
-              <Link
-                sx={{ fontSize: "1rem", color: "#818ea3" }}
-                href="/register"
-                variant="body2"
-              >
+              <Link sx={{ fontSize: "1rem", color: "#818ea3" }} href="/register" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
@@ -190,29 +163,13 @@ function LoginPage() {
           {/* </Box> */}
         </Box>
         {/* <Copyright sx={{ mt: 8, mb: 4 }} /> */}
-        <Snackbar
-          open={openFail}
-          autoHideDuration={2000}
-          onClose={handleCloseFail}
-        >
-          <Alert
-            onClose={handleCloseFail}
-            severity="error"
-            sx={{ width: "100%" }}
-          >
+        <Snackbar open={openFail} autoHideDuration={2000} onClose={handleCloseFail}>
+          <Alert onClose={handleCloseFail} severity="error" sx={{ width: '100%' }}>
             error login informantion!!
           </Alert>
         </Snackbar>
-        <Snackbar
-          open={openSuccess}
-          autoHideDuration={2000}
-          onClose={handleCloseSuccess}
-        >
-          <Alert
-            onClose={handleCloseSuccess}
-            severity="success"
-            sx={{ width: "100%" }}
-          >
+        <Snackbar open={openSuccess} autoHideDuration={2000} onClose={handleCloseSuccess}>
+          <Alert onClose={handleCloseSuccess} severity="success" sx={{ width: '100%' }}>
             login successfully.
           </Alert>
         </Snackbar>
