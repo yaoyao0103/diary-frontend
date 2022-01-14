@@ -35,9 +35,12 @@ function LoginPage() {
 
   const login = () => {
 
+    let temp_email = (email) ? email : document.getElementById("email").value;
+    let temp_password = (password) ? password : document.getElementById("password").value;
+
     axios.post("/login", {
-      email: email,
-      password: password
+      email: temp_email,
+      password: temp_password
     })
       .then(res => {
         document.cookie = "token=" + res.data.token;
@@ -60,7 +63,7 @@ function LoginPage() {
       })
       .catch((error) => {
         console.log(error.response.status)
-        if(error.response.status === 403){
+        if (error.response.status === 403) {
           setRedirectActivate(true);
         }
         setOpenFail(true);

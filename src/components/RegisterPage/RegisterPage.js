@@ -37,13 +37,17 @@ const RegisterPage = () => {
   const signup = (event) => {
     // console.log("email " + email);
     // console.log("password " password);
+    let temp_email = (email) ? email : document.getElementById("email").value;
+    let temp_password = (password) ? password : document.getElementById("password").value;
+    console.log(temp_email);
+    console.log(temp_password);
     if (password != checkpassword) {
       setOpenFail(true);
       return;
     }
     axios.post("/signUp", {
-      email: email,
-      password: password
+      email: temp_email,
+      password: temp_password
     })
       .then((response) => {
         // console.log(response)
