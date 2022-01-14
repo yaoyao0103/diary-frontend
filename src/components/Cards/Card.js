@@ -13,6 +13,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CreateIcon from '@mui/icons-material/Create';
 import { Alert } from '@mui/material';
 import { Snackbar } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import axios from "../axios/axios";
 import CookieParser from "../CookieParser/CookieParser";
 
@@ -24,9 +29,18 @@ export default function BasicCard(props) {
   const [isFavored, setIsFavored] = useState("");
   const [redirectToEdit, setRedirectToEdit] = useState(false);
   const [openSuccess, setOpenSuccess] = React.useState(false);
-  const [toastString, setToastString] = React.useState("");
   const [openFail, setOpenFail] = useState(false);
   const [toastMsg, setToastMsg] = useState("");
+  // DIALOG USE
+  const [openWarn, setOpenWarn] = React.useState(false);
+  const [delFolderName, setDelFolderName] = React.useState("");
+  const handleClickOpen = () => {
+    setOpenWarn(true);
+  };
+  const handleClose = () => {
+    setOpenWarn(false);
+  };
+
   let tmp = "a/";
   let a = "";
   useEffect(() => {
@@ -40,20 +54,11 @@ export default function BasicCard(props) {
     setURL(tmp);
   });
 
-  const handleCloseFail = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setOpenFail(false);
-  };
 
-  const handleCloseSuccess = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setOpenSuccess(false);
-  };
 
+  const startDel = () => {
+    setOpenWarn(true);
+  }
 
   const deleteFolder = () => {
     let folder = props.selectedFolder;
@@ -68,14 +73,17 @@ export default function BasicCard(props) {
         console.log("delete ready.");
         // console.log(res.data);
         document.cookie = "token=" + res.data.token;
-        console.log(res);
+        console.log("success del dia");
         // setReRender(true);
         props.onPassReRender(true);
-        setOpenSuccess(true);
-        setToastString("success delete diary");
+        props.onAlertSuccess("Success Delete Diary");
+        // setToastMsg("Success Delete Diary");
       })
       .catch((err) => {
         console.log(err);
+        // setOpenFail(true);
+        // setToastMsg("Fail Delete Diary");
+        props.onAlertFail("Fail Delete Diary");
       });
   }
 
@@ -136,11 +144,6 @@ export default function BasicCard(props) {
 
   return (
     <Card variant="outlined">
-      <Snackbar open={openSuccess} autoHideDuration={2000} onClose={handleCloseSuccess}>
-        <Alert onClose={handleCloseSuccess} severity="success" sx={{ width: '100%' }}>
-          {toastString}
-        </Alert>
-      </Snackbar>
       {redirectToEdit ? <Navigate to={`/editDiary/${props.selectedFolder}/${props.items.title}`} /> : ""}
       {/* {reRender ? <Navigate to={`/`} /> : ""} */}
       <CardContent>
@@ -200,23 +203,35 @@ export default function BasicCard(props) {
         <IconButton aria-label="edit" onClick={editDiary}>
           <CreateIcon />
         </IconButton>
-        <IconButton edge="end" aria-label="delete" onClick={deleteFolder}>
+        <IconButton edge="end" aria-label="delete" onClick={startDel}>
           <DeleteIcon />
         </IconButton>
         {/* <Typography color="text.secondary">
                     {props.items.tag.length > 0 && props.items.tag[0].length > 0 ? props.items.tag.join("#") : ""}
                 </Typography> */}
       </CardActions>
-      <Snackbar open={openFail} autoHideDuration={2000} onClose={handleCloseFail}>
-            <Alert onClose={handleCloseFail} severity="error" sx={{ width: '100%' }}>
-                {toastMsg}
-            </Alert>
-        </Snackbar>
-        <Snackbar open={openSuccess} autoHideDuration={2000} onClose={handleCloseSuccess}>
-            <Alert onClose={handleCloseSuccess} severity="success" sx={{ width: '100%' }}>
-                {toastMsg}
-            </Alert>
-        </Snackbar>
+
+      <Dialog
+        open={openWarn}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        >
+        <DialogTitle id="alert-dialog-title">
+          {"是否刪除這篇日記?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            真的要刪除這篇日記嗎?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+              <Button variant="contained" onClick={() => { handleClose(); setDelFolderName(""); }}>否</Button>
+              <Button variant="contained" onClick={() => { handleClose(); deleteFolder(); }} autoFocus>
+            是的(此操作無法復原)
+        </Button>
+      </DialogActions>
+      </Dialog>
     </Card>
 
     

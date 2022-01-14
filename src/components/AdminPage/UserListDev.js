@@ -314,24 +314,6 @@ export default function EnhancedTable() {
     // DelUser(e);
   };
   
-  const handleSeeUser = (e) => {
-    axios
-      .get(`/user/${e}`,
-        {
-          headers: {
-            Authorization: cookieParser.getCookieByName("token"),
-          },
-        })
-      .then((res) => {
-        document.cookie = "token=" + res.data.token;
-        console.log(res.data);
-        console.table(res.data.user);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
-
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");

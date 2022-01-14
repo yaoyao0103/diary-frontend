@@ -102,6 +102,13 @@ const NewDiaryPage = () => {
       });
       return;
     }
+    if (date === null) {
+      Swal.fire({
+        title: "請選擇日期",
+        icon: "error",
+      });
+      return;
+    }
 
     // console.log("title is " + title);
     // console.log("date is " + date.toISOString());

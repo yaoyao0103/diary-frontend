@@ -17,6 +17,12 @@ import CreateNewFolderOutlinedIcon from "@mui/icons-material/CreateNewFolderOutl
 import Snackbar from "@mui/material/Snackbar";
 import { Alert } from "@mui/material";
 import { Navigate } from "react-router-dom";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
 import React from "react";
 
 const FolderPage = (props) => {
@@ -29,7 +35,8 @@ const FolderPage = (props) => {
   const [editFolderName, setEditFolderName] = useState("");
   const [reRender, setReRender] = useState(false);
   const [redirect, setRedirect] = React.useState(false);
-
+  const [openWarn, setOpenWarn] = React.useState(false);
+  const [delFolderName, setDelFolderName] = React.useState("");
   let cookieParser = new CookieParser(document.cookie);
 
   useEffect(() => {
@@ -129,9 +136,14 @@ const FolderPage = (props) => {
   }
   function onDelFolder(folderName) {
     // console.log("/user/" + cookieParser.getCookieByName("email") + "/${folderName}")
-    console.log("/user/" + cookieParser.getCookieByName("email") + `/${folderName}`);
+    // console.log("/user/" + cookieParser.getCookieByName("email") + `/${folderName}`);
+    setOpenWarn(true);
+    setDelFolderName(folderName)
+  }
+
+  function continueDelFolder() {
     axios.delete(
-      "/user/" + cookieParser.getCookieByName("email") + `/${folderName}`,
+      "/user/" + cookieParser.getCookieByName("email") + `/${delFolderName}`,
       {
         headers: {
           'Authorization': cookieParser.getCookieByName("token"),
@@ -149,6 +161,12 @@ const FolderPage = (props) => {
         setDelFolderFail(true);
       });
   }
+  const handleClickOpen = () => {
+    setOpenWarn(true);
+  };
+  const handleClose = () => {
+    setOpenWarn(false);
+  };
 
   const handleNewFolderFail = (event, reason) => {
     if (reason === "clickaway") {
@@ -206,7 +224,7 @@ const FolderPage = (props) => {
                   folderName={fold.folderName}
                   folderIdx={index}
                   onChangeFolder={handleFolderChange}
-                  onDeleteFolder={onDelFolder}
+                  onDeleteFolder={(e)=>onDelFolder(fold.folderName)}
                   onRender={handleRender}
                 />
               ) : (
@@ -250,6 +268,27 @@ const FolderPage = (props) => {
           </ListItem>
         )}
       </List>
+    <Dialog
+      open={openWarn}
+      onClose={handleClose}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+      >
+      <DialogTitle id="alert-dialog-title">
+        {"是否刪除資料夾?"}
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          真的要刪除資料夾嗎?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+            <Button variant="contained" onClick={() => { handleClose(); setDelFolderName(""); }}>否</Button>
+            <Button variant="contained" onClick={() => { handleClose(); continueDelFolder(); }} autoFocus>
+          是的(此操作無法復原)
+      </Button>
+    </DialogActions>
+    </Dialog>
       <Snackbar
         open={newFolderFail}
         autoHideDuration={2000}
