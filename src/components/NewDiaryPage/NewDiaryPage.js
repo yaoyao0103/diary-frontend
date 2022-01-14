@@ -144,7 +144,7 @@ const NewDiaryPage = () => {
         }
       )
       .then((response) => {
-        Swal.fire('新增日記成功', 'OK', 'success');
+        Swal.fire('新增日記成功', '', 'success');
         document.cookie = "token=" + response.data.token;
         console.log("sucess");
         console.log(response);
