@@ -156,7 +156,7 @@ const ResetPasswordPage = () => {
           >
             Reset Password
           </Button>
-          <Grid container>
+          {/* <Grid container>
             <Grid item xs>
               <Link
                 sx={{ fontSize: "1rem", color: "#818ea3" }}
@@ -166,7 +166,7 @@ const ResetPasswordPage = () => {
                 Forgot password?
               </Link>
             </Grid>
-          </Grid>
+          </Grid> */}
         </Box>
         {/* </Box> */}
         <Snackbar
