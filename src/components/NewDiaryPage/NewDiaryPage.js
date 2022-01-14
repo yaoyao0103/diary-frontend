@@ -112,7 +112,7 @@ const NewDiaryPage = () => {
         `/user/${cookieParser.getCookieByName("email")}/${folder}`,
         {
           title: title,
-          content: content,
+          content: (content.replaceAll("  \n","\n")).replaceAll("\n", "  \n"),
           date: date.toISOString(),
           tag: retag,
           filesURL: filesURL,
