@@ -35,8 +35,9 @@ export default function FavoritePage() {
                         onAlertSuccess={alertSuc}
                         onAlertFail={alertFail} />);
                 })
+                console.log("tmp is ")
+                console.log(tmp)
                 setTmp(tmp);
-                // setFolder(res.data.folder);
             })
             .catch((err) => {
                 console.log(err);
@@ -44,8 +45,6 @@ export default function FavoritePage() {
     }, [reRender])
 
     const passArticleLink = (enteredLink) => {
-        // setEnterLink(enteredLink);
-        // setRedirectArticle(true);
         navigate(enteredLink);
     };
     const passReRender = () => {
@@ -53,18 +52,18 @@ export default function FavoritePage() {
         setReRender(true);
     }
     const alertSuc = (msg) => {
-        setToastMsg(msg);
-        setOpenSuccess(true);
+        // setToastMsg(msg);
+        // setOpenSuccess(true);
     }
     const alertFail = (msg) => {
-        setToastMsg(msg);
-        setOpenFail(true);
+        // setToastMsg(msg);
+        // setOpenFail(true);
     }
 
     return (
-        <>
-            tmp.length === 0 ? <h1>no Favorite Diary here</h1> : tmp
-            <Snackbar Snackbar open={openFail} autoHideDuration={2000} onClose={handleCloseFail} >
+        <div>
+            {tmp.length === 0 ? <h1>no Favorite Diary here</h1> : tmp}
+            {/* <Snackbar Snackbar open={openFail} autoHideDuration={2000} onClose={handleCloseFail} >
                 <Alert onClose={handleCloseFail} severity="error" sx={{ width: '100%' }}>
                     {toastMsg}
                 </Alert>
@@ -73,8 +72,8 @@ export default function FavoritePage() {
                 <Alert onClose={handleCloseSuccess} severity="success" sx={{ width: '100%' }}>
                     {toastMsg}
                 </Alert>
-            </Snackbar>
-        </>
+            </Snackbar> */}
+        </div>
         // folder.map(diary => {
         //     console.log(tmp);
         //     // console.log(diary._id);
