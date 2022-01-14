@@ -53,15 +53,17 @@ const ResetPasswordPage = () => {
     console.log(newPassword);
   };
   const resetPassword = (event) => {
-    console.log("email " + email);
-    console.log("password " + password);
+    let temp_email = (email) ? email : document.getElementById("email").value;
+    let temp_password = (password) ? password : document.getElementById("password").value;
+    let temp_newPassword = (password) ? password : document.getElementById("newPassword").value;
+
     axios
       .post(
         "/resetPassword",
         {
-          email: email,
-          password: password,
-          newPassword: newPassword,
+          email: temp_email,
+          password: temp_password,
+          newPassword: temp_newPassword,
         },
         {
           headers: {
