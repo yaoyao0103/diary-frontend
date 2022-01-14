@@ -28,20 +28,9 @@ export default function FavoritePage() {
             .then((res) => {
                 console.log("in fetch Favorite");
                 document.cookie = "token=" + res.data.token;
-                // console.log(res.data.diaryArray);
-                // setFolder(res.data.diaryArray);
+
                 setDiarys(res.data.diaryArray);
-                // res.data.diaryArray.map(diary => {
-                //     console.log(diary)
-                //     tmp.push(<Card
-                //         key={diary._id}
-                //         items={diary}
-                //         selectedFolder={diary.parentFolder}
-                //         onPassArticleLink={passArticleLink}
-                //         onPassReRender={passReRender}
-                //         onAlertSuccess={alertSuc}
-                //         onAlertFail={alertFail} />);
-                // })
+
                 console.log("tmp is ")
                 console.log(tmp)
                 setTmp(tmp);
@@ -97,7 +86,6 @@ export default function FavoritePage() {
                 )
                 :
                 <p className="noDiary">No Favorite Diary Here</p>}
-            {/* {tmp.length === 0 ? <h1>no Favorite Diary here</h1> : tmp} */}
             <Snackbar Snackbar open={openFail} autoHideDuration={2000} onClose={handleCloseFail} >
                 <Alert onClose={handleCloseFail} severity="error" sx={{ width: '100%' }}>
                     {toastMsg}
