@@ -95,6 +95,14 @@ const NewDiaryPage = () => {
       .catch((error) => console.log(error));
   };
   const storeDiary = () => {
+    if (title.trim() === "") {
+      Swal.fire({
+        title: "請輸入標題",
+        icon: "error",
+      });
+      return;
+    }
+
     // console.log("title is " + title);
     // console.log("date is " + date.toISOString());
     // console.log("folder is " + folder);
