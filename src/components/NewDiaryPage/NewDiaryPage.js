@@ -95,7 +95,9 @@ const NewDiaryPage = () => {
       .catch((error) => console.log(error));
   };
   const storeDiary = () => {
-    if (title.trim() === "") {
+    let temp_title = (title) ? title : document.getElementById("title").value;
+    let temp_tags = (tagsString) ? tagsString : document.getElementById("tags").value;
+    if (temp_title.trim() === "") {
       Swal.fire({
         title: "請輸入標題",
         icon: "error",
@@ -109,13 +111,13 @@ const NewDiaryPage = () => {
       });
       return;
     }
-
     // console.log("title is " + title);
     // console.log("date is " + date.toISOString());
     // console.log("folder is " + folder);
     // console.log("content is " + content);
     // console.log("tagsString is " + tagsString);
-    setTag(tagsString.split("#").map((tag) => tag.trim()));
+    // setTag(tagsString.split("#").map((tag) => tag.trim()));
+    setTag(temp_tags.split("#").map((tag) => tag.trim()));
     // console.log("tagsss is " + tag);
 
     let retag = tagsString.split("#").map((tag) => tag.trim());
@@ -126,7 +128,7 @@ const NewDiaryPage = () => {
       .post(
         `/user/${cookieParser.getCookieByName("email")}/${folder}`,
         {
-          title: title,
+          title: temp_title,
           content: (content.replaceAll("  \n","\n")).replaceAll("\n", "  \n"),
           date: date.toISOString(),
           tag: retag,

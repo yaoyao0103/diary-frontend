@@ -29,7 +29,7 @@ const SearchDiaryPage = () => {
     // console.log(diarys)
     // setRender(false);
     search();
-  }, [searchKeyWord,reRender]);
+  }, [searchKeyWord, reRender]);
 
   const passArticleLink = (enteredLink) => {
     setEnterLink(enteredLink);
@@ -64,6 +64,7 @@ const handleCloseFail = (event, reason) => {
 
 
   const search = () => {
+    tmp = [];
     axios
       .get(
         `/search/${email}?search_query=${searchKeyWord.keyWord}`,
@@ -75,6 +76,7 @@ const handleCloseFail = (event, reason) => {
       )
       .then((res) => {
         document.cookie = "token=" + res.data.token;
+        console.log("in search of " + searchKeyWord.keyWord)
         // console.log(res.data.diaryArray[0]);
         if (res.data.diaryArray.length > 0) {
           res.data.diaryArray.forEach((element) => {
@@ -105,12 +107,12 @@ const handleCloseFail = (event, reason) => {
                 );
               });
               setRender(true);
-            } else {
-              setRender(false);
             }
           });
-
           setDiarys(tmp);
+        }
+        if(tmp.length == 0){
+          setRender(false);
         }
       })
       .catch((e) => console.log(e));

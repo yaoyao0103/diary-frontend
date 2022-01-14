@@ -134,13 +134,6 @@ const EditDiaryPage = () => {
       .catch((error) => console.log(error));
   };
   const storeDiary = (e) => {
-    if (title.trim() === "") {
-      Swal.fire({
-        title: "請輸入標題",
-        icon: "error",
-      });
-      return;
-    }
     if (date === null) {
       Swal.fire({
         title: "請選擇日期",
@@ -157,7 +150,16 @@ const EditDiaryPage = () => {
     // console.log("content is " + content);
     // console.log("tagsString is " + tagsString);
 
-    setTag(tagsString.split("#").map((tag) => tag.trim()));
+    let temp_title = (title) ? title : document.getElementById("title").value;
+    let temp_tags = (tagsString) ? tagsString : document.getElementById("tags").value;
+    if (temp_title.trim() === "") {
+      Swal.fire({
+        title: "請輸入標題",
+        icon: "error",
+      });
+      return;
+    }
+    setTag(temp_tags.split("#").map((tag) => tag.trim()));
     // console.log("tagsss is " + tag);
 
     let retag = tagsString.split("#").map((tag) => tag.trim());
@@ -172,7 +174,7 @@ const EditDiaryPage = () => {
           "email"
         )}/${folder}/${previousDiaryName}`,
         {
-          title: title,
+          title: temp_title,
           content: (content.replaceAll("  \n","\n")).replaceAll("\n", "  \n"),
           date: date.toISOString(),
           tag: retag,
