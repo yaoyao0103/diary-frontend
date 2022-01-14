@@ -150,7 +150,10 @@ const EditDiaryPage = () => {
     // console.log("content is " + content);
     // console.log("tagsString is " + tagsString);
 
-    setTag(tagsString.split("#").map((tag) => tag.trim()));
+    let temp_title = (title) ? title : document.getElementById("title").value;
+    let temp_tags = (tagsString) ? tagsString : document.getElementById("tags").value;
+
+    setTag(temp_tags.split("#").map((tag) => tag.trim()));
     // console.log("tagsss is " + tag);
 
     let retag = tagsString.split("#").map((tag) => tag.trim());
@@ -165,7 +168,7 @@ const EditDiaryPage = () => {
           "email"
         )}/${folder}/${previousDiaryName}`,
         {
-          title: title,
+          title: temp_title,
           content: (content.replaceAll("  \n","\n")).replaceAll("\n", "  \n"),
           date: date.toISOString(),
           tag: retag,
