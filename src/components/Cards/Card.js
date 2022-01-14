@@ -44,6 +44,7 @@ export default function BasicCard(props) {
   let tmp = "a/";
   let a = "";
   useEffect(() => {
+    console.log("in card.")
     let folder = props.selectedFolder;
     let title = props.items.title;
     console.log("render")
@@ -57,6 +58,7 @@ export default function BasicCard(props) {
       console.log(res.data.diary.isFavored);
       res.data.diary.isFavored === true ? setIsFavored("red") : setIsFavored("");
     })
+    .catch(e=>console.log(e))
     tmp += props.items.picURL[0];
     tmp = tmp.replace("/file/d/", "/uc?id=");
     tmp = tmp.substring(0, tmp.search("/view"));
