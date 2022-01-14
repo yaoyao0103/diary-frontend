@@ -7,7 +7,7 @@ import StaticDatePicker from "@mui/lab/StaticDatePicker";
 import { Grid } from "@material-ui/core";
 import axios from "../axios/axios";
 import "./CalenderSearchPage.css";
-import { Paper } from "@mui/material";
+import { Paper,Alert,Snackbar } from "@mui/material";
 import Card from "../Cards/Card";
 import CookieParser from "../CookieParser/CookieParser";
 import { Navigate } from "react-router-dom";
@@ -23,6 +23,9 @@ const CalenderSearchPage = () => {
   const [redirectArticle, setRedirectArticle] = React.useState(false);
   const [enterLink, setEnterLink] = React.useState(false);
   const [reRender, setReRender] = React.useState(false);
+  const [openSuccess, setOpenSuccess] = React.useState(false);
+  const [openFail, setOpenFail] = React.useState(false);
+  const [toastMsg, setToastMsg] = React.useState("");
 
   let tmp = [];
   const cookieParser = new CookieParser(document.cookie);
@@ -62,6 +65,30 @@ const CalenderSearchPage = () => {
   //         fetchDiary();
   //     }
   // }, [value]);
+
+  const alertSuc = (msg) => {
+      setToastMsg(msg);
+      setOpenSuccess(true);
+  }
+
+  const alertFail = (msg) => {
+      setToastMsg(msg);
+      setOpenFail(true);
+  }
+  const handleCloseFail = (event, reason) => {
+      if (reason === 'clickaway') {
+          return;
+      }
+      setOpenFail(false);
+  };
+
+  const handleCloseSuccess = (event, reason) => {
+      if (reason === 'clickaway') {
+          return;
+      }
+      setOpenSuccess(false);
+  };
+
 
   const fetchDiary = () => {
     console.log("featch diary.");
@@ -107,6 +134,7 @@ const CalenderSearchPage = () => {
                     items={diary}
                     onPassArticleLink={passArticleLink}
                     onPassReRender={passReRender}
+                    onAlertSuccess={alertSuc} onAlertFail={alertFail}
                   />
                 );
             });
@@ -158,6 +186,16 @@ const CalenderSearchPage = () => {
           )}
         </Grid>
       </Grid>
+      <Snackbar open={openFail} autoHideDuration={2000} onClose={handleCloseFail}>
+                <Alert onClose={handleCloseFail} severity="error" sx={{ width: '100%' }}>
+                    {toastMsg}
+                </Alert>
+            </Snackbar>
+            <Snackbar open={openSuccess} autoHideDuration={2000} onClose={handleCloseSuccess}>
+                <Alert onClose={handleCloseSuccess} severity="success" sx={{ width: '100%' }}>
+                    {toastMsg}
+                </Alert>
+            </Snackbar>
     </Paper>
   );
 };
