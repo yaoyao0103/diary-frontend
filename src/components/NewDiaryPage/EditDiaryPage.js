@@ -134,8 +134,15 @@ const EditDiaryPage = () => {
       .catch((error) => console.log(error));
   };
   const storeDiary = (e) => {
-    console.log("in edit diary page folder");
-    console.log(folder);
+    if (title.trim() === "") {
+      Swal.fire({
+        title: "請輸入標題",
+        icon: "error",
+      });
+      return;
+    }
+    // console.log("in edit diary page folder");
+    // console.log(folder);
     e.preventDefault();
     // console.log("title is " + title);
     // console.log("date is " + date.toISOString());
@@ -186,7 +193,10 @@ const EditDiaryPage = () => {
         setPreviousDiaryName(title);
         setShouldRedirect(true);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        Swal.fire('新增日記失敗', '同個資料夾下不能有相同名稱的日記', 'error');
+      });
   };
   return shouldRedirect ? (
     <Navigate to={`/`} />
