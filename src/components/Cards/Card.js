@@ -23,7 +23,7 @@ import CookieParser from "../CookieParser/CookieParser";
 
 export default function BasicCard(props) {
   // TODO: all page use Card has to modify the reRender.
-  const cookieParser = new CookieParser(document.cookie);
+  let cookieParser = new CookieParser(document.cookie);
   const email = cookieParser.getCookieByName("email");
   const [url, setURL] = useState("");
   const [isFavored, setIsFavored] = useState("");
@@ -44,20 +44,35 @@ export default function BasicCard(props) {
   let tmp = "a/";
   let a = "";
   useEffect(() => {
+    let folder = props.selectedFolder;
+    let title = props.items.title;
     console.log("render")
-    props.items.isFavored === true ? setIsFavored("red") : setIsFavored("");
+    axios.get(`user/${email}/${folder}/${title}`, {
+      headers: {
+        'Authorization': cookieParser.getCookieByName("token"),
+      }
+    })
+    .then(res => {
+      document.cookie = "token=" + res.data.token;
+      console.log(res.data.diary.isFavored);
+      res.data.diary.isFavored === true ? setIsFavored("red") : setIsFavored("");
+    })
     tmp += props.items.picURL[0];
     tmp = tmp.replace("/file/d/", "/uc?id=");
     tmp = tmp.substring(0, tmp.search("/view"));
     tmp = tmp.replace("a/", "");
     console.log(tmp);
     setURL(tmp);
-  });
+  }, [props]);
 
 
 
   const startDel = () => {
     setOpenWarn(true);
+  }
+
+  const passFavored = (enteredName, enteredFolder) => {
+    props.onPassFavored(enteredName, enteredFolder);
   }
 
   const deleteFolder = () => {
@@ -70,6 +85,7 @@ export default function BasicCard(props) {
       }
     })
       .then((res) => {
+        // props.items.isFavored = (!props.items.isFavored);
         console.log("delete ready.");
         // console.log(res.data);
         document.cookie = "token=" + res.data.token;
@@ -95,8 +111,25 @@ export default function BasicCard(props) {
     //TODO: change isFavored
     let folder = props.selectedFolder;
     let title = props.items.title;
-    console.log(`${folder}/${title}`)
-    console.log("enter in changeFavored.")
+    // console.log(`${folder}/${title}`)
+    // console.log("enter in changeFavored.")
+    axios.put(`/isFavored/${email}/${folder}`,
+      {
+        diaryTitle: title,
+      },
+      {
+        headers: {
+          'Authorization': cookieParser.getCookieByName("token"),
+        },
+      })
+      .then((response => {
+        isFavored === "" ? setIsFavored("red") : setIsFavored("");
+        document.cookie = "token=" + response.data.token;
+        // console.log(response);
+      }))
+      .catch(e => {
+        console.log(e);
+      })
     // isFavored === ""?setIsFavored("red"):setIsFavored("");
   }
 
@@ -216,7 +249,7 @@ export default function BasicCard(props) {
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
-        >
+      >
         <DialogTitle id="alert-dialog-title">
           {"是否刪除這篇日記?"}
         </DialogTitle>
@@ -226,14 +259,14 @@ export default function BasicCard(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-              <Button variant="contained" onClick={() => { handleClose(); setDelFolderName(""); }}>否</Button>
-              <Button variant="contained" onClick={() => { handleClose(); deleteFolder(); }} autoFocus>
+          <Button variant="contained" onClick={() => { handleClose(); setDelFolderName(""); }}>否</Button>
+          <Button variant="contained" onClick={() => { handleClose(); deleteFolder(); }} autoFocus>
             是的(此操作無法復原)
-        </Button>
-      </DialogActions>
+          </Button>
+        </DialogActions>
       </Dialog>
     </Card>
 
-    
+
   );
 }
