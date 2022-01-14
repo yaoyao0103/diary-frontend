@@ -5,6 +5,8 @@ import axios from "../axios/axios";
 import Card from "../Cards/Card";
 import CookieParser from "../CookieParser/CookieParser";
 import { Navigate } from "react-router-dom";
+import { Alert } from '@mui/material';
+import { Snackbar } from '@mui/material';
 
 const SearchDiaryPage = () => {
   let searchKeyWord = useParams();
@@ -15,6 +17,10 @@ const SearchDiaryPage = () => {
   const [enterLink, setEnterLink] = useState(false);
   const [reRender, setReRender] = useState(false);
   const cookieParser = new CookieParser(document.cookie);
+  
+  const [openSuccess, setOpenSuccess] = useState(false);
+  const [openFail, setOpenFail] = useState(false);
+  const [toastMsg, setToastMsg] = useState("");
   // console.log("render");
   // console.log(diarys);
   // const email = "allen3325940072@gmail.com";
@@ -32,6 +38,30 @@ const SearchDiaryPage = () => {
   const passReRender = (enteredBool) => {
     setReRender(enteredBool);
   }
+
+  const alertSuc = (msg) => {
+    setToastMsg(msg);
+    setOpenSuccess(true);
+}
+
+const alertFail = (msg) => {
+    setToastMsg(msg);
+    setOpenFail(true);
+}
+const handleCloseFail = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenFail(false);
+  };
+
+  const handleCloseSuccess = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSuccess(false);
+  };
+
 
   const search = () => {
     tmp = [];
@@ -71,6 +101,8 @@ const SearchDiaryPage = () => {
                     selectedFolder={diary.parentFolder}
                     onPassArticleLink={passArticleLink}
                     onPassReRender={passReRender}
+                    onAlertSuccess={alertSuc}
+                    onAlertFail={alertFail} 
                   />
                 );
               });
@@ -91,6 +123,16 @@ const SearchDiaryPage = () => {
     <Paper>
       {!render ? "no diary" : diarys}
       {redirectArticle ? <Navigate to={enterLink} /> : ""}
+      <Snackbar open={openFail} autoHideDuration={2000} onClose={handleCloseFail}>
+                <Alert onClose={handleCloseFail} severity="error" sx={{ width: '100%' }}>
+                    {toastMsg}
+                </Alert>
+            </Snackbar>
+            <Snackbar open={openSuccess} autoHideDuration={2000} onClose={handleCloseSuccess}>
+                <Alert onClose={handleCloseSuccess} severity="success" sx={{ width: '100%' }}>
+                    {toastMsg}
+                </Alert>
+            </Snackbar>
     </Paper>
     // diarys.map((diary) => {
     //     <SearchCard items={diary} />

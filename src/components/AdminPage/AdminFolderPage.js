@@ -122,6 +122,7 @@ const AdminFolderPage = (props) => {
         // console.log(res.data);
         setReRender(true);
         setDelFolderSuccess(true);
+        setFolder(folder.filter((item) => item.folderName !== folderName));
       })
       .catch((err) => {
         console.log(err);

@@ -134,6 +134,13 @@ const EditDiaryPage = () => {
       .catch((error) => console.log(error));
   };
   const storeDiary = (e) => {
+    if (date === null) {
+      Swal.fire({
+        title: "請選擇日期",
+        icon: "error",
+      });
+      return;
+    }
     // console.log("in edit diary page folder");
     // console.log(folder);
     e.preventDefault();
