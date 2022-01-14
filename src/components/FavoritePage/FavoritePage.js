@@ -3,12 +3,18 @@ import axios from "../axios/axios";
 import CookieParser from "../CookieParser/CookieParser";
 import Card from "../Cards/Card";
 import { useNavigate } from "react-router-dom";
+import { Snackbar } from "@mui/material";
+import { Alert } from "@mui/material";
 
 export default function FavoritePage() {
     let navigate = useNavigate();
     let cookieParser = new CookieParser(document.cookie);
     const [reRender, setReRender] = useState(false);
     const [tmp, setTmp] = useState([]);
+    const [openSuccess, setOpenSuccess] = React.useState(false);
+    const [openFail, setOpenFail] = React.useState(false);
+    const [toastMsg, setToastMsg] = React.useState("");
+
     useEffect(() => {
         console.log("render in FavPage")
         setReRender(false);
@@ -52,18 +58,31 @@ export default function FavoritePage() {
         setReRender(true);
     }
     const alertSuc = (msg) => {
-        // setToastMsg(msg);
-        // setOpenSuccess(true);
+        setToastMsg(msg);
+        setOpenSuccess(true);
     }
     const alertFail = (msg) => {
-        // setToastMsg(msg);
-        // setOpenFail(true);
+        setToastMsg(msg);
+        setOpenFail(true);
     }
+    const handleCloseFail = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenFail(false);
+    };
+
+    const handleCloseSuccess = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenSuccess(false);
+    };
 
     return (
         <div>
             {tmp.length === 0 ? <h1>no Favorite Diary here</h1> : tmp}
-            {/* <Snackbar Snackbar open={openFail} autoHideDuration={2000} onClose={handleCloseFail} >
+            <Snackbar Snackbar open={openFail} autoHideDuration={2000} onClose={handleCloseFail} >
                 <Alert onClose={handleCloseFail} severity="error" sx={{ width: '100%' }}>
                     {toastMsg}
                 </Alert>
@@ -72,21 +91,7 @@ export default function FavoritePage() {
                 <Alert onClose={handleCloseSuccess} severity="success" sx={{ width: '100%' }}>
                     {toastMsg}
                 </Alert>
-            </Snackbar> */}
+            </Snackbar>
         </div>
-        // folder.map(diary => {
-        //     console.log(tmp);
-        //     // console.log(diary._id);
-        //     // console.log(diary);
-        //     <Card
-        //         key={diary._id}
-        //         items={diary}
-        //         selectedFolder={diary.parentFolder}
-        //         onPassArticleLink={passArticleLink}
-        //         onPassReRender={passReRender}
-        //         onAlertSuccess={alertSuc}
-        //         onAlertFail={alertFail} />
-        // })
-        // <h1>a</h1>
     )
 }
