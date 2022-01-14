@@ -1,7 +1,7 @@
 import { ThemeProvider, createTheme } from "@material-ui/core/styles";
 import { Paper } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
+import { Routes, Route, Navigate, BrowserRouter, useNavigate } from "react-router-dom";
 import HomePage from "./components/HomePage/HomePage";
 import Header from "./components/Header/Header";
 import LoginPage from "./components/LoginPage/LoginPage";
@@ -20,12 +20,43 @@ import "./App.css"
 import SearchDiaryPage from "./components/SearchDiaryPage/SearchDiaryPage";
 import AdminInUserPage from "./components/AdminPage/AdminInUserPage";
 import AdminDiaryPage from "./components/AdminPage/AdminDiaryPage";
+import axios from "./components/axios/axios";
+import CookieParser from "./components/CookieParser/CookieParser";
 
 function App() {
 
   const [darkMode, setDarkMode] = useState(false);
   const [keyWord, setKeyWord] = useState("");
   const [redirect, setRedirect] = useState(false);
+
+  let navigate = useNavigate();
+  let cookieParser = new CookieParser(document.cookie);
+  useEffect(() => {
+    setInterval(() => {
+      if (cookieParser.getCookieByName("token") == "undefined" || cookieParser.getCookieByName("token") == null) {
+        console.log("Not Logged In!!");
+        return;
+      }
+      axios
+          .get(`/user/${cookieParser.getCookieByName("email")}/Uncategorized`, {
+            headers: {
+              'Authorization': cookieParser.getCookieByName("token"),
+            }
+          })
+
+          .then((res) => {
+            console.log("GET NEW TOKEN");
+            document.cookie = "token=" + res.data.token;
+          })
+          .catch((err) => {
+            console.log(err);
+            navigate("/login");
+          });
+
+    }, 245000);
+  }, []);
+
+
 
   let localDarkMode = localStorage.getItem("darkMode");
   // darkMode theme's parameter
