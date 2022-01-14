@@ -8,7 +8,7 @@ const FolderChoose = (props) => {
   // console.log(props)
   // let isLogin = false;
   const [isLogin, setIsLogin] = React.useState(false);
-  const [folder, setFolder] = React.useState("");
+  const [folder, setFolder] = React.useState("Uncategorized");
   const [folders, setFolders] = React.useState([]);
   const cookieParser = new CookieParser(document.cookie);
   const fetchFolder = () => {
@@ -50,15 +50,16 @@ const FolderChoose = (props) => {
   // useEffect(() => { console.log('porps.upper', props.upper); }, [props.upper]);
   useEffect(() => {
     // console.log('props.folder');
-
+    
     // console.log("props.folder:"+props.folder);
     if (props.folder) {
       setFolder(props.folder);
       // console.log("in Folderchoose " + props.folder);
     } else setFolder("");
   }, [props.folder]);
-
+  
   const handleFolderChange = (event) => {
+    console.log(folders);
     props.onChangeFolder(event.target.value);
     // setFolder(event.target.value);
   };
@@ -70,14 +71,16 @@ const FolderChoose = (props) => {
         labelId="demo-simple-select-label"
         id="demo-simple-select"
         label="Folder"
-        defaultValue={folder ?? ""}
+        defaultValue={folder ?? "Ucategorized"}
         onChange={handleFolderChange}
       >
-        <MenuItem key={0} value={""}></MenuItem>
+        {/* <MenuItem key={0} value={""}></MenuItem> */}
         {folders.map((fold) => (
-          <MenuItem key={fold._id} value={String(fold.folderName)}>
+          fold.folderName.trim() !== "" ? (
+          <MenuItem key={fold._id} value={String(fold.folderName)} selected={fold.folderName=="Uncategorized"} >
             {fold.folderName}
-          </MenuItem>
+            </MenuItem>
+          ) : null
         ))}
       </Select>
     </FormControl>

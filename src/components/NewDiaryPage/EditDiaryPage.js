@@ -186,7 +186,10 @@ const EditDiaryPage = () => {
         setPreviousDiaryName(title);
         setShouldRedirect(true);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        Swal.fire('新增日記失敗', '同個資料夾下不能有相同名稱的日記', 'error');
+      });
   };
   return shouldRedirect ? (
     <Navigate to={`/`} />

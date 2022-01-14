@@ -16,7 +16,7 @@ const NewDiaryPage = () => {
   //TODO: fileUpload's loading and more UX
   const [title, setTitle] = useState("");
   const [date, setDate] = useState(new Date());
-  const [folder, setFolder] = useState("");
+  const [folder, setFolder] = useState("Uncategorized");
   const [content, setContent] = useState("");
   const [tag, setTag] = useState([]);
   const [tagsString, setTagsString] = useState("");
@@ -133,7 +133,10 @@ const NewDiaryPage = () => {
         console.log(response);
         setShouldRedirect(true);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        Swal.fire('新增日記失敗', '同個資料夾下不能有相同名稱的日記', 'error');
+        console.log(error);
+      });
   };
   return shouldRedirect ? (
     // <Navigate to={`/editDiary/${folder}/${title}`} />
