@@ -14,7 +14,7 @@ export default function FavoritePage() {
     const [openSuccess, setOpenSuccess] = React.useState(false);
     const [openFail, setOpenFail] = React.useState(false);
     const [toastMsg, setToastMsg] = React.useState("");
-
+    const [diarys, setDiarys] = React.useState([]);
     useEffect(() => {
         console.log("render in FavPage")
         setReRender(false);
@@ -30,17 +30,18 @@ export default function FavoritePage() {
                 document.cookie = "token=" + res.data.token;
                 // console.log(res.data.diaryArray);
                 // setFolder(res.data.diaryArray);
-                res.data.diaryArray.map(diary => {
-                    console.log(diary)
-                    tmp.push(<Card
-                        key={diary._id}
-                        items={diary}
-                        selectedFolder={diary.parentFolder}
-                        onPassArticleLink={passArticleLink}
-                        onPassReRender={passReRender}
-                        onAlertSuccess={alertSuc}
-                        onAlertFail={alertFail} />);
-                })
+                setDiarys(res.data.diaryArray);
+                // res.data.diaryArray.map(diary => {
+                //     console.log(diary)
+                //     tmp.push(<Card
+                //         key={diary._id}
+                //         items={diary}
+                //         selectedFolder={diary.parentFolder}
+                //         onPassArticleLink={passArticleLink}
+                //         onPassReRender={passReRender}
+                //         onAlertSuccess={alertSuc}
+                //         onAlertFail={alertFail} />);
+                // })
                 console.log("tmp is ")
                 console.log(tmp)
                 setTmp(tmp);
@@ -48,7 +49,7 @@ export default function FavoritePage() {
             .catch((err) => {
                 console.log(err);
             });
-    }, [reRender])
+    }, [reRender]);
 
     const passArticleLink = (enteredLink) => {
         navigate(enteredLink);
@@ -81,7 +82,22 @@ export default function FavoritePage() {
 
     return (
         <div>
-            {tmp.length === 0 ? <h1>no Favorite Diary here</h1> : tmp}
+            {diarys.length > 0 ?
+                diarys.map(
+                    diary =>
+                        <Card
+                            key={diary._id}
+                            items={diary}
+                            selectedFolder={diary.parentFolder}
+                            onPassArticleLink={passArticleLink}
+                            onPassReRender={passReRender}
+                            onAlertSuccess={alertSuc}
+                            onAlertFail={alertFail}
+                        />
+                )
+                :
+                <p className="noDiary">No Favorite Diary Here</p>}
+            {/* {tmp.length === 0 ? <h1>no Favorite Diary here</h1> : tmp} */}
             <Snackbar Snackbar open={openFail} autoHideDuration={2000} onClose={handleCloseFail} >
                 <Alert onClose={handleCloseFail} severity="error" sx={{ width: '100%' }}>
                     {toastMsg}
