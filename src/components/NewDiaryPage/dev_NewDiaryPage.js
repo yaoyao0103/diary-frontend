@@ -90,6 +90,7 @@ const DNewDiaryPage = () => {
     console.log("content is " + content);
     console.log("tagsString is " + tagsString);
 
+
     setTag(tagsString.split("#").map((tag) => tag.trim()));
     console.log("tagsss is " + tag);
 

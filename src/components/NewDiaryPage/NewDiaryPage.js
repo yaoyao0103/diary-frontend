@@ -95,15 +95,16 @@ const NewDiaryPage = () => {
       .catch((error) => console.log(error));
   };
   const storeDiary = () => {
-    if (title.trim() === "") {
+    let temp_title = (title) ? title : document.getElementById("title").value;
+    let temp_tags = (tagsString) ? tagsString : document.getElementById("tags").value;
+
+    if (temp_title.trim() === "") {
       Swal.fire({
         title: "請輸入標題",
         icon: "error",
       });
       return;
     }
-    let temp_title = (title) ? title : document.getElementById("title").value;
-    let temp_tags = (tagsString) ? tagsString : document.getElementById("tags").value;
 
     // console.log("title is " + title);
     // console.log("date is " + date.toISOString());
