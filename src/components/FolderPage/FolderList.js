@@ -104,25 +104,22 @@ export default function FolderList(props) {
       className={classes.root}
       key={props.folderIdx}
       onClick={handleFolderChange}
-      secondaryAction={
-        <IconButton edge="end" onClick={deleteFolder}>
-          <CloseIcon />
-        </IconButton>
-      }
       disablePadding
-    >
-      <ListItemButton>
-        <ListItemText primary={props.folderName} />
-      </ListItemButton>
+      >
 
-      <ListItemSecondaryAction>
-        <IconButton aria-label="edit" onClick={editFolder}>
-          <CreateIcon fontSize="small" />
-        </IconButton>
-        <IconButton edge="end" aria-label="delete" onClick={deleteFolder}>
-          <DeleteIcon fontSize="small" />
-        </IconButton>
-      </ListItemSecondaryAction>
+          <ListItemButton>
+            <ListItemText primary={props.folderName} />
+          </ListItemButton>
+        {props.folderName === "Uncategorized" ? null :
+          <ListItemSecondaryAction>
+            <IconButton aria-label="edit" onClick={editFolder}>
+              <CreateIcon fontSize="small" />
+            </IconButton>
+            <IconButton edge="end" aria-label="delete" onClick={deleteFolder}>
+              <DeleteIcon fontSize="small" />
+            </IconButton>
+          </ListItemSecondaryAction>
+        }
     </ListItem>
   );
 }
