@@ -58,8 +58,8 @@ p.logo {
 }
 p.smallButton {
   font-family: "Raleway", "Roboto";
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: 1.5rem;
+  font-weight: 200;
 }
 img {
   width: 100%;
@@ -92,16 +92,13 @@ h1 {
   font-family: "Gochi Hand", Courier, monospace;
   font-size: 0.5rem;
 } */
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 1100px) {
   .MuiButton-root.ch {
     color: white;
     font-family: "Gochi Hand", Courier, monospace;
     font-size: 1rem;
     /* width: 10px; */
     height: 20px;
-  }
-  .logo {
-    font-size: 1rem;
   }
   p,
   h1,
@@ -118,7 +115,7 @@ h1 {
   }
   p.smallButton {
     font-family: "Raleway", "Roboto";
-    font-size: 0.5rem;
+    font-size: 0.7rem;
     font-weight: 700;
   }
   img {
@@ -136,7 +133,7 @@ h1 {
     font-size: 1rem;
   }
   .logo {
-    font-size: 1rem;
+    font-size: 1.3rem;
   }
   #calender {
     height: 10px;

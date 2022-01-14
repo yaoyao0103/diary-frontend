@@ -9,6 +9,7 @@ function MDlogo() {
     fontFamily: [
       'Gochi Hand'
     ],
+    padding: theme.spacing(0),
     fontSize: 50
   }));
 
