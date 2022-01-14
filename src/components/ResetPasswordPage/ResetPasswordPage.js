@@ -53,15 +53,19 @@ const ResetPasswordPage = () => {
     console.log(newPassword);
   };
   const resetPassword = (event) => {
-    console.log("email " + email);
-    console.log("password " + password);
+    let temp_email = (email) ? email : document.getElementById("email").value;
+    let temp_oldPassword = (password) ? password : document.getElementById("oldPassword").value;
+    let temp_newPassword = (password) ? password : document.getElementById("newPassword").value;
+    console.log("email " + temp_email);
+    console.log("oldPassword " + temp_oldPassword);
+    console.log("newPassword " + temp_newPassword);
     axios
       .post(
         "/resetPassword",
         {
-          email: email,
-          password: password,
-          newPassword: newPassword,
+          email: temp_email,
+          password: temp_oldPassword,
+          newPassword: temp_newPassword,
         },
         {
           headers: {
@@ -128,7 +132,7 @@ const ResetPasswordPage = () => {
                 name="password"
                 label="Old Password"
                 type="password"
-                id="password"
+                id="oldPassword"
                 autoComplete="old_password"
                 onChange={handlePasswordChange}
               />
@@ -179,7 +183,7 @@ const ResetPasswordPage = () => {
             severity="error"
             sx={{ width: "100%" }}
           >
-            verify failed!!
+            reset password failed!!
           </Alert>
         </Snackbar>
         <Snackbar
@@ -192,7 +196,7 @@ const ResetPasswordPage = () => {
             severity="success"
             sx={{ width: "100%" }}
           >
-            verify successfully.
+            reset password successfully.
           </Alert>
         </Snackbar>
       </Paper>
