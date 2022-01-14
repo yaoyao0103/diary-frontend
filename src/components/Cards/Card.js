@@ -155,11 +155,13 @@ export default function BasicCard(props) {
             console.log("clipboard successfully set");
             a = "clipboard successfully set";
             setOpenSuccess(true);
-            setToastMsg("Link copied to clipboard");
+            // setToastMsg("Link copied to clipboard");
+            props.onAlertSuccess("Link copied to clipboard");
           },
           () => {
             console.log("clipboard write failed");
-            setToastMsg("Link copy failed");
+            // setToastMsg("Link copy failed");
+            props.onAlertFail("Link copy failed");
           }
         );
       })
