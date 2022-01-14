@@ -53,19 +53,19 @@ export default function BasicCard(props) {
         'Authorization': cookieParser.getCookieByName("token"),
       }
     })
-    .then(res => {
-      document.cookie = "token=" + res.data.token;
-      console.log(res.data.diary.isFavored);
-      res.data.diary.isFavored === true ? setIsFavored("red") : setIsFavored("");
-    })
-    .catch(e=>console.log(e))
+      .then(res => {
+        document.cookie = "token=" + res.data.token;
+        console.log(res.data.diary.isFavored);
+        res.data.diary.isFavored === true ? setIsFavored("red") : setIsFavored("");
+      })
+      .catch(e => console.log(e))
     tmp += props.items.picURL[0];
     tmp = tmp.replace("/file/d/", "/uc?id=");
     tmp = tmp.substring(0, tmp.search("/view"));
     tmp = tmp.replace("a/", "");
     console.log(tmp);
     setURL(tmp);
-  }, [props]);
+  });
 
 
 
@@ -127,6 +127,7 @@ export default function BasicCard(props) {
       .then((response => {
         isFavored === "" ? setIsFavored("red") : setIsFavored("");
         document.cookie = "token=" + response.data.token;
+        props.onPassReRender(true);
         // console.log(response);
       }))
       .catch(e => {
