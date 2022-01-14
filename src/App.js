@@ -20,6 +20,7 @@ import "./App.css"
 import SearchDiaryPage from "./components/SearchDiaryPage/SearchDiaryPage";
 import AdminInUserPage from "./components/AdminPage/AdminInUserPage";
 import AdminDiaryPage from "./components/AdminPage/AdminDiaryPage";
+import FavoritePage from "./components/FavoritePage/FavoritePage";
 
 function App() {
 
@@ -142,6 +143,7 @@ function App() {
           <Route path="user" element={<EnhancedTable />} />
           <Route path="user/:email" element={<AdminInUserPage/>} />
           <Route path="user/:email/DiaryPage/:inFolder/:diaryName" element={<AdminDiaryPage/>} />
+          <Route path="/favorite" element={<FavoritePage/>} />
 
         </Routes>
         {redirect ? <Navigate to={`SearchDiaryPage/${keyWord}`} /> : ""}

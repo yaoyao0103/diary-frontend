@@ -72,6 +72,11 @@ export default function AccountCircle(props) {
             ResetPassword
           </Link>
         </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <Link to={"/favorite"} replace>
+            FavoritePage
+          </Link>
+        </MenuItem>
         {/* <MenuItem onClick={handleClose}>My account</MenuItem> */}
         {/* <MenuItem onClick={clickLogOut}>{isLogin}</MenuItem> */}
         <MenuItem>

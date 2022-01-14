@@ -224,7 +224,7 @@ const FolderPage = (props) => {
                   folderName={fold.folderName}
                   folderIdx={index}
                   onChangeFolder={handleFolderChange}
-                  onDeleteFolder={(e)=>onDelFolder(fold.folderName)}
+                  onDeleteFolder={(e) => onDelFolder(fold.folderName)}
                   onRender={handleRender}
                 />
               ) : (
@@ -268,27 +268,27 @@ const FolderPage = (props) => {
           </ListItem>
         )}
       </List>
-    <Dialog
-      open={openWarn}
-      onClose={handleClose}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
+      <Dialog
+        open={openWarn}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
       >
-      <DialogTitle id="alert-dialog-title">
-        {"是否刪除資料夾?"}
-      </DialogTitle>
-      <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-          真的要刪除資料夾嗎?
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-            <Button variant="contained" onClick={() => { handleClose(); setDelFolderName(""); }}>否</Button>
-            <Button variant="contained" onClick={() => { handleClose(); continueDelFolder(); }} autoFocus>
-          是的(此操作無法復原)
-      </Button>
-    </DialogActions>
-    </Dialog>
+        <DialogTitle id="alert-dialog-title">
+          {"是否刪除資料夾?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            真的要刪除資料夾嗎?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="contained" onClick={() => { handleClose(); setDelFolderName(""); }}>否</Button>
+          <Button variant="contained" onClick={() => { handleClose(); continueDelFolder(); }} autoFocus>
+            是的(此操作無法復原)
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Snackbar
         open={newFolderFail}
         autoHideDuration={2000}
