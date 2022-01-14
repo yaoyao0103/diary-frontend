@@ -74,7 +74,7 @@ const EditDiaryPage = () => {
             res = res.data.diary;
             res.title ? setTitle(res.title) : setTitle("");
             res.date ? setDate(new Date(res.date)) : setDate(new Date());
-            setContent(res.content);
+            setContent(res.content.replaceAll("  \n", "\n"));
             res.tag ? setTag(res.tag) : setTag([]);
             res.tag
               ? setTagsString("#" + res.tag.join(" #"))
@@ -158,7 +158,7 @@ const EditDiaryPage = () => {
         )}/${folder}/${previousDiaryName}`,
         {
           title: title,
-          content: content,
+          content: (content.replaceAll("  \n","\n")).replaceAll("\n", "  \n"),
           date: date.toISOString(),
           tag: retag,
           filesURL: filesURL,
