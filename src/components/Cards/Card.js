@@ -23,8 +23,8 @@ export default function BasicCard(props) {
   const [url, setURL] = useState("");
   const [isFavored, setIsFavored] = useState("");
   const [redirectToEdit, setRedirectToEdit] = useState(false);
-  const [openSuccess, setOpenSuccess] = useState(false);
-  const [toastString, setToastString] = useState("");
+  const [openSuccess, setOpenSuccess] = React.useState(false);
+  const [toastString, setToastString] = React.useState("");
   const [openFail, setOpenFail] = useState(false);
   const [toastMsg, setToastMsg] = useState("");
   let tmp = "a/";
@@ -55,7 +55,7 @@ export default function BasicCard(props) {
   };
 
 
-  const deleteDiary = () => {
+  const deleteFolder = () => {
     let folder = props.selectedFolder;
     let title = props.items.title;
     console.log("delete diary.");
@@ -72,7 +72,7 @@ export default function BasicCard(props) {
         // setReRender(true);
         props.onPassReRender(true);
         setOpenSuccess(true);
-        setToastMsg("success delete diary");
+        setToastString("success delete diary");
       })
       .catch((err) => {
         console.log(err);
@@ -136,11 +136,11 @@ export default function BasicCard(props) {
 
   return (
     <Card variant="outlined">
-      {/* <Snackbar open={openSuccess} autoHideDuration={2000} onClose={handleCloseSuccess}>
+      <Snackbar open={openSuccess} autoHideDuration={2000} onClose={handleCloseSuccess}>
         <Alert onClose={handleCloseSuccess} severity="success" sx={{ width: '100%' }}>
           {toastString}
         </Alert>
-      </Snackbar> */}
+      </Snackbar>
       {redirectToEdit ? <Navigate to={`/editDiary/${props.selectedFolder}/${props.items.title}`} /> : ""}
       {/* {reRender ? <Navigate to={`/`} /> : ""} */}
       <CardContent>
@@ -200,7 +200,7 @@ export default function BasicCard(props) {
         <IconButton aria-label="edit" onClick={editDiary}>
           <CreateIcon />
         </IconButton>
-        <IconButton edge="end" aria-label="delete" onClick={deleteDiary}>
+        <IconButton edge="end" aria-label="delete" onClick={deleteFolder}>
           <DeleteIcon />
         </IconButton>
         {/* <Typography color="text.secondary">

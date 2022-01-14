@@ -26,7 +26,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { Grid } from "@mui/material";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import CookieParser from "../CookieParser/CookieParser";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -210,6 +210,7 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function EnhancedTable() {
+  const [gobackgoback, setgobackgoback] = React.useState(false);
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
@@ -236,6 +237,26 @@ export default function EnhancedTable() {
 
 
   React.useEffect(() => {
+    let notAdmin = false;
+    axios
+      .get("/user/" + cookieParser.getCookieByName("email"),
+        {
+          headers: {
+            Authorization: cookieParser.getCookieByName("token"),
+          },
+        }
+    )
+      .then((res) => {
+        console.log("isAdmin?" + res.data.user.isAdmin);
+        if (res.data.user.isAdmin === false) {
+          setgobackgoback(true);
+          notAdmin = true;
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    if (notAdmin) return;
     console.log("token=  "+cookieParser.getCookieByName("token"));
     axios
       .get("/user", 
@@ -249,7 +270,7 @@ export default function EnhancedTable() {
         // console.log(res.data.user);
         setUsers(
           res.data.user.map((result) => {
-            console.log(result);
+            // console.log(result);
             let tmp = 0;
             result.folder.forEach((element) => {
               tmp += element.diary.length;
@@ -371,6 +392,7 @@ export default function EnhancedTable() {
 
   return (
     <>
+    {gobackgoback ? (<Navigate to={`/`} />) : (<></>)}
     <Grid   container
     spacing={0}
     direction="column"
