@@ -12,6 +12,8 @@ import { makeStyles, withStyles } from "@mui/styles";
 import CreateIcon from "@mui/icons-material/Create";
 import axios from "../axios/axios";
 import CookieParser from "../CookieParser/CookieParser";
+import Snackbar from "@mui/material/Snackbar";
+import { Alert } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,6 +36,10 @@ export default function FolderList(props) {
   const [editFolderIdx, setEditFolderIdx] = useState(-1);
   const [editingFolder, setEditingFolder] = useState(false);
   const [editingFolderName, setEditingFolderName] = useState("");
+  const [onOpen, setOnOpen] = useState(false);
+  const [toastSuccess, setToastSuccess] = useState(false);
+  const [toastMsg, setToastMsg] = useState("");
+
   const handleFolderChange = (e) => {
     e.preventDefault();
     props.onChangeFolder(props.folderIdx);
@@ -50,6 +56,13 @@ export default function FolderList(props) {
   };
   const handleEditFolderName = (e) => {
     setEditingFolderName(e.target.value);
+  };
+
+  const handleOnClickOpen = () => {
+    setOnOpen(true);
+  };
+  const handleOnClose = () => {
+    setOnOpen(false);
   };
 
   function postEditFolder() {
@@ -75,51 +88,74 @@ export default function FolderList(props) {
         console.log(editingFolderName);
         console.log(res.data);
         setEditingFolder(false);
+        setOnOpen(true);
+        setToastSuccess(true);
+        setToastMsg("Folder name changed successfully");
       })
       .catch((err) => {
         console.log(err);
+        setOnOpen(true);
+        setToastSuccess(false);
+        setToastMsg("Folder name change failed");
       });
     props.onRender();
   }
-  return editingFolder ? (
-    <ListItem
-      secondaryAction={
-        <IconButton edge="end"  onClick={postEditFolder}>
-          <AddCircleOutlineIcon />
-        </IconButton>
-      }
-    >
-      <ListItemText
-        primary={
-          <TextField
-            onChange={handleEditFolderName}
-            value={editingFolderName}
-            size="small"
+  return (
+    <>
+      {editingFolder ? (
+        <ListItem
+          secondaryAction={
+            <IconButton edge="end" onClick={postEditFolder}>
+              <AddCircleOutlineIcon />
+            </IconButton>
+          }
+        >
+          <ListItemText
+            primary={
+              <TextField
+                onChange={handleEditFolderName}
+                value={editingFolderName}
+                size="small"
+              />
+            }
           />
-        }
-      />
-    </ListItem>
-  ) : (
-    <ListItem
-      className={classes.root}
-      key={props.folderIdx}
-      onClick={handleFolderChange}
-      disablePadding
-      >
+        </ListItem>
+      ) : (
+        <ListItem
+          className={classes.root}
+          key={props.folderIdx}
+          onClick={handleFolderChange}
+          disablePadding
+        >
 
           <ListItemButton>
             <ListItemText primary={props.folderName} />
           </ListItemButton>
-        {props.folderName === "Uncategorized" ? null :
-          <ListItemSecondaryAction>
-            <IconButton aria-label="edit" onClick={editFolder}>
-              <CreateIcon fontSize="small" />
-            </IconButton>
-            <IconButton edge="end" aria-label="delete" onClick={deleteFolder}>
-              <DeleteIcon fontSize="small" />
-            </IconButton>
-          </ListItemSecondaryAction>
-        }
-    </ListItem>
-  );
+          {props.folderName === "Uncategorized" ? null :
+            <ListItemSecondaryAction>
+              <IconButton aria-label="edit" onClick={editFolder}>
+                <CreateIcon fontSize="small" />
+              </IconButton>
+              <IconButton edge="end" aria-label="delete" onClick={deleteFolder}>
+                <DeleteIcon fontSize="small" />
+              </IconButton>
+            </ListItemSecondaryAction>
+          }
+        </ListItem>
+      )}
+    <Snackbar
+    open={onOpen}
+    autoHideDuration={2000}
+    onClose={handleOnClose}
+  >
+    <Alert
+      onClose={handleOnClose}
+          severity={toastSuccess?"success":"error"}
+      sx={{ width: "100%" }}
+        >
+          {toastMsg}
+    </Alert>
+  </Snackbar >
+    </>
+  )
 }
