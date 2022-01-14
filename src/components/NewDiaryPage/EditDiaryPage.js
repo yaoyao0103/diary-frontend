@@ -134,13 +134,6 @@ const EditDiaryPage = () => {
       .catch((error) => console.log(error));
   };
   const storeDiary = (e) => {
-    if (title.trim() === "") {
-      Swal.fire({
-        title: "請輸入標題",
-        icon: "error",
-      });
-      return;
-    }
     // console.log("in edit diary page folder");
     // console.log(folder);
     e.preventDefault();
@@ -152,7 +145,13 @@ const EditDiaryPage = () => {
 
     let temp_title = (title) ? title : document.getElementById("title").value;
     let temp_tags = (tagsString) ? tagsString : document.getElementById("tags").value;
-
+    if (temp_title.trim() === "") {
+      Swal.fire({
+        title: "請輸入標題",
+        icon: "error",
+      });
+      return;
+    }
     setTag(temp_tags.split("#").map((tag) => tag.trim()));
     // console.log("tagsss is " + tag);
 
