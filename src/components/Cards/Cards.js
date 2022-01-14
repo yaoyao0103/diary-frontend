@@ -26,23 +26,23 @@ const Cards = (props) => {
     }
     const handleCloseFail = (event, reason) => {
         if (reason === 'clickaway') {
-          return;
+            return;
         }
         setOpenFail(false);
-      };
-    
-      const handleCloseSuccess = (event, reason) => {
+    };
+
+    const handleCloseSuccess = (event, reason) => {
         if (reason === 'clickaway') {
-          return;
+            return;
         }
         setOpenSuccess(false);
-      };
+    };
 
     // console.log(props.items);
     return (
         <>
-            {props.items.length > 0  ?
-            props.items.map((item, index) => { return <Card key={index} items={item} selectedFolder={props.selectedFolder} onPassReRender={passReRender} onPassArticleLink={passArticleLink} onAlertSuccess={alertSuc} onAlertFail={alertFail} /> })
+            {props.items.length > 0 ?
+                props.items.map((item, index) => { return <Card key={index} items={item} selectedFolder={props.selectedFolder} onPassReRender={passReRender} onPassArticleLink={passArticleLink} onAlertSuccess={alertSuc} onAlertFail={alertFail} /> })
                 : <p className="noDiary">No diary</p>
             }
             <Snackbar open={openFail} autoHideDuration={2000} onClose={handleCloseFail}>
