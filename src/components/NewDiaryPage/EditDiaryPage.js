@@ -10,6 +10,7 @@ import Container from "@mui/material/Container";
 import axios from "../axios/axios";
 import { useParams } from "react-router";
 import { Navigate } from "react-router-dom";
+import Swal from 'sweetalert2'
 import CookieParser from "../CookieParser/CookieParser";
 const EditDiaryPage = () => {
   //TODO: fileUpload's loading and more UX
@@ -173,6 +174,7 @@ const EditDiaryPage = () => {
         }
       )
       .then((response) => {
+        Swal.fire('新增日記成功', 'OK', 'success');
         document.cookie = "token=" + response.data.token;
         console.log("after stored");
         console.log(
@@ -187,7 +189,7 @@ const EditDiaryPage = () => {
       .catch((error) => console.log(error));
   };
   return shouldRedirect ? (
-    <Navigate to={`/editDiary/${folder}/${title}`} />
+    <Navigate to={`/`} />
   ) : (
     <Container maxWidth={"lg"}>
       {redirect ? <Navigate to={"/login"} /> : ""}
