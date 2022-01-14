@@ -32,10 +32,11 @@ export default function ForgotPasswordPage() {
   const [openSuccess, setOpenSuccess] = React.useState(false);
   // const [toast, setToast] = React.useState("");
   const fetchNewPassWord = (email) => {
-    console.log(email);
+    let temp_email = (email) ? email : document.getElementById("email").value;
+    console.log(temp_email);
     axios
       .post("/randomPassword", {
-        email: email,
+        email: temp_email,
       })
       .then((res) => {
         console.log(res);

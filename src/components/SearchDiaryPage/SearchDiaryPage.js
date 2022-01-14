@@ -52,10 +52,10 @@ const SearchDiaryPage = () => {
             // console.log(element);
             if (element.length !== 0) {
               element.forEach((diary) => {
-                // console.log(diary[0]);
-                // console.log(diary[0]._id);
-                // console.log(diary[0].parentFolder);
-                // console.log(diary[0].title);
+                // console.log(diary);
+                // console.log(diary._id);
+                // console.log(diary.parentFolder);
+                // console.log(diary.title);
 
                 tmp.push(
                   // <SearchCard
@@ -64,9 +64,9 @@ const SearchDiaryPage = () => {
                   //   items={diary}
                   // />
                   <Card
-                    key={diary[0]._id}
-                    items={diary[0]}
-                    selectedFolder={diary[0].parentFolder}
+                    key={diary._id}
+                    items={diary}
+                    selectedFolder={diary.parentFolder}
                     onPassArticleLink={passArticleLink}
                     onPassReRender={passReRender}
                   />
