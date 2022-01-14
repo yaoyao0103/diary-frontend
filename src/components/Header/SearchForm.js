@@ -28,7 +28,7 @@ function SearchForm(props) {
       InputProps={{
         startAdornment: (
           <Button onClick={search}>
-            <InputAdornment position="start">
+            <InputAdornment>
               <Search />
             </InputAdornment>
           </Button>

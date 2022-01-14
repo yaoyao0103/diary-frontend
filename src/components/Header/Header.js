@@ -17,6 +17,7 @@ import { useEffect } from "react";
 import CookieParser from "../CookieParser/CookieParser";
 import { Outlet } from "react-router-dom";
 import AccountCircle from "./AccountCircle";
+import SearchButton from "./SearchButton";
 
 // to make some scorll effect
 function ElevationScroll(props) {
@@ -74,19 +75,19 @@ const Header = (props) => {
           <Toolbar>
             <Grid
               container
-              direction="row"
+              // direction="row"
               justifyContent="space-around"
               alignItems="center"
             >
-              <Grid sx={{textAlign:"left"}} item xs={2} sm={2} md={2}>
+              <Grid sx={{textAlign:"left"}} item xs={3} sm={3} md={2}>
                 <MDlogo></MDlogo>
               </Grid>
-              <Grid sx={{textAlign:"right"}} item xs={2} sm={2} md={3}>
-                <SearchForm onShowSearchResult={showSearchResult} ></SearchForm>
-                {/* <SearchForm ></SearchForm> */}
+              <Grid sx={{textAlign:"left"}} item xs={2} sm={2} md={3}>
+                {/* <SearchForm onShowSearchResult={showSearchResult} /> */}
+                <SearchButton onShowSearchResult={showSearchResult} />
               </Grid>
-              <Grid sx={{textAlign:"right"}} item xs={2} sm={2} md={4}><SmallHeader /></Grid>
-
+              <Grid sx={{textAlign:"right"}} item xs={3} sm={3} md={4}><SmallHeader /></Grid>
+              <Grid sx={{textAlign:"right"}} item xs={4} sm={4} md={3}><AccountCircle onChangeDarkMode={changeDarkMode}/></Grid>
               {/* <Grid sx={{ textAlign:"right"}} item xs={6} sm={6} md={3}>
                 {email === "allen3325940072@gmail.com"
                   ? <IconButton
@@ -111,7 +112,6 @@ const Header = (props) => {
                       size="small">Calender</Button> 
 
               </Grid> */}
-              <AccountCircle onChangeDarkMode={changeDarkMode}/>
             </Grid>
           </Toolbar>
         </AppBar>
