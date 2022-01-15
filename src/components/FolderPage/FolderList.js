@@ -67,7 +67,7 @@ export default function FolderList(props) {
 
   function postEditFolder() {
     let temp_folder_name = (editingFolderName)? editingFolderName:document.getElementById("mui-2").value;
-    if (editingFolderName === "" || editingFolderName.trim() === "") {
+    if (temp_folder_name === "" || temp_folder_name.trim() === "") {
       setEditingFolder(false);
       return;
     }
@@ -75,7 +75,7 @@ export default function FolderList(props) {
       .put(
         `/user/${email}/${props.folderName}`,
         {
-          folderName: editingFolderName,
+          folderName: temp_folder_name,
         },
         {
           headers: {
@@ -86,7 +86,7 @@ export default function FolderList(props) {
       .then((res) => {
         console.log("in folderList' edit folder");
         document.cookie = "token=" + res.data.token;
-        console.log(editingFolderName);
+        console.log(temp_folder_name);
         console.log(res.data);
         setEditingFolder(false);
         setOnOpen(true);
