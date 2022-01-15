@@ -94,11 +94,12 @@ const FolderPage = (props) => {
   function postAddFolder() {
     // console.log(newFolderName);
     console.log("postAddFolder");
+    let temp_folderName = (newFolderName)? newFolderName:document.getElementById("mui-4").value;
     if (
-      newFolderName === "" ||
-      newFolderName === undefined ||
-      newFolderName === null ||
-      newFolderName.trim() === "" ||
+      temp_folderName === "" ||
+      temp_folderName === undefined ||
+      temp_folderName === null ||
+      temp_folderName.trim() === "" ||
       isLogin === false
     ) {
       console.log("fail");
@@ -110,7 +111,7 @@ const FolderPage = (props) => {
         .post(
           "/user/" + cookieParser.getCookieByName("email") + "/folder",
           {
-            folderName: newFolderName,
+            folderName: temp_folderName,
           },
           {
             headers: {
@@ -121,8 +122,8 @@ const FolderPage = (props) => {
         .then((res) => {
           document.cookie = "token=" + res.data.token;
           console.log(res.data);
-          setFolder([...folder, { folderName: newFolderName, diary: [] }]);
-          console.log([...folder, { folderName: newFolderName, diary: [] }]);
+          setFolder([...folder, { folderName: temp_folderName, diary: [] }]);
+          console.log([...folder, { folderName: temp_folderName, diary: [] }]);
           setFolderAdding(false);
           // setReRender(true);
           setNewFolderSuccess(true);
