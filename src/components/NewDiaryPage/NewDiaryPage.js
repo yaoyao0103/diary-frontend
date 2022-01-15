@@ -97,7 +97,7 @@ const NewDiaryPage = () => {
   const storeDiary = () => {
     let temp_title = (title) ? title : document.getElementById("title").value;
     let temp_tags = (tagsString) ? tagsString : document.getElementById("tags").value;
-    let temp_content = (content) ? content : document.getElementById("content").value;
+    let temp_content = (content) ? content : document.getElementById("diary_content").value;
     if (temp_title.trim() === "") {
       Swal.fire({
         title: "請輸入標題",
