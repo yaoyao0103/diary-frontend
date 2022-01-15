@@ -97,6 +97,8 @@ const NewDiaryPage = () => {
   const storeDiary = () => {
     let temp_title = (title) ? title : document.getElementById("title").value;
     let temp_tags = (tagsString) ? tagsString : document.getElementById("tags").value;
+    let temp_content = (content) ? content : document.getElementById("content").value;
+    if (temp_title.trim() === "") {
     if (temp_title.trim() === "") {
       Swal.fire({
         title: "請輸入標題",
@@ -129,7 +131,7 @@ const NewDiaryPage = () => {
         `/user/${cookieParser.getCookieByName("email")}/${folder}`,
         {
           title: temp_title,
-          content: (content.replaceAll("  \n","\n")).replaceAll("\n", "  \n"),
+          content: (temp_content.replaceAll("  \n","\n")).replaceAll("\n", "  \n"),
           date: date.toISOString(),
           tag: retag,
           filesURL: filesURL,
@@ -202,7 +204,7 @@ const NewDiaryPage = () => {
           <p>Content</p>
         </Grid>
         <Grid item xs={12}>
-          <TextArea content={content} onChangeContent={handleContentChange} />
+          <TextArea content={content} onChangeContent={handleContentChange} id = "content"/>
         </Grid>
         <Grid
           container
