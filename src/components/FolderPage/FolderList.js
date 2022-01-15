@@ -66,6 +66,7 @@ export default function FolderList(props) {
   };
 
   function postEditFolder() {
+    let temp_folder_name = (editingFolderName)? editingFolderName:document.getElementById("mui-2").value;
     if (editingFolderName === "" || editingFolderName.trim() === "") {
       setEditingFolder(false);
       return;
