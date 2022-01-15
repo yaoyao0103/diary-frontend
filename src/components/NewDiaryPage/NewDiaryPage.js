@@ -118,10 +118,11 @@ const NewDiaryPage = () => {
     // console.log("content is " + content);
     // console.log("tagsString is " + tagsString);
     // setTag(tagsString.split("#").map((tag) => tag.trim()));
-    setTag(temp_tags.split("#").map((tag) => tag.trim()));
+    let my_temp_tags = temp_tags.split("#").map((tag) => tag.trim());
+    setTag(my_temp_tags);
     // console.log("tagsss is " + tag);
 
-    let retag = tagsString.split("#").map((tag) => tag.trim());
+    let retag = my_temp_tags;
     if (retag[0] === "") retag.shift();
     // console.log("tags is " + tags[0]);
     // console.log(picUrl);

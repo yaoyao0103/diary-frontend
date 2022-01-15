@@ -152,6 +152,7 @@ const EditDiaryPage = () => {
 
     let temp_title = (title) ? title : document.getElementById("title").value;
     let temp_tags = (tagsString) ? tagsString : document.getElementById("tags").value;
+    let temp_content = (content) ? content : document.getElementById("diary_content").value;
     if (temp_title.trim() === "") {
       Swal.fire({
         title: "請輸入標題",
@@ -159,10 +160,11 @@ const EditDiaryPage = () => {
       });
       return;
     }
-    setTag(temp_tags.split("#").map((tag) => tag.trim()));
+    let my_temp_tags = temp_tags.split("#").map((tag) => tag.trim());
+    setTag(my_temp_tags);
     // console.log("tagsss is " + tag);
 
-    let retag = tagsString.split("#").map((tag) => tag.trim());
+    let retag = my_temp_tags;
     if (retag[0] === "") retag.shift();
 
     // console.log("retags is " + retag + " " + retag.length);
@@ -175,7 +177,7 @@ const EditDiaryPage = () => {
         )}/${folder}/${previousDiaryName}`,
         {
           title: temp_title,
-          content: (content.replaceAll("  \n","\n")).replaceAll("\n", "  \n"),
+          content: (temp_content.replaceAll("  \n","\n")).replaceAll("\n", "  \n"),
           date: date.toISOString(),
           tag: retag,
           filesURL: filesURL,
