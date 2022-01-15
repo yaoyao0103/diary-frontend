@@ -203,7 +203,7 @@ const NewDiaryPage = () => {
           <p>Content</p>
         </Grid>
         <Grid item xs={12}>
-          <TextArea content={content} onChangeContent={handleContentChange} id = "content"/>
+          <TextArea content={content} onChangeContent={handleContentChange}/>
         </Grid>
         <Grid
           container

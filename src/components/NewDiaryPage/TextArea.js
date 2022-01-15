@@ -25,6 +25,7 @@ const TextArea = (props) => {
             placeholder="請輸入日記"
             value={content}
             style={{ width: "100%",backgroundColor:"#FFF0D4"}}
+            id = "content"
             onChange={handleContentChange}
         />
     )
