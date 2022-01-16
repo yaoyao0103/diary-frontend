@@ -28,32 +28,32 @@ export default function ActivatePage() {
   // };
   const handleCodeChange = (event) => {
     code = event.target.value;
-    console.log(code);
+    // console.log(code);
   };
   const axverify = () => {
     if (
       (cookieParser.getCookieByName("token") === "undefined") |
       (cookieParser.getCookieByName("token") === null)
     ) {
-      console.log("fail");
+      // console.log("fail");
     } else {
       if (
         (cookieParser.getCookieByName("email") === "undefined") |
         (cookieParser.getCookieByName("email") === null)
       ) {
-        console.log("fail");
+        // console.log("fail");
       } else {
-        console.log("success");
+        // console.log("success");
       }
     }
-    console.log(code);
+    // console.log(code);
     axios
       .post("/verify", {
         email: cookieParser.getCookieByName("email"),
         code: code,
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setOpenSuccess(true);
         setRedirect(true);
       })
@@ -74,7 +74,7 @@ export default function ActivatePage() {
         }
       )
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         setResendSuccess(true);
       })
       .catch((error) => console.log(error.response.status));

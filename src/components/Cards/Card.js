@@ -5,7 +5,7 @@ import { CardContent, CardMedia } from "@mui/material";
 import { Typography } from "@mui/material";
 import { CardActions } from "@mui/material";
 import { Button } from "@material-ui/core";
-import { Link, Navigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import IconButton from "@mui/material/IconButton";
@@ -20,9 +20,10 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import axios from "../axios/axios";
 import CookieParser from "../CookieParser/CookieParser";
+import SaveAltIcon from '@mui/icons-material/SaveAlt';
 
 export default function BasicCard(props) {
-  // TODO: all page use Card has to modify the reRender.
+  let navigate = useNavigate();
   let cookieParser = new CookieParser(document.cookie);
   const email = cookieParser.getCookieByName("email");
   const [url, setURL] = useState("");
@@ -153,6 +154,7 @@ export default function BasicCard(props) {
         let path = "https://diary-frontend-app.herokuapp.com";
         path += "/ShareDiaryPage/" + res.data.encryptedPath;
         console.log(path);
+        document.cookie = "token=" + res.data.token;
         navigator.clipboard.writeText(path).then(
           () => {
             console.log("clipboard successfully set");
@@ -172,6 +174,31 @@ export default function BasicCard(props) {
         console.log(e);
       });
   };
+
+  const navigateToSave = () => {
+    let folder = props.selectedFolder;
+    let title = props.items.title;
+    console.log("folder is " + folder + ". title is " + title);
+    // localhost/shareLink/:email/:folderName/:title
+    axios
+      .get(`shareLink/${email}/${folder}/${title}`, {
+        headers: {
+          Authorization: cookieParser.getCookieByName("token"),
+        },
+      })
+      .then((res) => {
+        document.cookie = "token=" + res.data.token;
+        console.log(res);
+        // let path = "localhost:3000";
+        // let path = "https://diary-frontend-app.herokuapp.com";
+        let path = res.data.encryptedPath;
+        console.log(path);
+        navigate(`/exportDiary/${path}`);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
 
   const enterArticle = () => {
     console.log("enter article");
@@ -240,6 +267,9 @@ export default function BasicCard(props) {
         </Button> */}
         <IconButton aria-label="edit" onClick={editDiary}>
           <CreateIcon />
+        </IconButton>
+        <IconButton>
+          <SaveAltIcon aria-label="save" onClick={navigateToSave}/>
         </IconButton>
         <IconButton edge="end" aria-label="delete" onClick={startDel}>
           <DeleteIcon />

@@ -5,6 +5,10 @@
   --background-color: #0c1929;
   --primary-color: #1b92d1;
 }
+div.exportDiary{
+  padding: 1rem;
+  text-align: center;
+}
 div.diaryContent p::before {
   content: "   ";
   white-space: pre;

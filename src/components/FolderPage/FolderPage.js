@@ -53,7 +53,6 @@ const FolderPage = (props) => {
       setIsLogin(false);
       setRedirect(true);
     } else {
-      console.log("aaaaa");
       // isLogin = true;
       setIsLogin(true);
     }

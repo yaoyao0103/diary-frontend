@@ -23,6 +23,8 @@ import AdminDiaryPage from "./components/AdminPage/AdminDiaryPage";
 import FavoritePage from "./components/FavoritePage/FavoritePage";
 import axios from "./components/axios/axios";
 import CookieParser from "./components/CookieParser/CookieParser";
+import ExportDiaryPage from "./components/ExportDiaryPage/ExportDiaryPage";
+
 
 function App() {
 
@@ -175,6 +177,7 @@ function App() {
           <Route path="user/:email" element={<AdminInUserPage/>} />
           <Route path="user/:email/DiaryPage/:inFolder/:diaryName" element={<AdminDiaryPage/>} />
           <Route path="favorite" element={<FavoritePage/>} />
+          <Route path="exportDiary/:path" element={<ExportDiaryPage/>} />
 
         </Routes>
         {redirect ? <Navigate to={`SearchDiaryPage/${keyWord}`} /> : ""}
@@ -185,7 +188,7 @@ function App() {
         }}
           href="/newDiary"
         >
-          <EditIcon />
+          <SaveAltIcon />
         </Fab>} */}
 
       </Paper>

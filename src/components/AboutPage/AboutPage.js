@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import CookieParser from "../CookieParser/CookieParser";
+//TODO: didn't use
 function AboutPage() {
   useEffect(() => {
    let cookieParser = new CookieParser(document.cookie);
