@@ -13,8 +13,6 @@ export default function AccountCircle(props) {
   const [isLogin, setIsLogin] = React.useState("LogIn");
   let cookieParser = new CookieParser(document.cookie);
   React.useEffect(() => {
-    console.log("in header");
-    console.log(cookieParser.getCookieByName('token'));
 
     if ((cookieParser.getCookieByName('token') === "undefined") ||
       (cookieParser.getCookieByName('token') === null) ||
