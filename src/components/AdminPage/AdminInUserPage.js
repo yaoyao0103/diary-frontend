@@ -103,10 +103,12 @@ function AdminInUserPage(props) {
   const passReRender = (enteredBool) => {
     setReRender(enteredBool);
   }
-
+  const passSetDefault = () => {
+    setSelectedFolder(-1);
+  }
   return (
     <div>
-      {redirect ? <Navigate to={"/login"} /> : ""}
+ {redirect ? <Navigate to={"/login"} /> : ""}
       {redirectArticle ? <Navigate to={enterLink} /> : ""}
       <Container>
         <Grid
@@ -120,6 +122,7 @@ function AdminInUserPage(props) {
               folder={folder}
               hasUpper={true}
               onChangeFolder={handleFolderChange}
+              onPassSetDefault={passSetDefault}
             />
           </Grid>
           <Grid item xs={10} sm={9} md={8}>
@@ -153,3 +156,5 @@ function AdminInUserPage(props) {
 }
 
 export default AdminInUserPage;
+
+
