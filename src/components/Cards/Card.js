@@ -219,7 +219,7 @@ export default function BasicCard(props) {
         a.href = URL.createObjectURL(new Blob([JSON.stringify(res.data.diary, null, 2)], {
           type: "text/plain"
         }));
-        a.setAttribute("download", "data.json");
+        a.setAttribute("download", `${props.items.title}.json`);
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
