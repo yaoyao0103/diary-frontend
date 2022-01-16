@@ -64,6 +64,7 @@ function LoginPage() {
       .catch((error) => {
         console.log(error.response.status)
         if (error.response.status === 403) {
+          document.cookie = "email=" + temp_email;
           setRedirectActivate(true);
         }
         setOpenFail(true);

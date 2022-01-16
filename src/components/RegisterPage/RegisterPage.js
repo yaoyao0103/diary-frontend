@@ -44,10 +44,9 @@ const RegisterPage = () => {
   };
   const signup = (event) => {
     let temp_email = email ? email : document.getElementById("email").value;
-    let temp_password = password
-      ? password
-      : document.getElementById("password").value;
-    if (temp_password != checkpassword) {
+    let temp_password = password ? password : document.getElementById("password").value;
+    let temp_checkpassword = checkpassword ? checkpassword : document.getElementById("checkpassword").value;
+    if (temp_password != temp_checkpassword) {
       setOpenFail(true);
       console.log("check password wrong");
       return;

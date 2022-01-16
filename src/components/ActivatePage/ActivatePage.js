@@ -67,11 +67,6 @@ export default function ActivatePage() {
       .post(
         "/resendCode",
         { email: cookieParser.getCookieByName("email") },
-        {
-          headers: {
-            Authorization: cookieParser.getCookieByName("token"),
-          },
-        }
       )
       .then((response) => {
         // console.log(response);
