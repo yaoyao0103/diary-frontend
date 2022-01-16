@@ -55,7 +55,7 @@ const ResetPasswordPage = () => {
   const resetPassword = (event) => {
     let temp_email = (email) ? email : document.getElementById("email").value;
     let temp_oldPassword = (password) ? password : document.getElementById("oldPassword").value;
-    let temp_newPassword = (password) ? password : document.getElementById("newPassword").value;
+    let temp_newPassword = (newPassword) ? newPassword : document.getElementById("newPassword").value;
     console.log("email " + temp_email);
     console.log("oldPassword " + temp_oldPassword);
     console.log("newPassword " + temp_newPassword);
