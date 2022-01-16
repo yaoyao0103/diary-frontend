@@ -177,7 +177,7 @@ function App() {
           <Route path="user/:email" element={<AdminInUserPage/>} />
           <Route path="user/:email/DiaryPage/:inFolder/:diaryName" element={<AdminDiaryPage/>} />
           <Route path="favorite" element={<FavoritePage/>} />
-          <Route path="exportDiary/:path" element={<ExportDiaryPage/>} />
+          {/* <Route path="exportDiary/:path" element={<ExportDiaryPage/>} /> */}
 
         </Routes>
         {redirect ? <Navigate to={`SearchDiaryPage/${keyWord}`} /> : ""}

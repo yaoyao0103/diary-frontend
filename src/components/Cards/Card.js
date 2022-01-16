@@ -175,29 +175,67 @@ export default function BasicCard(props) {
       });
   };
 
-  const navigateToSave = () => {
-    let folder = props.selectedFolder;
-    let title = props.items.title;
-    console.log("folder is " + folder + ". title is " + title);
-    // localhost/shareLink/:email/:folderName/:title
+  // const navigateToSave = () => {
+  //   let folder = props.selectedFolder;
+  //   let title = props.items.title;
+  //   console.log("folder is " + folder + ". title is " + title);
+  //   // localhost/shareLink/:email/:folderName/:title
+  //   axios
+  //     .get(`shareLink/${email}/${folder}/${title}`, {
+  //       headers: {
+  //         Authorization: cookieParser.getCookieByName("token"),
+  //       },
+  //     })
+  //     .then((res) => {
+  //       document.cookie = "token=" + res.data.token;
+  //       console.log(res);
+  //       // let path = "localhost:3000";
+  //       // let path = "https://diary-frontend-app.herokuapp.com";
+  //       let path = res.data.encryptedPath;
+  //       console.log(path);
+  //       navigate(`/exportDiary/${path}`);
+  //     })
+  //     .catch((e) => {
+  //       console.log(e);
+  //     });
+  // }
+
+  //  export JSOM
+  function export2json() {
     axios
-      .get(`shareLink/${email}/${folder}/${title}`, {
-        headers: {
-          Authorization: cookieParser.getCookieByName("token"),
-        },
-      })
+      .get(
+        `/user/${cookieParser.getCookieByName(
+          "email"
+        )}/${props.selectedFolder}/${props.items.title}`,
+        {
+          headers: {
+            Authorization: cookieParser.getCookieByName("token"),
+          },
+        }
+      )
       .then((res) => {
         document.cookie = "token=" + res.data.token;
-        console.log(res);
-        // let path = "localhost:3000";
-        // let path = "https://diary-frontend-app.herokuapp.com";
-        let path = res.data.encryptedPath;
-        console.log(path);
-        navigate(`/exportDiary/${path}`);
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(new Blob([JSON.stringify(res.data.diary, null, 2)], {
+          type: "text/plain"
+        }));
+        a.setAttribute("download", "data.json");
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        // console.log(res.data.token)
       })
-      .catch((e) => {
-        console.log(e);
+      .catch((err) => {
+        console.log(err);
       });
+    // const a = document.createElement("a");
+    // a.href = URL.createObjectURL(new Blob([JSON.stringify(diaryJson, null, 2)], {
+    //   type: "text/plain"
+    // }));
+    // a.setAttribute("download", "data.json");
+    // document.body.appendChild(a);
+    // a.click();
+    // document.body.removeChild(a);
   }
 
   const enterArticle = () => {
@@ -269,7 +307,7 @@ export default function BasicCard(props) {
           <CreateIcon />
         </IconButton>
         <IconButton>
-          <SaveAltIcon aria-label="save" onClick={navigateToSave}/>
+          <SaveAltIcon aria-label="save" onClick={export2json} />
         </IconButton>
         <IconButton edge="end" aria-label="delete" onClick={startDel}>
           <DeleteIcon />
