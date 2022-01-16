@@ -76,6 +76,9 @@ function HomePage(props) {
   const passReRender = (enteredBool) => {
     setReRender(enteredBool);
   }
+  const passSetDefault = () => {
+    setSelectedFolder(-1);
+  }
 
   return (
     <div>
@@ -93,6 +96,7 @@ function HomePage(props) {
               folder={folder}
               hasUpper={true}
               onChangeFolder={handleFolderChange}
+              onPassSetDefault={passSetDefault}
             />
           </Grid>
           <Grid item xs={10} sm={9} md={8}>

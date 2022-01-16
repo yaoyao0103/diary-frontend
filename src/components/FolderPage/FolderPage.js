@@ -138,6 +138,7 @@ const FolderPage = (props) => {
     // console.log("/user/" + cookieParser.getCookieByName("email") + "/${folderName}")
     // console.log("/user/" + cookieParser.getCookieByName("email") + `/${folderName}`);
     setOpenWarn(true);
+    props.onPassSetDefault();
     setDelFolderName(folderName)
   }
 
