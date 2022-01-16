@@ -58,7 +58,7 @@ const ExportDiaryPage = () => {
         rootElement: {
             padding: '5px',
             borderSpacing: '2px',
-            backgroundColor: '#ffb6c1',
+            backgroundColor: '#FAEBD7',
             fontWeight: 'bold',
             fontFamily: 'Arial',
             borderRadius: '5px'
@@ -66,14 +66,14 @@ const ExportDiaryPage = () => {
         subElement: {
             padding: '5px',
             borderSpacing: '2px',
-            backgroundColor: '#ffb6c1',
+            backgroundColor: '#FAEBD7',
             fontWeight: 'bold',
             fontFamily: 'Arial',
             borderRadius: '5px'
         },
         dataCell: {
             borderSpacing: '2px',
-            backgroundColor: '#ffb6c1',
+            backgroundColor: '#FAEBD7',
             fontFamily: 'Arial',
             borderRadius: '5px'
         }
