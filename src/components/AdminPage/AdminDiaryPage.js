@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Grid } from "@mui/material";
+import { Grid, TextField } from "@mui/material";
 import Container from "@mui/material/Container";
 import axios from "../axios/axios";
+import TextArea from "../NewDiaryPage/TextArea";
+import UploadButton from "../NewDiaryPage/UploadButton";
+import DatePicker from "../NewDiaryPage/DatePicker";
+import { Button } from "@material-ui/core";
+import { ButtonGroup } from "@mui/material";
+import FolderChoose from "../NewDiaryPage/FolderChoose";
 import { useParams } from "react-router";
 import { Navigate } from "react-router-dom";
 import "../BrowseDiaryPage/DiaryPage.css";
 import CookieParser from "../CookieParser/CookieParser";
 import Divider from "@mui/material/Divider";
+import Swal from 'sweetalert2'
 
-const AdminEditDiaryPage = () => {
+const AdminDiaryPage = () => {
+
   let { email, inFolder, diaryName } = useParams();
   const [previousDiaryName, setPreviousDiaryName] = useState("");
   const [title, setTitle] = useState("");
@@ -25,160 +33,264 @@ const AdminEditDiaryPage = () => {
   const [data, setData] = useState(new FormData());
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const [redirect, setRedirect] = React.useState(false);
+  const [uploadFileLoading, setUploadFileLoading] = React.useState(false);
+  const [uploadFileSuccess, setUploadFileSuccess] = React.useState(false);
   let cookieParser = new CookieParser(document.cookie);
+
   useEffect(() => {
-    if (cookieParser.getCookieByName("token") == "undefined") {
+    console.log("in workindt");
+    if (
+      cookieParser.getCookieByName("token") === "undefined" ||
+      cookieParser.getCookieByName("token") === null
+    ) {
       console.log("fail");
       setRedirect(true);
     } else {
-      if (cookieParser.getCookieByName("email") == "undefined") {
+      if (
+        cookieParser.getCookieByName("email") === "undefined" ||
+        cookieParser.getCookieByName("email") === null
+      ) {
         console.log("fail");
         setRedirect(true);
       } else {
-        console.log("DiaryPage success");
+        console.log("success");
+
+        setFolder(inFolder);
+        setPreviousDiaryName(diaryName);
+        setShouldRedirect(false);
+        axios
+          .get(
+            `/user/${email}/${inFolder}/${diaryName}`,
+            {
+              headers: {
+                Authorization: cookieParser.getCookieByName("token"),
+              },
+            }
+          )
+          .then((res) => {
+            console.log(
+              `/user/${cookieParser.getCookieByName(
+                "email"
+              )}/${inFolder}/${diaryName}`
+            );
+            res = res.data.diary;
+            res.title ? setTitle(res.title) : setTitle("");
+            res.date ? setDate(new Date(res.date)) : setDate(new Date());
+            setContent(res.content.replaceAll("  \n", "\n"));
+            res.tag ? setTag(res.tag) : setTag([]);
+            res.tag
+              ? setTagsString("#" + res.tag.join(" #"))
+              : setTagsString("");
+            res.filesURL ? setFilesURL(res.filesURL) : setFilesURL([]);
+            res.picURL ? setPicURL(res.picURL) : setPicURL([]);
+            res.videoURL ? setVideoURL(res.videoURL) : setVideoURL([]);
+            res.isFavored ? setIsFavored(res.isFavored) : setIsFavored(false);
+            res.markdown ? setMarkdown(res.markdown) : setMarkdown("");
+            // console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     }
-  }, []);
-  useEffect(() => {
     // console.log(email + ", " + diaryName + ", " + inFolder);
-    setFolder(inFolder);
-    setPreviousDiaryName(diaryName);
-    setShouldRedirect(false);
-    axios
-      .get(
-        `/user/${email}/${inFolder}/${diaryName}`,
-        {
-          headers: {
-            Authorization: cookieParser.getCookieByName("token"),
-          },
-        }
-      )
-      .then((res) => {
-        document.cookie = "token=" + res.data.token;
-        res = res.data.diary;
-        res.title ? setTitle(res.title) : setTitle("");
-        res.date ? setDate(new Date(res.date)) : setDate(new Date());
-        setContent(res.content);
-        res.tag ? setTag(res.tag) : setTag([]);
-        res.tag ? setTagsString("#" + res.tag.join(" #")) : setTagsString("");
-        res.filesURL ? setFilesURL(res.filesURL) : setFilesURL([]);
-        res.picURL ? setPicURL(res.picURL) : setPicURL([]);
-        res.videoURL ? setVideoURL(res.videoURL) : setVideoURL([]);
-        res.isFavored ? setIsFavored(res.isFavored) : setIsFavored(false);
-        res.markdown ? setMarkdown(res.markdown) : setMarkdown("");
-        // console.log(res.tag)
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
     // setTagsString("#" + tag.join(" #"));
     // console.log("str"+tagsString);
   }, []);
 
   useEffect(() => setShouldRedirect(false), [shouldRedirect]);
 
-  return shouldRedirect ? (
-    <Navigate
-      to={`/DiaryPage/${email}/${folder}/${title}`}
-    />
-  ) : (
-    <Container>
-      {redirect ? <Navigate to={"/login"} /> : ""}
-      <div>
-        <Grid
-          container
-          direction="row"
-          justifyContent="space-around"
-          alignItems="flex-start"
-          style={{ padding: "20px 0px 0px 0px" }}
-        >
-          <Grid item xs={12}>
-            <p>Title: {title}</p>
-            {/* <p>{title}</p> */}
-          </Grid>
-          {/* <Grid item xs={10}>
-                        <p>{title}</p>
-                    </Grid> */}
-        </Grid>
-        <Divider
-          sx={{
-            bgcolor: "primary.main",
-            // margin: "2px"
-          }}
-        />
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value);
+    // console.log(event.target.value);
+  };
+  const handleDateChange = (enteredDate) => setDate(enteredDate);
+  const handleFolderChange = (enteredFolder) => {
+    setFolder(enteredFolder);
+    // console.log("up:" + enteredFolder);
+  };
+  const handleContentChange = (enteredContent) => setContent(enteredContent);
+  const handleTagsChange = (event) => {
+    // console.log(tagsString);
+    setTagsString(event.target.value);
+  };
+  const uploadFile = (enteredFile) => {
+    setData(data.append("myfile", enteredFile));
+    setUploadFileLoading(true);
+    // data.append("myfile", enteredFile);
+    axios
+      .post("/fileupload", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: cookieParser.getCookieByName("token"),
+        },
+      })
+      .then((response) => {
+        // console.log(response.data.url);
+        picURL.push(response.data.url);
+        setUploadFileSuccess(true);
+        setUploadFileLoading(false);
+      })
+      .catch((error) => console.log(error));
+  };
+  const storeDiary = (e) => {
+    if (date === null) {
+      Swal.fire({
+        title: "請選擇日期",
+        icon: "error",
+      });
+      return;
+    }
+    // console.log("in edit diary page folder");
+    // console.log(folder);
+    e.preventDefault();
+    // console.log("title is " + title);
+    // console.log("date is " + date.toISOString());
+    // console.log("folderName is " + folder);
+    // console.log("content is " + content);
+    // console.log("tagsString is " + tagsString);
 
-        <Grid
-          container
-          direction="row"
-          justifyContent="space-around"
-          alignItems="flex-start"
-          style={{ padding: "20px 0px 0px 0px" }}
-        >
-          <Grid item xs={6}>
-            <p>Folder: {folder}</p>
-          </Grid>
-          <Grid item xs={6}>
-            <p>Date: {date.toDateString()}</p>
-          </Grid>
-          {/* <Grid item xs={4}>
-                        <p>{date.toDateString()}</p>
-                    </Grid> */}
-          {/* <Grid item xs={4}>
-                        <p>{folder}</p>
-                    </Grid> */}
-        </Grid>
-        {/* <Divider sx={{
-                    bgcolor: 'primary.main',
-                    // margin: "2px"
-                }} /> */}
-        {/* <Grid><p>Content:</p><br /></Grid> */}
-        <Grid className="BrowseContent">
-          {/* {markdown} */}
-          <div
-            className="diaryContent"
-            style={{ padding: "10px" }}
-            dangerouslySetInnerHTML={{ __html: markdown }}
+    let temp_title = (title) ? title : document.getElementById("title").value;
+    let temp_tags = (tagsString) ? tagsString : document.getElementById("tags").value;
+    let temp_content = (content) ? content : document.getElementById("diary_content").value;
+    if (temp_title.trim() === "") {
+      Swal.fire({
+        title: "請輸入標題",
+        icon: "error",
+      });
+      return;
+    }
+    let my_temp_tags = temp_tags.split("#").map((tag) => tag.trim());
+    setTag(my_temp_tags);
+    // console.log("tagsss is " + tag);
+
+    let retag = my_temp_tags;
+    if (retag[0] === "") retag.shift();
+
+    // console.log("retags is " + retag + " " + retag.length);
+    // console.log(picURL);
+
+    axios
+      .put(
+        `/user/${email}/${folder}/${previousDiaryName}`,
+        {
+          title: temp_title,
+          content: (temp_content.replaceAll("  \n","\n")).replaceAll("\n", "  \n"),
+          date: date.toISOString(),
+          tag: retag,
+          filesURL: filesURL,
+          picURL: picURL,
+          videoURL: videoURL,
+          isFavored: isFavored,
+        },
+        {
+          headers: {
+            'Authorization': cookieParser.getCookieByName("token"),
+          },
+        }
+      )
+      .then((response) => {
+        Swal.fire('新增日記成功', '', 'success');
+        document.cookie = "token=" + response.data.token;
+        console.log("after stored");
+        console.log(
+          `/user/${cookieParser.getCookieByName(
+            "email"
+          )}/${folder}/${previousDiaryName}`
+        );
+        console.log(response);
+        setPreviousDiaryName(title);
+        setShouldRedirect(true);
+      })
+      .catch((error) => {
+        console.log(error);
+        Swal.fire('新增日記失敗', '同個資料夾下不能有相同名稱的日記', 'error');
+      });
+  };
+  return shouldRedirect ? (
+    <Navigate to={`/user/${email}`} />
+  ) : (
+    <Container maxWidth={"lg"}>
+      {redirect ? <Navigate to={"/login"} /> : ""}
+      <Grid container>
+        <Grid item xs={12}>
+          <TextField
+            style={{
+              padding: "0px 0px 30px 0px",
+              position: "relative",
+              top: "10px",
+            }}
+            fullWidth
+            label="title"
+            id="title"
+            value={title}
+            onChange={handleTitleChange}
           />
         </Grid>
-        {/* <Divider sx={{
-                    bgcolor: 'primary.main',
-                    // margin: "2px"
-                }} /> */}
         <Grid
-          container
+          item
+          xs={12}
           direction="row"
           justifyContent="space-around"
           alignItems="flex-start"
-          style={{ padding: "20px 0px 0px 0px" }}
+          style={{ padding: "0px 0px 20px 0px" }}
         >
-          <Grid item xs={12}>
-            <p>HashTags: {tagsString}</p>
+          <Grid item xs={2}>
+            <DatePicker date={date} onChangeDate={handleDateChange} />
           </Grid>
-          {/* <Grid item xs={7}>
-                        <p>{tagsString}</p>
-                    </Grid> */}
+          <Grid item xs={10}>
+            <FolderChoose
+              upper={"EditDiaryPage"}
+              folder={folder}
+              onChangeFolder={handleFolderChange}
+              email={cookieParser.getCookieByName("email")}
+            />
+          </Grid>
         </Grid>
-        <Divider
-          sx={{
-            bgcolor: "primary.main",
-            // margin: "2px"
-          }}
-        />
+        <Grid item xs={12}>
+          <p>Content</p>
+        </Grid>
+        <Grid item xs={12}>
+          <TextArea content={content} onChangeContent={handleContentChange} />
+        </Grid>
         <Grid
           container
+          item
+          xs={12}
           direction="row"
           justifyContent="space-around"
           alignItems="flex-start"
-          style={{ padding: "20px 0px 0px 0px" }}
+          style={{ padding: "0px 0px 20px 0px" }}
         >
-          {/* <Grid item xs={1}><p style={{ fontSize: "2.5rem" }}>files:</p></Grid>
-                    <Grid item xs={7}>
-                        <p>{props.files}</p>
-                    </Grid> */}
+          <Grid item xs={2}>
+            <p style={{ fontSize: "2.5rem" }}>HashTags</p>
+          </Grid>
+          <Grid item xs={7}>
+            <TextField
+              fullWidth
+              label="請以#隔開每個hashtag"
+              id="tags"
+              value={tagsString}
+              onChange={handleTagsChange}
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <ButtonGroup
+              style={{ width: "100%" }}
+              className="ButtonGroup"
+              variant="text"
+            >
+              <UploadButton onUploadFile={uploadFile} loading={uploadFileLoading} success={uploadFileSuccess} />
+              <Button variant="contained" component="span" onClick={storeDiary}>
+                儲存日記
+              </Button>
+            </ButtonGroup>
+          </Grid>
         </Grid>
-      </div>
+      </Grid>
     </Container>
   );
 };
 
-export default AdminEditDiaryPage;
+export default AdminDiaryPage;

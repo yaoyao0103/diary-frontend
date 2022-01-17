@@ -17,6 +17,12 @@ import CreateNewFolderOutlinedIcon from "@mui/icons-material/CreateNewFolderOutl
 import Snackbar from "@mui/material/Snackbar";
 import { Alert } from "@mui/material";
 import { Navigate, useParams } from "react-router-dom";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
 import React from "react";
 
 const AdminFolderPage = (props) => {
@@ -30,6 +36,8 @@ const AdminFolderPage = (props) => {
   const [editFolderName, setEditFolderName] = useState("");
   const [reRender, setReRender] = useState(false);
   const [redirect, setRedirect] = React.useState(false);
+  const [openWarn, setOpenWarn] = React.useState(false);
+  const [delFolderName, setDelFolderName] = React.useState("");
 
   let cookieParser = new CookieParser(document.cookie);
 
@@ -107,10 +115,16 @@ const AdminFolderPage = (props) => {
     }
   }
   function onDelFolder(folderName) {
-    // console.log("/user/" + email + "/${folderName}")
-    console.log("/user/" + email + `/${folderName}`);
+    // console.log("/user/" + cookieParser.getCookieByName("email") + "/${folderName}")
+    // console.log("/user/" + cookieParser.getCookieByName("email") + `/${folderName}`);
+    setOpenWarn(true);
+    props.onPassSetDefault();
+    setDelFolderName(folderName)
+  }
+
+  function continueDelFolder() {
     axios.delete(
-      "/user/" + email + `/${folderName}`,
+      "/user/" + email + `/${delFolderName}`,
       {
         headers: {
           'Authorization': cookieParser.getCookieByName("token"),
@@ -122,13 +136,19 @@ const AdminFolderPage = (props) => {
         // console.log(res.data);
         setReRender(true);
         setDelFolderSuccess(true);
-        setFolder(folder.filter((item) => item.folderName !== folderName));
+        setFolder(folder.filter((item) => item.folderName !== delFolderName));
       })
       .catch((err) => {
         console.log(err);
         setDelFolderFail(true);
       });
   }
+  const handleClickOpen = () => {
+    setOpenWarn(true);
+  };
+  const handleClose = () => {
+    setOpenWarn(false);
+  };
 
   const handleNewFolderFail = (event, reason) => {
     if (reason === "clickaway") {
@@ -171,6 +191,15 @@ const AdminFolderPage = (props) => {
     // console.log(e.target.value);
   };
 
+  const handleEditFolderName = (e ,idx) => {
+    setFolder(folder.map((item, index) => {
+      if (index === idx) {
+        item.folderName = e;
+      }
+      return item;
+    }));
+  };
+
   const handleRender = () => {
     setReRender(true);
   };
@@ -185,9 +214,11 @@ const AdminFolderPage = (props) => {
                   folderName={fold.folderName}
                   folderIdx={index}
                   onChangeFolder={handleFolderChange}
-                  onDeleteFolder={onDelFolder}
-                  onRender={handleRender}
+                  onDeleteFolder={(e) => onDelFolder(fold.folderName)}
+                onRender={handleRender}
+                onEditFolder={handleEditFolderName}
                 />
+              
               <Divider />
             </Fragment>
           );
@@ -220,6 +251,27 @@ const AdminFolderPage = (props) => {
           </ListItem>
         )}
       </List>
+      <Dialog
+        open={openWarn}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"是否刪除資料夾?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            真的要刪除資料夾嗎?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="contained" onClick={() => { handleClose(); setDelFolderName(""); }}>否</Button>
+          <Button variant="contained" onClick={() => { handleClose(); continueDelFolder(); }} autoFocus>
+            是的(此操作無法復原)
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Snackbar
         open={newFolderFail}
         autoHideDuration={2000}
