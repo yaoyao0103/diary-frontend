@@ -3,15 +3,23 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import AccountCircleSharp from "@material-ui/icons/AccountCircleSharp";
 import { IconButton } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
+import { Divider } from '@mui/material';
 import CookieParser from '../CookieParser/CookieParser';
 import LogInOrOutButton from './LogInOrOutButton';
 import ModeSwitch from './ModeSwitch';
+import axios from '../axios/axios';
 
 export default function AccountCircle(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [isLogin, setIsLogin] = React.useState("LogIn");
+  const [isAdmin, setIsAdmin] = React.useState(false);
   let cookieParser = new CookieParser(document.cookie);
+  let navigate = useNavigate();
   React.useEffect(() => {
 
     if ((cookieParser.getCookieByName('token') === "undefined") ||
@@ -24,6 +32,32 @@ export default function AccountCircle(props) {
       setIsLogin("LogOut");
     }
   })
+  React.useEffect(() => {
+    // console.log(isLogin);
+    if (isLogin == "LogOut") {
+      axios
+        .get("/user/" + cookieParser.getCookieByName("email"),
+          {
+            headers: {
+              Authorization: cookieParser.getCookieByName("token"),
+            },
+          }
+        )
+        .then((res) => {
+          if (res.data.user.isAdmin === false) {
+            // console.log("not is admin")
+            setIsAdmin(false);
+          } else {
+            // console.log("is admin")
+            // console.log(isAdmin);
+            setIsAdmin(true);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  });
 
   const changeDarkMode = (enteredDarkMode) => {
     const darkMode = enteredDarkMode;
@@ -35,9 +69,17 @@ export default function AccountCircle(props) {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = (event) => {
-    console.log(event.target.outerText);
     setAnchorEl(null);
   };
+  const goFav = () => {
+    navigate("/favorite");
+  }
+  const goRestPW = () => {
+    navigate("/resetpassword");
+  }
+  const goAdmin = () => {
+    navigate("/user");
+  }
 
   return (
     <div>
@@ -65,7 +107,29 @@ export default function AccountCircle(props) {
             onChangeDarkMode={changeDarkMode}
             sx={{ m: 4 }} />
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={() => { handleClose(); goRestPW(); }}>
+          <ListItemIcon>
+            <VpnKeyIcon fontSize="small" />
+          </ListItemIcon>
+          ResetPassword
+        </MenuItem>
+        <MenuItem onClick={() => { handleClose(); goFav(); }}>
+          <ListItemIcon>
+            <FavoriteIcon fontSize="small" />
+          </ListItemIcon>
+          FavoritePage
+        </MenuItem>
+        {isAdmin ?
+          <MenuItem onClick={() => { handleClose(); goAdmin(); }}>
+            <ListItemIcon>
+              <SupervisorAccountIcon fontSize="small" />
+            </ListItemIcon>
+            AdminPage
+          </MenuItem>
+          : ""
+        }
+        <Divider />
+        {/* <MenuItem onClick={handleClose}>
           <Link to={"/resetpassword"} replace>
             ResetPassword
           </Link>
@@ -74,9 +138,7 @@ export default function AccountCircle(props) {
           <Link to={"/favorite"} replace>
             FavoritePage
           </Link>
-        </MenuItem>
-        {/* <MenuItem onClick={handleClose}>My account</MenuItem> */}
-        {/* <MenuItem onClick={clickLogOut}>{isLogin}</MenuItem> */}
+        </MenuItem> */}
         <MenuItem>
           <LogInOrOutButton />
         </MenuItem>
