@@ -197,10 +197,8 @@ export default function UserListDataGrid() {
       })
       .then((res) => {
         document.cookie = "token=" + res.data.token;
-        // console.log(res.data.user);
         setUsers(
           res.data.user.map((result) => {
-            console.log(result);
             let tmp = 0;
             result.folder.forEach((element) => {
               tmp += element.diary.length;
@@ -215,7 +213,6 @@ export default function UserListDataGrid() {
       .catch((e) => {
         console.log(e);
       });
-    console.log(users);
   }, []);
 
   const [order, setOrder] = useState("asc");

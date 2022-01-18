@@ -50,17 +50,14 @@ function AdminInUserPage(props) {
       cookieParser.getCookieByName("token") == "undefined" ||
       cookieParser.getCookieByName("token") == null
     ) {
-      // console.log("fail");
       setRedirect(true);
     } else {
       if (
         cookieParser.getCookieByName("email") == "undefined" ||
         cookieParser.getCookieByName("email") == null
       ) {
-        // console.log("fail");
         setRedirect(true);
       } else {
-        console.log("in get folder in HomePage.");
 
         axios
           .get("/user/" + email + "/folder", {
@@ -70,10 +67,7 @@ function AdminInUserPage(props) {
           })
 
           .then((res) => {
-            // console.log("fetch ready.");
-            // console.log(res.data);
             document.cookie = "token=" + res.data.token;
-            // console.log(res);
             setFolder(res.data.folder);
           })
           .catch((err) => {
@@ -92,12 +86,10 @@ function AdminInUserPage(props) {
 
   const handleFolderChange = (e) => {
     setSelectedFolder(e);
-    console.log("setSelectFolder"+ e);
   };
 
   const passArticleLink = (enteredLink) => {
     setEnterLink(enteredLink);
-    console.log(enteredLink);
     setRedirectArticle(true);
   };
   const passReRender = (enteredBool) => {

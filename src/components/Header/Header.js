@@ -41,21 +41,14 @@ const Header = (props) => {
   const changeDarkMode = (enteredDarkMode) => {
     const darkMode = enteredDarkMode;
     props.onChangeDarkMode(enteredDarkMode);
-    console.log("In Header is " + darkMode);
   }
   useEffect(() => {
-    console.log("in header");
-    console.log(cookieParser.getCookieByName('token'));
 
     if ((cookieParser.getCookieByName('token') === "undefined") || (cookieParser.getCookieByName('token') === null)) {
-      console.log("faila");
     }
     else {
       if (cookieParser.getCookieByName('email') === "undefined" || (cookieParser.getCookieByName('token') === null)) {
-        console.log("failb");
-
       } else {
-        console.log("success");
         setLogin(true);
         setEmail(cookieParser.getCookieByName('email'));
       }

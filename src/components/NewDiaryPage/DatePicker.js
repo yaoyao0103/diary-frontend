@@ -8,14 +8,12 @@ import { TextField } from '@mui/material';
 const DatePicker = (props) => {
     const [value, setValue] = React.useState(new Date());
     const handleDateChange = (newValue) => {
-        // console.log(newValue);
         props.onChangeDate(newValue);
         setValue(newValue);
     };
     useEffect(() => { 
         if(props.date) {
             setValue(props.date);
-            // console.log("in DatePicker"+props.date);
         }
     }, [props.date]);
     return (

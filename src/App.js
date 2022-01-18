@@ -37,7 +37,6 @@ function App() {
   useEffect(() => {
     setInterval(() => {
       if (cookieParser.getCookieByName("token") == "undefined" || cookieParser.getCookieByName("token") == null) {
-        console.log("Not Logged In!!");
         return;
       }
       axios
@@ -48,7 +47,6 @@ function App() {
           })
 
           .then((res) => {
-            console.log("GET NEW TOKEN");
             document.cookie = "token=" + res.data.token;
           })
           .catch((err) => {

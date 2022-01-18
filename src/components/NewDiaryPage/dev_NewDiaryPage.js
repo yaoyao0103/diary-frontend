@@ -28,27 +28,16 @@ const DNewDiaryPage = () => {
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const [redirect, setRedirect] = React.useState(false);
 
-  // let email = "allen3325940072@gmail.com";
-
-  // useEffect(() => {
-  //   email = "allen3325940072@gmail.com";
-  //   setShouldRedirect(false);
-  // }, []);
   const cookieParser = new CookieParser(document.cookie);
   
     useEffect(() => {
 
     if((cookieParser.getCookieByName('token')==="undefined")||(cookieParser.getCookieByName('token')===null)){
-      console.log("fail");
       setRedirect(true);
     }
     else{
       if(cookieParser.getCookieByName('email')==="undefined"||(cookieParser.getCookieByName('email')===null)){
-          console.log("fail");
           setRedirect(true);
-      }else{
-        console.log("success");
-        
       }
     }
   },[])
@@ -57,16 +46,13 @@ const DNewDiaryPage = () => {
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
-    console.log(event.target.value);
   };
   const handleDateChange = (enteredDate) => setDate(enteredDate);
   const handleFolderChange = (enteredFolder) => {
     setFolder(enteredFolder);
-    console.log("up:" + enteredFolder);
   };
   const handleContentChange = (enteredContent) => setContent(enteredContent);
   const handleTagsChange = (event) => {
-    console.log(tagsString);
     setTagsString(event.target.value);
   };
   const uploadFile = (enteredFile) => {
@@ -77,27 +63,17 @@ const DNewDiaryPage = () => {
         headers: { "Content-Type": "multipart/form-data" },
       })
       .then((response) => {
-        console.log(response.data.url);
         picURL.push(response.data.url);
       })
       .catch((error) => console.log(error));
   };
   const storeDiary = (e) => {
     e.preventDefault();
-    console.log("title is " + title);
-    console.log("date is " + date.toISOString());
-    console.log("folderName is " + folder);
-    console.log("content is " + content);
-    console.log("tagsString is " + tagsString);
 
     setTag(tagsString.split("#").map((tag) => tag.trim()));
-    console.log("tagsss is " + tag);
 
     let retag = tagsString.split("#").map((tag) => tag.trim());
     if (retag[0] === "") retag.shift();
-
-    console.log("retags is " + retag + " " + retag.length);
-    console.log(picURL);
 
     axios
       .post(`/user/${email}/${folder}`, {
@@ -111,8 +87,6 @@ const DNewDiaryPage = () => {
         isFavored: isFavored,
       })
       .then((response) => {
-        console.log("sucess");
-        console.log(response);
         setShouldRedirect(true);
       })
       .catch((error) => console.log(error));

@@ -38,22 +38,18 @@ const AdminDiaryPage = () => {
   let cookieParser = new CookieParser(document.cookie);
 
   useEffect(() => {
-    console.log("in workindt");
     if (
       cookieParser.getCookieByName("token") === "undefined" ||
       cookieParser.getCookieByName("token") === null
     ) {
-      console.log("fail");
       setRedirect(true);
     } else {
       if (
         cookieParser.getCookieByName("email") === "undefined" ||
         cookieParser.getCookieByName("email") === null
       ) {
-        console.log("fail");
         setRedirect(true);
       } else {
-        console.log("success");
 
         setFolder(inFolder);
         setPreviousDiaryName(diaryName);
@@ -68,11 +64,6 @@ const AdminDiaryPage = () => {
             }
           )
           .then((res) => {
-            console.log(
-              `/user/${cookieParser.getCookieByName(
-                "email"
-              )}/${inFolder}/${diaryName}`
-            );
             res = res.data.diary;
             res.title ? setTitle(res.title) : setTitle("");
             res.date ? setDate(new Date(res.date)) : setDate(new Date());
@@ -86,39 +77,30 @@ const AdminDiaryPage = () => {
             res.videoURL ? setVideoURL(res.videoURL) : setVideoURL([]);
             res.isFavored ? setIsFavored(res.isFavored) : setIsFavored(false);
             res.markdown ? setMarkdown(res.markdown) : setMarkdown("");
-            // console.log(res);
           })
           .catch((err) => {
             console.log(err);
           });
       }
     }
-    // console.log(email + ", " + diaryName + ", " + inFolder);
-
-    // setTagsString("#" + tag.join(" #"));
-    // console.log("str"+tagsString);
   }, []);
 
   useEffect(() => setShouldRedirect(false), [shouldRedirect]);
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
-    // console.log(event.target.value);
   };
   const handleDateChange = (enteredDate) => setDate(enteredDate);
   const handleFolderChange = (enteredFolder) => {
     setFolder(enteredFolder);
-    // console.log("up:" + enteredFolder);
   };
   const handleContentChange = (enteredContent) => setContent(enteredContent);
   const handleTagsChange = (event) => {
-    // console.log(tagsString);
     setTagsString(event.target.value);
   };
   const uploadFile = (enteredFile) => {
     setData(data.append("myfile", enteredFile));
     setUploadFileLoading(true);
-    // data.append("myfile", enteredFile);
     axios
       .post("/fileupload", data, {
         headers: {
@@ -127,7 +109,6 @@ const AdminDiaryPage = () => {
         },
       })
       .then((response) => {
-        // console.log(response.data.url);
         picURL.push(response.data.url);
         setUploadFileSuccess(true);
         setUploadFileLoading(false);
@@ -142,14 +123,7 @@ const AdminDiaryPage = () => {
       });
       return;
     }
-    // console.log("in edit diary page folder");
-    // console.log(folder);
     e.preventDefault();
-    // console.log("title is " + title);
-    // console.log("date is " + date.toISOString());
-    // console.log("folderName is " + folder);
-    // console.log("content is " + content);
-    // console.log("tagsString is " + tagsString);
 
     let temp_title = (title) ? title : document.getElementById("title").value;
     let temp_tags = (tagsString) ? tagsString : document.getElementById("tags").value;
@@ -163,13 +137,9 @@ const AdminDiaryPage = () => {
     }
     let my_temp_tags = temp_tags.split("#").map((tag) => tag.trim());
     setTag(my_temp_tags);
-    // console.log("tagsss is " + tag);
 
     let retag = my_temp_tags;
     if (retag[0] === "") retag.shift();
-
-    // console.log("retags is " + retag + " " + retag.length);
-    // console.log(picURL);
 
     axios
       .put(
@@ -193,13 +163,6 @@ const AdminDiaryPage = () => {
       .then((response) => {
         Swal.fire('新增日記成功', '', 'success');
         document.cookie = "token=" + response.data.token;
-        console.log("after stored");
-        console.log(
-          `/user/${cookieParser.getCookieByName(
-            "email"
-          )}/${folder}/${previousDiaryName}`
-        );
-        console.log(response);
         setPreviousDiaryName(title);
         setShouldRedirect(true);
       })

@@ -16,7 +16,6 @@ export default function FavoritePage() {
     const [toastMsg, setToastMsg] = React.useState("");
     const [diarys, setDiarys] = React.useState([]);
     useEffect(() => {
-        console.log("render in FavPage")
         setReRender(false);
         setTmp([]);
         let email = cookieParser.getCookieByName("email");
@@ -26,13 +25,9 @@ export default function FavoritePage() {
             },
         })
             .then((res) => {
-                console.log("in fetch Favorite");
                 document.cookie = "token=" + res.data.token;
 
                 setDiarys(res.data.diaryArray);
-
-                console.log("tmp is ")
-                console.log(tmp)
                 setTmp(tmp);
             })
             .catch((err) => {
@@ -44,7 +39,6 @@ export default function FavoritePage() {
         navigate(enteredLink);
     };
     const passReRender = () => {
-        console.log("changedd");
         setReRender(true);
     }
     const alertSuc = (msg) => {

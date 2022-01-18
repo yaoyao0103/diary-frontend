@@ -36,19 +36,12 @@ const LogInOrOutButton = () => {
 
 
   if ((cookieParser.getCookieByName('token') == "undefined") | (cookieParser.getCookieByName('token') == null)) {
-    console.log("fail");
-    console.log(cookieParser.getCookieByName('email'));
-    console.log(cookieParser.getCookieByName('token'));
     return (
       <ListItem
         className="ch"
         variant="contained"
-        // onClick={() => {
-        //     console.log(props.isLogin);
-        // }}
         onClick={goLogin}
         size="small"
-      // sx={{ m: 2 }}
       ><ListItemIcon>
           <Login fontSize="small" />
         </ListItemIcon>
@@ -58,15 +51,9 @@ const LogInOrOutButton = () => {
   }
   else {
     if ((cookieParser.getCookieByName('email') == "undefined") | (cookieParser.getCookieByName('email') == null)) {
-      console.log("fail");
-      console.log(cookieParser.getCookieByName('email'));
-      console.log(cookieParser.getCookieByName('token'));
       return (
         <ListItem
           variant="contained"
-          // onClick={() => {
-          //     console.log(props.isLogin);
-          // }}
           onClick={goLogin}
           size="small"
         ><ListItemIcon>
@@ -76,9 +63,6 @@ const LogInOrOutButton = () => {
         </ListItem>
       )
     } else {
-      console.log("success");
-      console.log(cookieParser.getCookieByName('email'));
-      console.log(cookieParser.getCookieByName('token'));
       return (
         <ListItem
           variant="contained"

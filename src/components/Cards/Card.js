@@ -45,10 +45,8 @@ export default function BasicCard(props) {
   let tmp = "a/";
   let a = "";
   useEffect(() => {
-    console.log("in card.")
     let folder = props.selectedFolder;
     let title = props.items.title;
-    console.log("render")
     axios.get(`user/${email}/${folder}/${title}`, {
       headers: {
         'Authorization': cookieParser.getCookieByName("token"),
@@ -56,7 +54,6 @@ export default function BasicCard(props) {
     })
       .then(res => {
         document.cookie = "token=" + res.data.token;
-        console.log(res.data.diary.isFavored);
         res.data.diary.isFavored === true ? setIsFavored("red") : setIsFavored("");
       })
       .catch(e => console.log(e))
@@ -64,7 +61,6 @@ export default function BasicCard(props) {
     tmp = tmp.replace("/file/d/", "/uc?id=");
     tmp = tmp.substring(0, tmp.search("/view"));
     tmp = tmp.replace("a/", "");
-    console.log(tmp);
     setURL(tmp);
   });
 
@@ -81,7 +77,6 @@ export default function BasicCard(props) {
   const deleteFolder = () => {
     let folder = props.selectedFolder;
     let title = props.items.title;
-    console.log("delete diary.");
     axios.delete(`/user/${email}/${folder}/${title}`, {
       headers: {
         'Authorization': cookieParser.getCookieByName("token"),
@@ -89,10 +84,7 @@ export default function BasicCard(props) {
     })
       .then((res) => {
         // props.items.isFavored = (!props.items.isFavored);
-        console.log("delete ready.");
-        // console.log(res.data);
         document.cookie = "token=" + res.data.token;
-        console.log("success del dia");
         // setReRender(true);
         props.onPassReRender(true);
         props.onAlertSuccess("Success Delete Diary");
@@ -114,8 +106,6 @@ export default function BasicCard(props) {
     //TODO: change isFavored
     let folder = props.selectedFolder;
     let title = props.items.title;
-    // console.log(`${folder}/${title}`)
-    // console.log("enter in changeFavored.")
     axios.put(`/isFavored/${email}/${folder}`,
       {
         diaryTitle: title,
@@ -129,19 +119,15 @@ export default function BasicCard(props) {
         isFavored === "" ? setIsFavored("red") : setIsFavored("");
         document.cookie = "token=" + response.data.token;
         props.onPassReRender(true);
-        // console.log(response);
       }))
       .catch(e => {
         console.log(e);
       })
-    // isFavored === ""?setIsFavored("red"):setIsFavored("");
   }
 
   const generateLink = () => {
     let folder = props.selectedFolder;
     let title = props.items.title;
-    console.log("folder is " + folder + ". title is " + title);
-    // localhost/shareLink/:email/:folderName/:title
     axios
       .get(`shareLink/${email}/${folder}/${title}`, {
         headers: {
@@ -149,22 +135,18 @@ export default function BasicCard(props) {
         },
       })
       .then((res) => {
-        console.log(res);
         // let path = "localhost:3000";
         let path = "https://diary-frontend-app.herokuapp.com";
         path += "/ShareDiaryPage/" + res.data.encryptedPath;
-        console.log(path);
         document.cookie = "token=" + res.data.token;
         navigator.clipboard.writeText(path).then(
           () => {
-            console.log("clipboard successfully set");
             a = "clipboard successfully set";
             setOpenSuccess(true);
             // setToastMsg("Link copied to clipboard");
             props.onAlertSuccess("Link copied to clipboard");
           },
           () => {
-            console.log("clipboard write failed");
             // setToastMsg("Link copy failed");
             props.onAlertFail("Link copy failed");
           }
@@ -223,7 +205,6 @@ export default function BasicCard(props) {
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        // console.log(res.data.token)
       })
       .catch((err) => {
         console.log(err);
@@ -239,7 +220,6 @@ export default function BasicCard(props) {
   }
 
   const enterArticle = () => {
-    console.log("enter article");
     props.onPassArticleLink(
       `/DiaryPage/${props.selectedFolder}/${props.items.title}`
     );

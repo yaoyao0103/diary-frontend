@@ -17,10 +17,6 @@ function MDlogo() {
     <ColorButton
       size="small"
       variant="text"
-      onClick={() => {
-        console.log("index");
-      }}
-      // LinkComponent={<Link component={Home} />
       href="/"
     >
       <p className="logo">MyDiary</p>

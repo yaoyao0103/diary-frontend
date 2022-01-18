@@ -27,13 +27,11 @@ const SearchCard = (props) => {
         tmp = tmp.replace('/file/d/', '/uc?id=');
         tmp = tmp.substring(0, tmp.search('/view'));
         tmp = tmp.replace('a/', '');
-        // console.log(tmp);
         setURL(tmp);
     })
     const generateLink = () => {
         let folder = props.inFolder;
         let title = props.items.title;
-        console.log("folder is " + folder + ". title is " + title);
         // localhost/shareLink/:email/:folderName/:title
         axios.get(`shareLink/${email}/${folder}/${title}`,
         {
@@ -45,14 +43,11 @@ const SearchCard = (props) => {
                 document.cookie = "token=" + res.data.token;
                 let path = "localhost:3000";
                 path += "/ShareDiaryPage/" + res.data.encryptedPath;
-                console.log(path);
                 navigator.clipboard.writeText(path).then(() => {
-                    console.log("clipboard successfully set")
                     setOpenSuccess(true);
                     setSnackMsg("Link copied to clipboard");
                     a = "clipboard successfully set";
                 }, () => {
-                    console.log("clipboard write failed")
                     setOpenFail(true);
                     setSnackMsg("Link copy failed");
                 });
@@ -77,9 +72,6 @@ const SearchCard = (props) => {
         }
         setOpenSuccess(false);
       };
-
-
-    // console.log(props.items[0])
     return (
         <>
         <Card variant="outlined" >

@@ -33,7 +33,6 @@ export default function AccountCircle(props) {
     }
   })
   React.useEffect(() => {
-    // console.log(isLogin);
     if (isLogin == "LogOut") {
       axios
         .get("/user/" + cookieParser.getCookieByName("email"),
@@ -45,11 +44,8 @@ export default function AccountCircle(props) {
         )
         .then((res) => {
           if (res.data.user.isAdmin === false) {
-            // console.log("not is admin")
             setIsAdmin(false);
           } else {
-            // console.log("is admin")
-            // console.log(isAdmin);
             setIsAdmin(true);
           }
         })
@@ -62,7 +58,6 @@ export default function AccountCircle(props) {
   const changeDarkMode = (enteredDarkMode) => {
     const darkMode = enteredDarkMode;
     props.onChangeDarkMode(enteredDarkMode);
-    console.log("In HeaderTmp is " + darkMode);
   }
   const open = Boolean(anchorEl);
   const handleClick = (event) => {

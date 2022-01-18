@@ -13,26 +13,24 @@ import { Snackbar } from "@mui/material";
 import CookieParser from "../CookieParser/CookieParser";
 import { Navigate } from "react-router-dom";
 import { useEffect } from "react";
+import Swal from 'sweetalert2';
 const ResetPasswordPage = () => {
   const [redirect, setRedirect] = React.useState(false);
+  const [shouldRedirect, setShouldRedirect] = React.useState(false);
   const cookieParser = new CookieParser(document.cookie);
   useEffect(() => {
     if (
       cookieParser.getCookieByName("token") === "undefined" ||
       cookieParser.getCookieByName("token") === null
     ) {
-      console.log("fail");
       setRedirect(true);
     } else {
       if (
         cookieParser.getCookieByName("email") === "undefined" ||
         cookieParser.getCookieByName("email") === null
       ) {
-        console.log("fail");
         setRedirect(true);
-      } else {
-        console.log("success");
-      }
+      } 
     }
   }, []);
   const [openFail, setOpenFail] = React.useState(false);
@@ -42,23 +40,21 @@ const ResetPasswordPage = () => {
   let newPassword = "";
   const handleEmailChange = (event) => {
     email = event.target.value;
-    console.log(email);
   };
   const handlePasswordChange = (event) => {
     password = event.target.value;
-    console.log(password);
   };
   const handleNewPasswordChange = (event) => {
     newPassword = event.target.value;
-    console.log(newPassword);
   };
   const resetPassword = (event) => {
-    let temp_email = (email) ? email : document.getElementById("email").value;
-    let temp_oldPassword = (password) ? password : document.getElementById("oldPassword").value;
-    let temp_newPassword = (newPassword) ? newPassword : document.getElementById("newPassword").value;
-    console.log("email " + temp_email);
-    console.log("oldPassword " + temp_oldPassword);
-    console.log("newPassword " + temp_newPassword);
+    let temp_email = email ? email : document.getElementById("email").value;
+    let temp_oldPassword = password
+      ? password
+      : document.getElementById("oldPassword").value;
+    let temp_newPassword = newPassword
+      ? newPassword
+      : document.getElementById("newPassword").value;
     axios
       .post(
         "/resetPassword",
@@ -75,8 +71,9 @@ const ResetPasswordPage = () => {
       )
       .then((response) => {
         document.cookie = "token=" + response.data.token;
-        console.log(response);
         setOpenSuccess(true);
+        Swal.fire("修改密碼成功", "", "success");
+        setShouldRedirect(true);
       })
       .catch((error) => {
         console.log(error);
@@ -96,7 +93,9 @@ const ResetPasswordPage = () => {
     }
     setOpenSuccess(false);
   };
-  return (
+  return shouldRedirect ? (
+    <Navigate to={`/`} />
+  ) : (
     <Container maxWidth={"sm"}>
       <Paper elevation={0} style={{ height: "100vh" }}>
         {redirect ? <Navigate to={"/login"} /> : ""}
@@ -183,7 +182,7 @@ const ResetPasswordPage = () => {
             severity="error"
             sx={{ width: "100%" }}
           >
-            reset password failed!!
+            Wrong old password!!
           </Alert>
         </Snackbar>
         <Snackbar

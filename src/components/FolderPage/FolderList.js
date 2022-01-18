@@ -84,10 +84,7 @@ export default function FolderList(props) {
         }
       )
       .then((res) => {
-        console.log("in folderList' edit folder");
         document.cookie = "token=" + res.data.token;
-        console.log(temp_folder_name);
-        console.log(res.data);
         setEditingFolder(false);
         setOnOpen(true);
         setToastSuccess(true);

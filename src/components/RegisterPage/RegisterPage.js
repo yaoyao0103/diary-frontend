@@ -27,20 +27,16 @@ const RegisterPage = () => {
   let checkpassword = "";
   let cookieParser = new CookieParser(document.cookie);
   function onChange(value) {
-    console.log('Captcha value:', value);
     setIsVerified(true);
   }
   const handleEmailChange = (event) => {
     email = event.target.value;
-    console.log(email);
   };
   const handlePasswordChange = (event) => {
     password = event.target.value;
-    console.log(password);
   };
   const handleCheckpasswordChange = (event) => {
     checkpassword = event.target.value;
-    console.log(checkpassword);
   };
   const signup = (event) => {
     let temp_email = email ? email : document.getElementById("email").value;
@@ -48,7 +44,6 @@ const RegisterPage = () => {
     let temp_checkpassword = checkpassword ? checkpassword : document.getElementById("checkpassword").value;
     if (temp_password != temp_checkpassword) {
       setOpenFail(true);
-      console.log("check password wrong");
       return;
     }
     
@@ -56,15 +51,12 @@ const RegisterPage = () => {
       Swal.fire('Please verify that you are a human', '', 'error');
       return;
     }
-    console.log(temp_email);
-    console.log(temp_password);
     axios
       .post("/signUp", {
         email: temp_email,
         password: temp_password,
       })
       .then((response) => {
-        // console.log(response)
         document.cookie = "email=" + email;
         
       })

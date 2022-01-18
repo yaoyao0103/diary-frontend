@@ -8,7 +8,6 @@ const Cards = (props) => {
     const passReRender = (enteredBool) => {
         props.onPassReRender(enteredBool);
     }
-    // console.log(props.items);
     return (
         props.items.length>0?
             props.items.map((item, index) => { return <Card key={index} items={item} selectedFolder={props.selectedFolder} onPassReRender={passReRender} onPassArticleLink={passArticleLink} /> })

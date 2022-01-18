@@ -38,7 +38,6 @@ const Cards = (props) => {
         setOpenSuccess(false);
     };
 
-    // console.log(props.items);
     return (
         <>
             {props.items.length > 0 ?
