@@ -21,13 +21,8 @@ const SearchDiaryPage = () => {
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openFail, setOpenFail] = useState(false);
   const [toastMsg, setToastMsg] = useState("");
-  // console.log("render");
-  // console.log(diarys);
-  // const email = "allen3325940072@gmail.com";
   const email = cookieParser.getCookieByName("email");
   useEffect(() => {
-    // console.log(diarys)
-    // setRender(false);
     search();
   }, [searchKeyWord, reRender]);
 
@@ -76,18 +71,10 @@ const handleCloseFail = (event, reason) => {
       )
       .then((res) => {
         document.cookie = "token=" + res.data.token;
-        console.log("in search of " + searchKeyWord.keyWord)
-        // console.log(res.data.diaryArray[0]);
         if (res.data.diaryArray.length > 0) {
           res.data.diaryArray.forEach((element) => {
-            // console.log("element");
-            // console.log(element);
             if (element.length !== 0) {
               element.forEach((diary) => {
-                // console.log(diary);
-                // console.log(diary._id);
-                // console.log(diary.parentFolder);
-                // console.log(diary.title);
 
                 tmp.push(
                   // <SearchCard
@@ -116,9 +103,7 @@ const handleCloseFail = (event, reason) => {
         }
       })
       .catch((e) => console.log(e));
-    // console.log(searchKeyWord.keyWord);
   };
-  // console.log(render)
   return (
     <Paper>
       {!render ? "no diary" : diarys}

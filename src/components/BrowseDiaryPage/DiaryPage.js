@@ -28,19 +28,14 @@ const EditDiaryPage = () => {
   let cookieParser = new CookieParser(document.cookie);
   useEffect(() => {
     if (cookieParser.getCookieByName("token") == "undefined") {
-      console.log("fail");
       setRedirect(true);
     } else {
       if (cookieParser.getCookieByName("email") == "undefined") {
-        console.log("fail");
         setRedirect(true);
-      } else {
-        console.log("DiaryPage success");
-      }
+      } 
     }
   }, []);
   useEffect(() => {
-    // console.log(email + ", " + diaryName + ", " + inFolder);
     setFolder(inFolder);
     setPreviousDiaryName(diaryName);
     setShouldRedirect(false);
@@ -68,13 +63,10 @@ const EditDiaryPage = () => {
         res.videoURL ? setVideoURL(res.videoURL) : setVideoURL([]);
         res.isFavored ? setIsFavored(res.isFavored) : setIsFavored(false);
         res.markdown ? setMarkdown(res.markdown) : setMarkdown("");
-        // console.log(res.tag)
       })
       .catch((err) => {
         console.log(err);
       });
-    // setTagsString("#" + tag.join(" #"));
-    // console.log("str"+tagsString);
   }, []);
 
   useEffect(() => setShouldRedirect(false), [shouldRedirect]);

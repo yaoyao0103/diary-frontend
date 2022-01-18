@@ -23,18 +23,14 @@ const ResetPasswordPage = () => {
       cookieParser.getCookieByName("token") === "undefined" ||
       cookieParser.getCookieByName("token") === null
     ) {
-      console.log("fail");
       setRedirect(true);
     } else {
       if (
         cookieParser.getCookieByName("email") === "undefined" ||
         cookieParser.getCookieByName("email") === null
       ) {
-        console.log("fail");
         setRedirect(true);
-      } else {
-        console.log("success");
-      }
+      } 
     }
   }, []);
   const [openFail, setOpenFail] = React.useState(false);
@@ -44,15 +40,12 @@ const ResetPasswordPage = () => {
   let newPassword = "";
   const handleEmailChange = (event) => {
     email = event.target.value;
-    console.log(email);
   };
   const handlePasswordChange = (event) => {
     password = event.target.value;
-    console.log(password);
   };
   const handleNewPasswordChange = (event) => {
     newPassword = event.target.value;
-    console.log(newPassword);
   };
   const resetPassword = (event) => {
     let temp_email = email ? email : document.getElementById("email").value;
@@ -62,9 +55,6 @@ const ResetPasswordPage = () => {
     let temp_newPassword = newPassword
       ? newPassword
       : document.getElementById("newPassword").value;
-    console.log("email " + temp_email);
-    console.log("oldPassword " + temp_oldPassword);
-    console.log("newPassword " + temp_newPassword);
     axios
       .post(
         "/resetPassword",
@@ -81,7 +71,6 @@ const ResetPasswordPage = () => {
       )
       .then((response) => {
         document.cookie = "token=" + response.data.token;
-        console.log(response);
         setOpenSuccess(true);
         Swal.fire("修改密碼成功", "", "success");
         setShouldRedirect(true);

@@ -22,7 +22,6 @@ const ExportDiaryPage = () => {
     }, [localDarkMode])
 
     useEffect(() => {
-        // console.log("path is " + path)
         fetchDiary();
     }, [])
 

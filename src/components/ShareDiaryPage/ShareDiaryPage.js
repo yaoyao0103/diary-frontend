@@ -25,14 +25,12 @@ const ShareDiaryPage = () => {
     const [shouldRedirect, setShouldRedirect] = useState(false);
 
     useEffect(() => {
-        console.log(path.path);
         // setFolder(inFolder);
         // setPreviousDiaryName(diaryName);
         // setShouldRedirect(false);
         axios.get(`shareLink/${path.path}`)
             .then(res => {
                 document.cookie = "token=" + res.data.token;
-                console.log(res);
                 res = res.data.diary;
                 res.title ? setTitle(res.title) : setTitle("");
                 res.date ? setDate(new Date(res.date)) : setDate(new Date());

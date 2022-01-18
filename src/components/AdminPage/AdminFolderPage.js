@@ -50,12 +50,10 @@ const AdminFolderPage = (props) => {
       email == "undefined" ||
       email == null
     ) {
-      console.log("fail");
       // isLogin = false;
       setIsLogin(false);
       setRedirect(true);
     } else {
-      console.log("aaaaa");
       // isLogin = true;
       setIsLogin(true);
     }
@@ -72,8 +70,6 @@ const AdminFolderPage = (props) => {
   const [delFolderSuccess, setDelFolderSuccess] = useState(false);
 
   function postAddFolder() {
-    // console.log(newFolderName);
-    console.log("postAddFolder");
     if (
       newFolderName === "" ||
       newFolderName === undefined ||
@@ -81,11 +77,9 @@ const AdminFolderPage = (props) => {
       newFolderName.trim() === "" ||
       isLogin === false
     ) {
-      console.log("fail");
       setFolderAdding(false);
       return;
     } else {
-      // console.log("aaxxxiioosss");
       axios
         .post(
           "/user/" + email + "/folder",
@@ -100,9 +94,7 @@ const AdminFolderPage = (props) => {
         )
         .then((res) => {
           document.cookie = "token=" + res.data.token;
-          console.log(res.data);
           setFolder([...folder, { folderName: newFolderName, diary: [] }]);
-          console.log([...folder, { folderName: newFolderName, diary: [] }]);
           setFolderAdding(false);
           // setReRender(true);
           setNewFolderSuccess(true);
@@ -115,8 +107,6 @@ const AdminFolderPage = (props) => {
     }
   }
   function onDelFolder(folderName) {
-    // console.log("/user/" + cookieParser.getCookieByName("email") + "/${folderName}")
-    // console.log("/user/" + cookieParser.getCookieByName("email") + `/${folderName}`);
     setOpenWarn(true);
     props.onPassSetDefault();
     setDelFolderName(folderName)
@@ -133,7 +123,6 @@ const AdminFolderPage = (props) => {
     )
       .then((res) => {
         document.cookie = "token=" + res.data.token;
-        // console.log(res.data);
         setReRender(true);
         setDelFolderSuccess(true);
         setFolder(folder.filter((item) => item.folderName !== delFolderName));
@@ -180,7 +169,6 @@ const AdminFolderPage = (props) => {
 
   const handleFolderChange = (e) => {
     props.onChangeFolder(e); //e is folderName (in folderlist: props.folderName)
-    console.log("adminfolderpage handlefolderchange"+e);
   };
 
   const handleAddFolder = () => {
@@ -188,7 +176,6 @@ const AdminFolderPage = (props) => {
   };
   const handleNewFolderName = (e) => {
     setNewFolderName(e.target.value);
-    // console.log(e.target.value);
   };
 
   const handleEditFolderName = (e ,idx) => {

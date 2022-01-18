@@ -14,13 +14,10 @@ const UploadButton = (props) => {
 
     const upload = () => {
         const inputElement = document.getElementById("contained-button-file");
-        // console.log(inputElement.files[0]);
         props.onUploadFile(inputElement.files[0]);
     }
 
 
-    // const [loading, setLoading] = useState(false);
-    // const [success, setSuccess] = useState(false);
   
     const buttonSx = {
       ...(props.success && {

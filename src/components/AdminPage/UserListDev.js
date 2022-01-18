@@ -247,7 +247,6 @@ export default function EnhancedTable() {
         }
     )
       .then((res) => {
-        console.log("isAdmin?" + res.data.user.isAdmin);
         if (res.data.user.isAdmin === false) {
           setgobackgoback(true);
           notAdmin = true;
@@ -257,7 +256,6 @@ export default function EnhancedTable() {
         console.log(err);
       });
     if (notAdmin) return;
-    console.log("token=  "+cookieParser.getCookieByName("token"));
     axios
       .get("/user", 
       {
@@ -267,10 +265,8 @@ export default function EnhancedTable() {
       })
       .then((res) => {
         document.cookie = "token=" + res.data.token;
-        // console.log(res.data.user);
         setUsers(
           res.data.user.map((result) => {
-            // console.log(result);
             let tmp = 0;
             result.folder.forEach((element) => {
               tmp += element.diary.length;
@@ -285,10 +281,8 @@ export default function EnhancedTable() {
       .catch((e) => {
         console.log(e);
       });
-    // console.log(users);
   }, []);
   function DelUser(){
-    // console.log("onDelUser=  " + onDelUser);
     if (onDelUser == "") return;
     axios
       .delete(`/user/${onDelUser}`, 
@@ -298,8 +292,6 @@ export default function EnhancedTable() {
         },
       })
       .then((res) => {
-        // document.cookie = "token=" + res.data.token;
-        console.log("del " + onDelUser + " success");
       })
       .catch((e) => {
         console.log(e);
@@ -310,8 +302,6 @@ export default function EnhancedTable() {
   const handleStartDelUser = (e) => {
     setOpenWarn(true);
     setOnDelUser(e);
-    // console.log(e);
-    // DelUser(e);
   };
   
   const handleRequestSort = (event, property) => {

@@ -39,40 +39,30 @@ const NewDiaryPage = () => {
       cookieParser.getCookieByName("token") == "undefined" ||
       cookieParser.getCookieByName("token") == null
     ) {
-      console.log("fail");
       setRedirect(true);
     } else {
       if (
         cookieParser.getCookieByName("email") == "undefined" ||
         cookieParser.getCookieByName("email") == null
       ) {
-        console.log("fail");
         setRedirect(true);
       } else {
         setEmail(cookieParser.getCookieByName("email"));
-        console.log("success");
       }
     }
   }, []);
-  // useEffect(() => {
-  //   email = "allen3325940072@gmail.com";
-  //   setShouldRedirect(false);
-  // }, []);
 
   useEffect(() => setShouldRedirect(false), [shouldRedirect]);
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
-    // console.log(event.target.value);
   };
   const handleDateChange = (enteredDate) => setDate(enteredDate);
   const handleFolderChange = (enteredFolder) => {
     setFolder(enteredFolder);
-    // console.log("up:" + enteredFolder);
   };
   const handleContentChange = (enteredContent) => setContent(enteredContent);
   const handleTagsChange = (event) => {
-    // console.log(tagsString);
     setTagsString(event.target.value);
   };
   const uploadFile = (enteredFile) => {
@@ -87,7 +77,6 @@ const NewDiaryPage = () => {
       })
       .then((response) => {
         document.cookie = "token=" + response.data.token;
-        console.log(response);
         picURL.push(response.data.url);
         setUploadFileSuccess(true);
         setUploadFileLoading(false);
@@ -112,20 +101,12 @@ const NewDiaryPage = () => {
       });
       return;
     }
-    // console.log("title is " + title);
-    // console.log("date is " + date.toISOString());
-    // console.log("folder is " + folder);
-    // console.log("content is " + content);
-    // console.log("tagsString is " + tagsString);
     // setTag(tagsString.split("#").map((tag) => tag.trim()));
     let my_temp_tags = temp_tags.split("#").map((tag) => tag.trim());
     setTag(my_temp_tags);
-    // console.log("tagsss is " + tag);
 
     let retag = my_temp_tags;
     if (retag[0] === "") retag.shift();
-    // console.log("tags is " + tags[0]);
-    // console.log(picUrl);
     axios
       .post(
         `/user/${cookieParser.getCookieByName("email")}/${folder}`,
@@ -148,8 +129,6 @@ const NewDiaryPage = () => {
       .then((response) => {
         Swal.fire('新增日記成功', '', 'success');
         document.cookie = "token=" + response.data.token;
-        console.log("sucess");
-        console.log(response);
         setShouldRedirect(true);
       })
       .catch((error) => {

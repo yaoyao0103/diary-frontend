@@ -37,15 +37,12 @@ const CalenderSearchPage = () => {
       cookieParser.getCookieByName("email") == "undefined" ||
       cookieParser.getCookieByName("email") == null
     ) {
-      console.log("fail");
       setIsLogin(false);
       setRedirect(true);
     } else {
       setIsLogin(true);
-      console.log("success");
       // if (isLogin) {
       setFetchDiaryAlready(false);
-      console.log("ready to featch.");
       fetchDiary();
       // }
     }
@@ -58,13 +55,6 @@ const CalenderSearchPage = () => {
   const passReRender = (enteredBool) => {
     setReRender(enteredBool);
   }
-  // useEffect(() => {
-  //     if (isLogin) {
-  //         setFetchDiaryAlready(false);
-  //         console.log("ready to featch.");
-  //         fetchDiary();
-  //     }
-  // }, [value]);
 
   const alertSuc = (msg) => {
       setToastMsg(msg);
@@ -91,7 +81,6 @@ const CalenderSearchPage = () => {
 
 
   const fetchDiary = () => {
-    console.log("featch diary.");
     let day = "";
     let month = "";
     if (value.getDate() < 10) {
@@ -114,19 +103,12 @@ const CalenderSearchPage = () => {
       .then((response) => {
         document.cookie = "token=" + response.data.token;
         setFetchDiaryAlready(true);
-        // console.log(response.data.diaryArray.length);
 
         if (response.data.diaryArray.length === 0) {
           setDiarys("No Diary");
         } else {
-          // console.log(response.data.diaryArray)
           response.data.diaryArray.map((folder) => {
             folder.forEach((diary) => {
-              // this is use Cards to render Card
-              // tmp.push(<Cards key={diarys.map(diary=>diary._id)} items={diarys} selectedFolder={folder.folderName} />)
-              // this is directly render Card
-              console.log("in Calender Page's diary is ")
-              console.log(diary)
                 tmp.push(
                   <Card
                     key={diary._id}

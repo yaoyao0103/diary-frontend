@@ -14,7 +14,6 @@ function ModeSwitch(props) {
           checked={!darkMode}
           onChange={() => {
             setDarkMode(!darkMode);
-            console.log("In ModeSwitch is " + darkMode);
             props.onChangeDarkMode(darkMode);
           }}
         />

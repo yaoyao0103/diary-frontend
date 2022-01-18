@@ -48,7 +48,6 @@ const FolderPage = (props) => {
       cookieParser.getCookieByName("email") == "undefined" ||
       cookieParser.getCookieByName("email") == null
     ) {
-      console.log("fail");
       // isLogin = false;
       setIsLogin(false);
       setRedirect(true);
@@ -59,7 +58,6 @@ const FolderPage = (props) => {
   }, []);
 
   useEffect(() => {
-    // console.log(folderAdding);
     setReRender(false);
     if (props.hasUpper !== undefined && props.hasUpper) {
       setHasUpper(true);
@@ -74,9 +72,7 @@ const FolderPage = (props) => {
           },
         })
         .then((res) => {
-          console.log("in fetch folder in FolderPage");
           document.cookie = "token=" + res.data.token;
-          // console.log(res.data);
           setFolder(res.data.folder);
         })
         .catch((err) => {
@@ -91,8 +87,6 @@ const FolderPage = (props) => {
   const [delFolderSuccess, setDelFolderSuccess] = useState(false);
 
   function postAddFolder() {
-    // console.log(newFolderName);
-    console.log("postAddFolder");
     let temp_folder_name = (newFolderName)? newFolderName:document.getElementById("mui-2").value;
     if (
       temp_folder_name === "" ||
@@ -101,11 +95,9 @@ const FolderPage = (props) => {
       temp_folder_name.trim() === "" ||
       isLogin === false
     ) {
-      console.log("fail");
       setFolderAdding(false);
       return;
     } else {
-      console.log("aaxxxiioosss");
       axios
         .post(
           "/user/" + cookieParser.getCookieByName("email") + "/folder",
@@ -120,9 +112,7 @@ const FolderPage = (props) => {
         )
         .then((res) => {
           document.cookie = "token=" + res.data.token;
-          console.log(res.data);
           setFolder([...folder, { folderName: temp_folder_name, diary: [] }]);
-          console.log([...folder, { folderName: temp_folder_name, diary: [] }]);
           setFolderAdding(false);
           // setReRender(true);
           setNewFolderSuccess(true);
@@ -135,8 +125,6 @@ const FolderPage = (props) => {
     }
   }
   function onDelFolder(folderName) {
-    // console.log("/user/" + cookieParser.getCookieByName("email") + "/${folderName}")
-    // console.log("/user/" + cookieParser.getCookieByName("email") + `/${folderName}`);
     setOpenWarn(true);
     props.onPassSetDefault();
     setDelFolderName(folderName)
@@ -153,7 +141,6 @@ const FolderPage = (props) => {
     )
       .then((res) => {
         document.cookie = "token=" + res.data.token;
-        // console.log(res.data);
         setReRender(true);
         setDelFolderSuccess(true);
       })
@@ -207,7 +194,6 @@ const FolderPage = (props) => {
   };
   const handleNewFolderName = (e) => {
     setNewFolderName(e.target.value);
-    // console.log(e.target.value);
   };
 
   const handleRender = () => {

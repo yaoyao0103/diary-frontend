@@ -18,42 +18,29 @@ export default function ActivatePage() {
   const [redirect, setRedirect] = React.useState(false);
   let code = "";
   const cookieParser = new CookieParser(document.cookie);
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   // eslint-disable-next-line no-console
-  //   console.log({
-  //     activate_code: data.get('activate_code'),
-  //   });
-  // };
+ 
   const handleCodeChange = (event) => {
     code = event.target.value;
-    // console.log(code);
   };
   const axverify = () => {
     if (
       (cookieParser.getCookieByName("token") === "undefined") |
       (cookieParser.getCookieByName("token") === null)
     ) {
-      // console.log("fail");
     } else {
       if (
         (cookieParser.getCookieByName("email") === "undefined") |
         (cookieParser.getCookieByName("email") === null)
       ) {
-        // console.log("fail");
       } else {
-        // console.log("success");
       }
     }
-    // console.log(code);
     axios
       .post("/verify", {
         email: cookieParser.getCookieByName("email"),
         code: code,
       })
       .then((res) => {
-        // console.log(res);
         setOpenSuccess(true);
         setRedirect(true);
       })
@@ -69,7 +56,6 @@ export default function ActivatePage() {
         { email: cookieParser.getCookieByName("email") },
       )
       .then((response) => {
-        // console.log(response);
         setResendSuccess(true);
       })
       .catch((error) => console.log(error.response.status));

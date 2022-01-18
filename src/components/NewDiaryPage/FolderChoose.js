@@ -4,8 +4,6 @@ import axios from "../axios/axios";
 import CookieParser from "../CookieParser/CookieParser";
 
 const FolderChoose = (props) => {
-  // console.log("in FolderChoose");
-  // console.log(props)
   // let isLogin = false;
   const [isLogin, setIsLogin] = React.useState(false);
   const [folder, setFolder] = React.useState("Uncategorized");
@@ -20,17 +18,12 @@ const FolderChoose = (props) => {
       })
       .then((response) => {
         document.cookie = "token=" + response.data.token;
-        // console.log(response.data.folder);
         setFolders(response.data.folder);
       })
       .catch((error) => console.log(error));
   };
 
   useEffect(() => {
-    // console.log('props.email');
-    // console.log(props.email)
-    // console.log(isLogin)
-    // console.log('porps.email', props.email);
     if (
       cookieParser.getCookieByName("token") == "undefined" ||
       cookieParser.getCookieByName("token") == null ||
@@ -47,19 +40,13 @@ const FolderChoose = (props) => {
       fetchFolder();
     }
   }, [props.email, isLogin]);
-  // useEffect(() => { console.log('porps.upper', props.upper); }, [props.upper]);
   useEffect(() => {
-    // console.log('props.folder');
-    
-    // console.log("props.folder:"+props.folder);
     if (props.folder) {
       setFolder(props.folder);
-      // console.log("in Folderchoose " + props.folder);
     } else setFolder("");
   }, [props.folder]);
   
   const handleFolderChange = (event) => {
-    console.log(folders);
     props.onChangeFolder(event.target.value);
     // setFolder(event.target.value);
   };

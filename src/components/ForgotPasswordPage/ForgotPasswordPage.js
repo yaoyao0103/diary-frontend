@@ -33,17 +33,14 @@ export default function ForgotPasswordPage() {
   // const [toast, setToast] = React.useState("");
   const fetchNewPassWord = (email) => {
     let temp_email = (email) ? email : document.getElementById("email").value;
-    console.log(temp_email);
     axios
       .post("/randomPassword", {
         email: temp_email,
       })
       .then((res) => {
-        console.log(res);
         setOpenSuccess(true);
       })
       .catch((e) => {
-        console.log("failed");
         console.log(e.response.status);
         setOpenFail(true);
       });
@@ -53,9 +50,6 @@ export default function ForgotPasswordPage() {
     const data = new FormData(event.currentTarget);
     // eslint-disable-next-line no-console
     fetchNewPassWord(data.get("email"));
-    // console.log({
-    //   email: data.get('email')
-    // });
   };
 
   const handleCloseFail = (event, reason) => {

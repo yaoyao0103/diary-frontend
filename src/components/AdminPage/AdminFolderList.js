@@ -87,10 +87,7 @@ export default function AdminFolderList(props) {
         }
       )
       .then((res) => {
-        console.log("in folderList' edit folder");
         document.cookie = "token=" + res.data.token;
-        // console.log(temp_folder_name);
-        console.log(res);
         props.onEditFolder(temp_folder_name, props.folderIdx);
         setEditingFolder(false);
         setOnOpen(true);

@@ -39,11 +39,9 @@ function LoginPage() {
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
-    console.log(email);
   };
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
-    console.log(password);
   };
 
   const login = () => {
@@ -59,18 +57,11 @@ function LoginPage() {
       })
       .then((res) => {
         document.cookie = "token=" + res.data.token;
-        //console.log(document.cookie);
         let cookieParser_token = new CookieParser(document.cookie);
         document.cookie = "email=" + res.data.email;
-        //console.log(document.cookie);
         let cookieParser_email = new CookieParser(document.cookie);
         console.log(cookieParser_email.getCookieByName("email"));
-        // console.log(document.cookie);
-        // console.log("success");
-        // console.log(res);
         <LogInOrOutButton />;
-        console.log("parse");
-        // console.log(cookieParser.getCookieByName('token'));
         setOpenSuccess(true);
       })
       .then(() => {
@@ -98,17 +89,6 @@ function LoginPage() {
     }
     setOpenSuccess(false);
   };
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   console.log("data is "+data.toString())
-  //   // eslint-disable-next-line no-console
-  //   console.log({
-  //     email: data.get('email'),
-  //     password: data.get('password'),
-  //     remeber: data.get('password'),
-  //   });
-  // };
 
   return shouldRedirect ? (
     <Navigate to={`/`} />
