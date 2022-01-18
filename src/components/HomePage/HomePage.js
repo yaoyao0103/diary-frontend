@@ -6,12 +6,12 @@ import FolderPage from "../FolderPage/FolderPage";
 import "./HomePage.css";
 import axios from "../axios/axios";
 import CookieParser from "../CookieParser/CookieParser";
-import { Navigate } from "react-router-dom";
+import { Navigate,useNavigate } from "react-router-dom";
 import React from "react";
 
 function HomePage(props) {
   // const email = "allen3325940072@gmail.com";
-
+  let navigate = useNavigate();
   const [folder, setFolder] = useState([]);
   const [selectedFolder, setSelectedFolder] = useState(-1);
   const [redirect, setRedirect] = React.useState(false);
@@ -72,6 +72,12 @@ function HomePage(props) {
   const passSetDefault = () => {
     setSelectedFolder(-1);
   }
+  const handleRender = () => {
+    // setReRender(true);
+    setSelectedFolder(-1);
+    setReRender(true);
+    navigate("/");
+  };
 
   return (
     <div>
@@ -90,6 +96,7 @@ function HomePage(props) {
               hasUpper={true}
               onChangeFolder={handleFolderChange}
               onPassSetDefault={passSetDefault}
+              onRender={handleRender}
             />
           </Grid>
           <Grid item xs={10} sm={9} md={8}>

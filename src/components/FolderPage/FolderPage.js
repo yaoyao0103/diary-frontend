@@ -198,6 +198,7 @@ const FolderPage = (props) => {
 
   const handleRender = () => {
     setReRender(true);
+    props.onRender();
   };
   return (
     <>
