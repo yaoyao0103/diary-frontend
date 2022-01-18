@@ -66,7 +66,7 @@ export default function FolderList(props) {
   };
 
   function postEditFolder() {
-    let temp_folder_name = (editingFolderName)? editingFolderName:document.getElementById("mui-2").value;
+    let temp_folder_name = (editingFolderName)? editingFolderName:document.getElementById("editFolderName").value;
     if (temp_folder_name === "" || temp_folder_name.trim() === "") {
       setEditingFolder(false);
       return;
@@ -110,7 +110,7 @@ export default function FolderList(props) {
         >
           <ListItemText
             primary={
-              <TextField
+              <TextField id="editFolderName"
                 onChange={handleEditFolderName}
                 value={editingFolderName}
                 size="small"
