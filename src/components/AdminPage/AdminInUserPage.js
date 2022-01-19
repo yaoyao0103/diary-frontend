@@ -109,7 +109,7 @@ function AdminInUserPage(props) {
           justifyContent="space-around"
           alignItems="flex-start"
         >
-          <Grid item xs={2} sm={3} md={2}>
+          <Grid item xs={12} sm={3} md={2}>
             <AdminFolderPage
               folder={folder}
               hasUpper={true}
