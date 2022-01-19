@@ -170,7 +170,7 @@ const EditDiaryPage = () => {
       })
       .catch((error) => {
         console.log(error);
-        Swal.fire('新增日記失敗', '同個資料夾下不能有相同名稱的日記', 'error');
+        Swal.fire('修改日記失敗', '同個資料夾下不能有相同名稱的日記', 'error');
       });
   };
   return shouldRedirect ? (
@@ -201,7 +201,7 @@ const EditDiaryPage = () => {
           alignItems="flex-start"
           style={{ padding: "0px 0px 20px 0px" }}
         >
-          <Grid item xs={2}>
+          <Grid item xs={5}>
             <DatePicker date={date} onChangeDate={handleDateChange} />
           </Grid>
           <Grid item xs={10}>

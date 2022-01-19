@@ -161,14 +161,14 @@ const AdminDiaryPage = () => {
         }
       )
       .then((response) => {
-        Swal.fire('新增日記成功', '', 'success');
+        Swal.fire('修改日記成功', '', 'success');
         document.cookie = "token=" + response.data.token;
         setPreviousDiaryName(title);
         setShouldRedirect(true);
       })
       .catch((error) => {
         console.log(error);
-        Swal.fire('新增日記失敗', '同個資料夾下不能有相同名稱的日記', 'error');
+        Swal.fire('修改日記失敗', '同個資料夾下不能有相同名稱的日記', 'error');
       });
   };
   return shouldRedirect ? (
@@ -199,7 +199,7 @@ const AdminDiaryPage = () => {
           alignItems="flex-start"
           style={{ padding: "0px 0px 20px 0px" }}
         >
-          <Grid item xs={2}>
+          <Grid item xs={5}>
             <DatePicker date={date} onChangeDate={handleDateChange} />
           </Grid>
           <Grid item xs={10}>
@@ -226,10 +226,10 @@ const AdminDiaryPage = () => {
           alignItems="flex-start"
           style={{ padding: "0px 0px 20px 0px" }}
         >
-          <Grid item xs={2}>
-            <p style={{ fontSize: "2.5rem" }}>HashTags</p>
+          <Grid item xs={12}>
+            <p >HashTags</p>
           </Grid>
-          <Grid item xs={7}>
+          <Grid item xs={7} md={10} style={{padding: "5px 0px 0px 0px"}}>
             <TextField
               fullWidth
               label="請以#隔開每個hashtag"
@@ -238,7 +238,7 @@ const AdminDiaryPage = () => {
               onChange={handleTagsChange}
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={4} md={2}>
             <ButtonGroup
               style={{ width: "100%" }}
               className="ButtonGroup"
