@@ -16,7 +16,7 @@
 前後端: Jenkins
 
 ## [部署平台]
-前端Heroku連結: https://diary-frontend-app.herokuapp.com/
+前端Heroku連結(forHeroku repo): https://diary-frontend-app.herokuapp.com/
 後端Heroku連結: https://diary-backend-app.herokuapp.com/
 
 ## [使用]
