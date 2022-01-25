@@ -5,8 +5,11 @@
 
 ## [框架]
 前端：React.js, axios
+
 後端：Express Node.js, MVC
+
 資料庫：MongoDB
+
 前後端連接：HTTP API
 
 ## [第三方套件/程式碼]
@@ -17,6 +20,7 @@
 
 ## [部署平台]
 前端Heroku連結(forHeroku repo): https://diary-frontend-app.herokuapp.com/
+
 後端Heroku連結: https://diary-backend-app.herokuapp.com/
 
 ## [使用]
