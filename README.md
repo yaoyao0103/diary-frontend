@@ -19,7 +19,7 @@
 前後端: Jenkins
 
 ## [部署平台]
-前端Heroku連結(forHeroku repo): https://diary-frontend-app.herokuapp.com/
+前端Heroku連結(部署branch: forHeroku): https://diary-frontend-app.herokuapp.com/
 
 後端Heroku連結: https://diary-backend-app.herokuapp.com/
 
@@ -41,6 +41,5 @@
 - 日記預覽頁面，可以做日記收藏，分享，下載，以及刪除
 - 可在右上角按鈕的FavoritePage內看到所有最愛之日記
 
-
-
-
+## [備註]
+所有之測試腳本皆以包括在main branch內，前端SideeX腳本有附額外的README做參考
