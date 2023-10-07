@@ -26,6 +26,9 @@ This system provides members with simple diary operations and folder operations.
 - Frontend Heroku Link:(branch: forHeroku): https://diary-frontend-app.herokuapp.com/
 - Backend Heroku Link: https://diary-backend-app.herokuapp.com/
 
+## Backend GitHub
+Link: https://github.com/yaoyao0103/diary-backend
+
 ## Usage
 Enter the frontend link to use it.
 
